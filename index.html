@@ -1,623 +1,606 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2685.3">
-  <style type="text/css">
-    p.p1 {margin: 0.0px 0.0px 12.0px 0.0px; font: 12.0px Times; -webkit-text-stroke: #000000}
-    p.p2 {margin: 0.0px 0.0px 12.0px 0.0px; font: 12.0px Times; -webkit-text-stroke: #000000; min-height: 14.0px}
-    span.s1 {font-kerning: none}
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maternity Photo Timing Calculator | Two Wild Souls Photography</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #ffffff; color: #000000; line-height: 1.6; }
+        .container { max-width: 1000px; margin: 40px auto 80px; padding: 0 20px; }
+        .card { background: white; border: 1px solid #000000; padding: 60px; margin-top: 30px; }
+        .form-group { margin-bottom: 35px; }
+        .form-group label { display: block; font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 14px; margin-bottom: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; color: #000000; }
+        .form-group input, .form-group select { width: 100%; padding: 16px; border: 1px solid #000000; font-size: 16px; font-family: 'Helvetica Neue', Arial, sans-serif; transition: all 0.3s; background: white; }
+        .form-group input:focus { outline: none; border: 2px solid #000000; padding: 15px; }
+        .form-group small { display: block; margin-top: 8px; color: #666666; font-size: 13px; font-weight: 300; }
+        .radio-group { display: flex; gap: 20px; flex-wrap: wrap; }
+        .radio-option { flex: 1; min-width: 220px; }
+        .radio-option.radio-option--third { min-width: 140px; }
+        .radio-option input { display: none; }
+        .radio-label { display: block; padding: 16px 24px; border: 1px solid #000000; cursor: pointer; text-align: center; transition: all 0.2s ease; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; background: white; color: #000000; }
+        .radio-option input:checked + .radio-label { background: #000000; color: #ffffff; }
+        .radio-label:hover { background: #f5f5f5; }
+        .radio-option input:checked + .radio-label:hover { background: #000000; }
+        .btn { width: 100%; padding: 18px; background: #000000; color: #ffffff; border: none; font-size: 14px; font-weight: 500; font-family: 'Helvetica Neue', Arial, sans-serif; cursor: pointer; margin-top: 20px; transition: all 0.3s; text-transform: uppercase; letter-spacing: 1.5px; }
+        .btn:hover { background: #333333; }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .location-status { margin-top: 12px; padding: 12px 16px; font-size: 13px; display: none; animation: fadeIn 0.3s ease; border: 1px solid #000000; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+        .location-status.checking { display: block; background: #f5f5f5; color: #000000; border-color: #cccccc; }
+        .location-status.checking::before { content: '⏳'; display: inline-block; margin-right: 8px; animation: pulse 1.5s ease-in-out infinite; }
+        .location-status.found { display: block; background: #000000; color: #ffffff; border-color: #000000; }
+        .location-status.error { display: block; background: #f5f5f5; color: #000000; border-color: #999999; }
+        .spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid rgba(255,255,255,0.3); border-top-color: #ffffff; animation: spin 1s linear infinite; margin-left: 10px; vertical-align: middle; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .results { display: none; }
+        .results.active { display: block; }
+        .results-hero { background: #eceae6; color: #000000; padding: 35px 35px 30px; margin-bottom: 40px; border: 1px solid rgba(0,0,0,0.1); }
+        .results.late .results-hero { border: 2px solid #c94b4b; background: #f5f5f5; }
+        .hero-header { text-align: center; padding-bottom: 25px; margin-bottom: 25px; border-bottom: 1px solid rgba(0,0,0,0.1); }
+        .hero-header h3 { font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 15px; font-weight: 500; margin-bottom: 18px; text-transform: uppercase; letter-spacing: 2px; color: #000000; }
+        .current-week-badge { font-size: 16px; font-weight: 500; margin: 12px 0 8px; padding: 10px 20px; background: rgba(0,0,0,0.08); display: inline-block; border: 1px solid rgba(0,0,0,0.15); color: #000000; text-transform: uppercase; letter-spacing: 1px; }
+        .date-range-display { font-size: 22px; font-weight: 700; margin: 15px 0 8px; color: #000000; word-break: break-word; }
+        .results.late .date-range-display { color: #c94b4b; font-size: 20px; }
+        .weeks-range-display { font-size: 14px; opacity: 0.85; color: #000000; }
+        .hero-info-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 25px; }
+        .hero-info-item { text-align: center; padding: 18px 12px; background: rgba(255,255,255,0.5); border: 1px solid rgba(0,0,0,0.1); }
+        .hero-info-item .icon { font-size: 28px; margin-bottom: 8px; display: block; }
+        .hero-info-item h4 { font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 9px; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 1.2px; font-weight: 500; color: #666; }
+        .hero-info-item .value { font-size: 16px; font-weight: 500; color: #000000; display: block; margin-bottom: 5px; }
+        .hero-info-item .description { font-size: 11px; color: #666; line-height: 1.3; }
+        .results.late .hero-info-item .value { color: #c94b4b; }
+        .explanation { background: #f5f5f5; border-left: 3px solid #000000; padding: 40px; margin: 40px 0; }
+        .explanation h4 { font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 16px; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 500; }
+        .explanation ul { margin: 20px 0 20px 25px; font-size: 15px; line-height: 1.8; }
+        .explanation li { margin-bottom: 12px; }
+        .explanation p { font-size: 15px; line-height: 1.8; margin-bottom: 15px; }
+        .cta-btn { display: inline-block; padding: 16px 40px; background: #000000; color: #ffffff; text-decoration: none; font-size: 13px; font-weight: 500; font-family: 'Helvetica Neue', Arial, sans-serif; margin: 15px; transition: all 0.3s; text-transform: uppercase; letter-spacing: 1.5px; border: none; }
+        .cta-btn:hover { background: #333333; }
+        .referral-btn { padding: 14px 32px; font-size: 12px; letter-spacing: 1px; margin: 0; }
+        .referral-btn--outline { background: #ffffff; color: #000000; border: 1px solid #000000; }
+        .referral-btn--outline:hover { background: #f5f5f5; }
+        .cta-block { padding: 50px 40px; }
+        .cta-btn-group { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; align-items: center; }
+        .cta-btn-group a { display: block; }
+        .footer { text-align: center; padding: 60px 20px; color: #666666; font-size: 13px; border-top: 1px solid #e5e5e5; margin-top: 60px; }
+        .footer p { margin-bottom: 8px; }
+        .footer a { color: #000000; text-decoration: none; font-weight: 500; border-bottom: 1px solid #000000; }
+        .footer a:hover { border-bottom: 2px solid #000000; }
+
+        @media (max-width: 768px) {
+            .container { margin: 0; padding: 0; max-width: 100%; }
+            .card { padding: 0; border: none; margin-top: 0; }
+            #form-card { padding: 28px 16px 32px; border: none; }
+            #form-card h2 { font-size: 18px !important; letter-spacing: 1.5px !important; margin-bottom: 32px !important; }
+            .results-hero { padding: 24px 16px 20px; margin-bottom: 0; border-left: none; border-right: none; border-radius: 0; }
+            .hero-header { padding-bottom: 18px; margin-bottom: 18px; }
+            .hero-header h3 { font-size: 11px; letter-spacing: 1.5px; margin-bottom: 12px; }
+            .current-week-badge { font-size: 13px; padding: 7px 14px; }
+            .date-range-display { font-size: 17px; }
+            .weeks-range-display { font-size: 12px; }
+            .radio-group { flex-direction: column; gap: 10px; }
+            .radio-option { min-width: 100%; }
+            .radio-label { padding: 14px 16px; font-size: 13px; }
+            .hero-info-grid { grid-template-columns: 1fr; gap: 8px; margin-top: 18px; }
+            .hero-info-item { padding: 14px 16px; display: flex; align-items: center; gap: 14px; text-align: left; }
+            .hero-info-item .icon { font-size: 26px; margin-bottom: 0; flex-shrink: 0; }
+            .hero-info-item .item-text { flex: 1; min-width: 0; }
+            .hero-info-item h4 { font-size: 9px; letter-spacing: 0.8px; margin-bottom: 2px; }
+            .hero-info-item .value { font-size: 14px; margin-bottom: 2px; }
+            .hero-info-item .description { font-size: 11px; }
+            #combined-cta-section { margin-bottom: 0; }
+            .cta-block { padding: 32px 20px !important; }
+            .cta-block h4 { font-size: 16px !important; letter-spacing: 1px !important; overflow-wrap: break-word; word-break: break-word; }
+            .cta-btn-group { flex-direction: column; align-items: center; gap: 10px; }
+            .referral-btn { width: 200px; text-align: center; padding: 14px 16px !important; font-size: 12px; display: block; }
+            .explanation { padding: 24px 16px; margin: 0; border-left: none; border-top: 3px solid #000; }
+            .explanation h4 { font-size: 13px; margin-bottom: 14px; }
+            .explanation p, .explanation li { font-size: 14px; }
+            #results .card > div:last-child { padding: 24px 16px; margin: 0 !important; }
+            .footer { padding: 36px 16px; margin-top: 0; }
+        }
+
+        @media (max-width: 480px) {
+            #form-card { padding: 24px 14px 28px; }
+            #form-card h2 { font-size: 16px !important; }
+            .form-group { margin-bottom: 24px; }
+            .form-group label { font-size: 12px; letter-spacing: 0.8px; }
+            .form-group input { padding: 14px 12px; font-size: 16px; }
+            .results-hero { padding: 20px 14px 16px; }
+            .hero-header h3 { font-size: 10px; }
+            .date-range-display { font-size: 15px; }
+            .current-week-badge { font-size: 12px; padding: 6px 12px; }
+            .btn { font-size: 13px; letter-spacing: 1px; padding: 16px; }
+            .cta-block h4 { font-size: 14px !important; letter-spacing: 0.5px !important; }
+            .explanation { padding: 20px 14px; }
+            .footer { padding: 32px 14px; }
+        }
+    </style>
 </head>
 <body>
-<p class="p1"><span class="s1">&lt;!DOCTYPE html&gt;</span></p>
-<p class="p1"><span class="s1">&lt;html lang="en"&gt;</span></p>
-<p class="p1"><span class="s1">&lt;head&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;meta charset="UTF-8"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;title&gt;Maternity Photo Timing Calculator | Two Wild Souls Photography&lt;/title&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;style&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>* { margin: 0; padding: 0; box-sizing: border-box; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #ffffff; color: #000000; line-height: 1.6; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.container { max-width: 1000px; margin: 40px auto 80px; padding: 0 20px; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.card { background: white; border: 1px solid #000000; padding: 60px; margin-top: 30px; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.form-group { margin-bottom: 35px; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.form-group label { display: block; font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 14px; margin-bottom: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; color: #000000; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.form-group input, .form-group select { width: 100%; padding: 16px; border: 1px solid #000000; font-size: 16px; font-family: 'Helvetica Neue', Arial, sans-serif; transition: all 0.3s; background: white; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.form-group input:focus { outline: none; border: 2px solid #000000; padding: 15px; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.form-group small { display: block; margin-top: 8px; color: #666666; font-size: 13px; font-weight: 300; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.radio-group { display: flex; gap: 20px; flex-wrap: wrap; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.radio-option { flex: 1; min-width: 220px; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.radio-option.radio-option--third { min-width: 140px; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.radio-option input { display: none; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.radio-label { display: block; padding: 16px 24px; border: 1px solid #000000; cursor: pointer; text-align: center; transition: all 0.2s ease; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; background: white; color: #000000; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.radio-option input:checked + .radio-label { background: #000000; color: #ffffff; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.radio-label:hover { background: #f5f5f5; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.radio-option input:checked + .radio-label:hover { background: #000000; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.btn { width: 100%; padding: 18px; background: #000000; color: #ffffff; border: none; font-size: 14px; font-weight: 500; font-family: 'Helvetica Neue', Arial, sans-serif; cursor: pointer; margin-top: 20px; transition: all 0.3s; text-transform: uppercase; letter-spacing: 1.5px; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.btn:hover { background: #333333; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.btn:disabled { opacity: 0.5; cursor: not-allowed; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.location-status { margin-top: 12px; padding: 12px 16px; font-size: 13px; display: none; animation: fadeIn 0.3s ease; border: 1px solid #000000; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>@keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.location-status.checking { display: block; background: #f5f5f5; color: #000000; border-color: #cccccc; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.location-status.checking::before { content: '⏳'; display: inline-block; margin-right: 8px; animation: pulse 1.5s ease-in-out infinite; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.location-status.found { display: block; background: #000000; color: #ffffff; border-color: #000000; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.location-status.error { display: block; background: #f5f5f5; color: #000000; border-color: #999999; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid rgba(255,255,255,0.3); border-top-color: #ffffff; animation: spin 1s linear infinite; margin-left: 10px; vertical-align: middle; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>@keyframes spin { to { transform: rotate(360deg); } }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.results { display: none; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.results.active { display: block; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.results-hero { background: #eceae6; color: #000000; padding: 35px 35px 30px; margin-bottom: 40px; border: 1px solid rgba(0,0,0,0.1); }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.results.late .results-hero { border: 2px solid #c94b4b; background: #f5f5f5; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.hero-header { text-align: center; padding-bottom: 25px; margin-bottom: 25px; border-bottom: 1px solid rgba(0,0,0,0.1); }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.hero-header h3 { font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 15px; font-weight: 500; margin-bottom: 18px; text-transform: uppercase; letter-spacing: 2px; color: #000000; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.current-week-badge { font-size: 16px; font-weight: 500; margin: 12px 0 8px; padding: 10px 20px; background: rgba(0,0,0,0.08); display: inline-block; border: 1px solid rgba(0,0,0,0.15); color: #000000; text-transform: uppercase; letter-spacing: 1px; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.date-range-display { font-size: 22px; font-weight: 700; margin: 15px 0 8px; color: #000000; word-break: break-word; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.results.late .date-range-display { color: #c94b4b; font-size: 20px; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.weeks-range-display { font-size: 14px; opacity: 0.85; color: #000000; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.hero-info-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 25px; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.hero-info-item { text-align: center; padding: 18px 12px; background: rgba(255,255,255,0.5); border: 1px solid rgba(0,0,0,0.1); }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.hero-info-item .icon { font-size: 28px; margin-bottom: 8px; display: block; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.hero-info-item h4 { font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 9px; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 1.2px; font-weight: 500; color: #666; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.hero-info-item .value { font-size: 16px; font-weight: 500; color: #000000; display: block; margin-bottom: 5px; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.hero-info-item .description { font-size: 11px; color: #666; line-height: 1.3; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.results.late .hero-info-item .value { color: #c94b4b; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.explanation { background: #f5f5f5; border-left: 3px solid #000000; padding: 40px; margin: 40px 0; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.explanation h4 { font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 16px; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 500; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.explanation ul { margin: 20px 0 20px 25px; font-size: 15px; line-height: 1.8; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.explanation li { margin-bottom: 12px; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.explanation p { font-size: 15px; line-height: 1.8; margin-bottom: 15px; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.cta-btn { display: inline-block; padding: 16px 40px; background: #000000; color: #ffffff; text-decoration: none; font-size: 13px; font-weight: 500; font-family: 'Helvetica Neue', Arial, sans-serif; margin: 15px; transition: all 0.3s; text-transform: uppercase; letter-spacing: 1.5px; border: none; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.cta-btn:hover { background: #333333; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.referral-btn { padding: 14px 32px; font-size: 12px; letter-spacing: 1px; margin: 0; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.referral-btn--outline { background: #ffffff; color: #000000; border: 1px solid #000000; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.referral-btn--outline:hover { background: #f5f5f5; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.cta-block { padding: 50px 40px; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.cta-btn-group { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; align-items: center; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.cta-btn-group a { display: block; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.footer { text-align: center; padding: 60px 20px; color: #666666; font-size: 13px; border-top: 1px solid #e5e5e5; margin-top: 60px; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.footer p { margin-bottom: 8px; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.footer a { color: #000000; text-decoration: none; font-weight: 500; border-bottom: 1px solid #000000; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.footer a:hover { border-bottom: 2px solid #000000; }</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>@media (max-width: 768px) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>.container { margin: 0; padding: 0; max-width: 100%; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>.card { padding: 0; border: none; margin-top: 0; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>#form-card { padding: 28px 16px 32px; border: none; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>#form-card h2 { font-size: 18px !important; letter-spacing: 1.5px !important; margin-bottom: 32px !important; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>.results-hero { padding: 24px 16px 20px; margin-bottom: 0; border-left: none; border-right: none; border-radius: 0; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>.hero-header { padding-bottom: 18px; margin-bottom: 18px; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>.hero-header h3 { font-size: 11px; letter-spacing: 1.5px; margin-bottom: 12px; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>.current-week-badge { font-size: 13px; padding: 7px 14px; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>.date-range-display { font-size: 17px; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>.weeks-range-display { font-size: 12px; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>.radio-group { flex-direction: column; gap: 10px; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>.radio-option { min-width: 100%; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>.radio-label { padding: 14px 16px; font-size: 13px; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>.hero-info-grid { grid-template-columns: 1fr; gap: 8px; margin-top: 18px; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>.hero-info-item { padding: 14px 16px; display: flex; align-items: center; gap: 14px; text-align: left; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>.hero-info-item .icon { font-size: 26px; margin-bottom: 0; flex-shrink: 0; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>.hero-info-item .item-text { flex: 1; min-width: 0; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>.hero-info-item h4 { font-size: 9px; letter-spacing: 0.8px; margin-bottom: 2px; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>.hero-info-item .value { font-size: 14px; margin-bottom: 2px; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>.hero-info-item .description { font-size: 11px; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>#combined-cta-section { margin-bottom: 0; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>.cta-block { padding: 32px 20px !important; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>.cta-block h4 { font-size: 16px !important; letter-spacing: 1px !important; overflow-wrap: break-word; word-break: break-word; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>.cta-btn-group { flex-direction: column; align-items: center; gap: 10px; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>.referral-btn { width: 200px; text-align: center; padding: 14px 16px !important; font-size: 12px; display: block; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>.explanation { padding: 24px 16px; margin: 0; border-left: none; border-top: 3px solid #000; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>.explanation h4 { font-size: 13px; margin-bottom: 14px; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>.explanation p, .explanation li { font-size: 14px; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>#results .card &gt; div:last-child { padding: 24px 16px; margin: 0 !important; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>.footer { padding: 36px 16px; margin-top: 0; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>@media (max-width: 480px) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>#form-card { padding: 24px 14px 28px; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>#form-card h2 { font-size: 16px !important; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>.form-group { margin-bottom: 24px; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>.form-group label { font-size: 12px; letter-spacing: 0.8px; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>.form-group input { padding: 14px 12px; font-size: 16px; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>.results-hero { padding: 20px 14px 16px; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>.hero-header h3 { font-size: 10px; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>.date-range-display { font-size: 15px; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>.current-week-badge { font-size: 12px; padding: 6px 12px; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>.btn { font-size: 13px; letter-spacing: 1px; padding: 16px; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>.cta-block h4 { font-size: 14px !important; letter-spacing: 0.5px !important; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>.explanation { padding: 20px 14px; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>.footer { padding: 32px 14px; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/style&gt;</span></p>
-<p class="p1"><span class="s1">&lt;/head&gt;</span></p>
-<p class="p1"><span class="s1">&lt;body&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;div class="container"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="card" id="form-card"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;h2 style="font-family: 'Helvetica Neue', Arial, sans-serif; text-align: center; font-size: 24px; margin-bottom: 50px; font-weight: 300; text-transform: uppercase; letter-spacing: 2px;"&gt;Find Your Ideal Timing&lt;/h2&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;form id="calc-form"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="form-group"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;label for="due-date"&gt;What's your due date?&lt;/label&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;input type="date" id="due-date" required onclick="try{this.showPicker()}catch(e){}"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="form-group"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;label&gt;Is this your first baby?&lt;/label&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;div class="radio-group"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;div class="radio-option"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;input type="radio" id="first-yes" name="first-baby" value="yes" required&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;label for="first-yes" class="radio-label"&gt;Yes, first baby&lt;/label&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;div class="radio-option"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;input type="radio" id="first-no" name="first-baby" value="no"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;label for="first-no" class="radio-label"&gt;No, 2nd or later&lt;/label&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="form-group"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;label&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;input type="checkbox" id="multiples" style="width: auto; margin-right: 12px; transform: scale(1.3);"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>Expecting multiples (twins, triplets, etc.)</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;/label&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="form-group"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;label&gt;Preferred style&lt;/label&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;div class="radio-group"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;div class="radio-option"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;input type="radio" id="vibe-full" name="vibe" value="full" required&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;label for="vibe-full" class="radio-label"&gt;Full, dramatic bump&lt;/label&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;div class="radio-option"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;input type="radio" id="vibe-comfortable" name="vibe" value="comfortable"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;label for="vibe-comfortable" class="radio-label"&gt;Earlier &amp; more comfortable&lt;/label&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="form-group"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;label&gt;Session setting&lt;/label&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;div class="radio-group"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;div class="radio-option radio-option--third"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;input type="radio" id="setting-indoor" name="setting" value="indoor" required&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;label for="setting-indoor" class="radio-label"&gt;🏠 Indoor / Studio&lt;/label&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;div class="radio-option radio-option--third"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;input type="radio" id="setting-outdoor" name="setting" value="outdoor"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;label for="setting-outdoor" class="radio-label"&gt;🌿 Outdoor&lt;/label&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;div class="radio-option radio-option--third"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;input type="radio" id="setting-both" name="setting" value="both"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;label for="setting-both" class="radio-label"&gt;✨ Both&lt;/label&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;small&gt;Outdoor sessions are best earlier for comfort — indoor studio sessions allow more flexibility later in pregnancy&lt;/small&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="form-group"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;label&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;input type="checkbox" id="high-risk" style="width: auto; margin-right: 12px; transform: scale(1.3);"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>High-risk pregnancy</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;/label&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;small style="margin-top: 8px; display: block;"&gt;We recommend scheduling earlier to ensure you're comfortable and have flexibility if plans change&lt;/small&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="form-group"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;label&gt;Your location&lt;/label&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;input type="text" id="location-input" placeholder="City, State or Zip Code (e.g., Troy, MI or 48307)" required&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;small&gt;Required to determine if you're within 40 miles of our Rochester Hills studio&lt;/small&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;div class="location-status" id="location-status"&gt;&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;button type="submit" class="btn" id="submit-btn"&gt;Calculate My Perfect Timing ✨&lt;/button&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/form&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="results" id="results"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div class="card"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="results-hero"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;div class="hero-header"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;h3&gt;Your Ideal Session Window&lt;/h3&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;div class="current-week-badge" id="current-week-badge"&gt;Week ??&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;div class="date-range-display" id="date-range"&gt;&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;p class="weeks-range-display" id="weeks-range"&gt;&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;div class="hero-info-grid"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;div class="hero-info-item"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;span class="icon"&gt;📅&lt;/span&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;div class="item-text"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;h4&gt;Book By&lt;/h4&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;span class="value" id="book-by"&gt;&lt;/span&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;p class="description"&gt;Most photographers need 4–8 weeks notice&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;div class="hero-info-item"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;span class="icon"&gt;⏰&lt;/span&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;div class="item-text"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;h4&gt;Your Status&lt;/h4&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;span class="value" id="current-week"&gt;&lt;/span&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;p class="description" id="status"&gt;&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;div class="hero-info-item"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;span class="icon"&gt;✨&lt;/span&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;div class="item-text"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;h4&gt;Backup Option&lt;/h4&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;span class="value" id="backup"&gt;&lt;/span&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;p class="description"&gt;If ideal timing doesn't work&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div id="combined-cta-section" style="margin-bottom: 40px;"&gt;&lt;/div&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="explanation" id="explanation"&gt;&lt;/div&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div style="text-align:center; margin:40px 0;"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;button class="btn" onclick="resetCalculator()" style="max-width:400px;"&gt;Calculate Again&lt;/button&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div class="footer"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;p&gt;Created with love by &lt;a href="https://twowildsoulsphotography.com" target="_blank"&gt;Two Wild Souls Photography&lt;/a&gt;&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;p style="margin-top: 10px;"&gt;Maternity &amp; Newborn portraits in Rochester Hills • Metro Detroit&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;p style="margin-top: 20px; font-size: 14px;"&gt;© 2026 Two Wild Souls Photography • All Rights Reserved&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;script&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>function sendHeightToParent() {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>window.parent.postMessage({ calculatorHeight: document.body.scrollHeight }, '*');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>window.addEventListener('load', sendHeightToParent);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>window.addEventListener('resize', sendHeightToParent);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>new MutationObserver(sendHeightToParent).observe(document.body, { childList: true, subtree: true, attributes: true });</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const STUDIO_LAT = 42.6533;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const STUDIO_LNG = -83.1499;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const RADIUS_MILES = 40;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const form = document.getElementById('calc-form');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const dueDateInput = document.getElementById('due-date');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const locationInput = document.getElementById('location-input');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const locationStatus = document.getElementById('location-status');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const submitBtn = document.getElementById('submit-btn');</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// FIX: Use a proper state object so calculate() always reads current values</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>let locationState = {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>checked: false,</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>isLocal: false,</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>distanceMiles: null,</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>checking: false</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>};</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>let locationDebounceTimer = null;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// Extended city/state lookup for Metro Detroit area (no fetch needed)</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const localCities = [</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>// Oakland County</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>'rochester hills','rochester','troy','auburn hills','pontiac','waterford',</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>'clarkston','lake orion','oxford','orion township','independence township',</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>'birmingham','bloomfield hills','bloomfield township','west bloomfield',</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>'novi','wixom','walled lake','milford','highland','white lake',</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>'ferndale','royal oak','berkley','hazel park','madison heights',</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>'southfield','lathrup village','oak park','huntington woods',</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>'sterling heights','utica','shelby township','macomb township',</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>'washington township','romeo','ray township',</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>// Macomb County</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>'clinton township','mount clemens','harrison township','chesterfield',</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>'new baltimore','richmond','eastpointe','roseville','st. clair shores',</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>'center line','fraser','warren',</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>// Wayne County (inner)</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>'detroit','dearborn','dearborn heights','livonia','westland','garden city',</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>'inkster','wayne','canton','plymouth','northville','farmington hills','farmington',</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>'redford','taylor','allen park','lincoln park','wyandotte','riverview',</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>'trenton','grosse pointe','grosse pointe park','grosse pointe farms',</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>'grosse pointe woods','grosse pointe shores','harper woods',</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>// Washtenaw / Livingston fringe</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>'ann arbor','ypsilanti','saline','milan','brighton','howell'</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>];</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const today = new Date();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const minDate = new Date(today); minDate.setMonth(minDate.getMonth() - 2);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const maxDate = new Date(today); maxDate.setMonth(maxDate.getMonth() + 9);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>dueDateInput.min = minDate.toISOString().split('T')[0];</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>dueDateInput.max = maxDate.toISOString().split('T')[0];</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const fallbackFortyMileZips = [</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>'48306','48307','48309','48326','48327','48328','48329',</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>'48083','48084','48085','48009','48012','48301','48302','48304',</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>'48310','48312','48313','48314','48315','48316','48317','48318',</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>'48035','48036','48038','48043','48044','48045','48046',</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>'48089','48091','48092','48093','48021','48066',</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>'48067','48068','48069','48073','48220','48237',</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>'48340','48341','48342','48343','48320','48323','48324','48325',</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>'48346','48348','48350','48462','48359','48362','48363','48370','48371',</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>'48322','48334','48335','48336','48374','48375','48376','48377',</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>'48033','48034','48075','48076','48240',</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>'48026','48080','48081','48082','48088','48236','48230',</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>'48382','48386','48390','48393',</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>'48150','48152','48154','48170','48185','48239',</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>'48025','48030','48071','48072','48094','48095','48096','48097','48098',</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>'48101','48167','48178','48187','48188','48223','48224','48225','48234','48235',</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>'48183','48184','48186','48189','48192','48195','48242','48243',</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>'48160','48161','48164','48165','48168','48169','48174','48176',</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>'48197','48198','48141','48143','48144','48146','48191'</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>];</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>locationInput.addEventListener('input', function() {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>clearTimeout(locationDebounceTimer);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const value = this.value.trim();</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>// Reset state when user edits location</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>locationState = { checked: false, isLocal: false, distanceMiles: null, checking: false };</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>if (value.length &lt; 3) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>locationStatus.className = 'location-status';</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>updateButtonState();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>return;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>// Instant offline check — no fetch needed</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>locationDebounceTimer = setTimeout(() =&gt; checkLocation(value), 400);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>});</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>function updateButtonState() {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>submitBtn.disabled = false;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>submitBtn.innerHTML = 'Calculate My Perfect Timing ✨';</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// Pure offline location check: zip codes + city name matching. No fetch() calls.</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>function checkLocation(locationStr) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>if (!locationStr) return;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const normalized = locationStr.toLowerCase().trim();</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>// 1. Zip code lookup</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const zipMatch = normalized.match(/\b(\d{5})\b/);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>if (zipMatch) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>if (fallbackFortyMileZips.includes(zipMatch[1])) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>locationState = { checked: true, isLocal: true, distanceMiles: 20, checking: false };</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>locationStatus.className = 'location-status found';</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>locationStatus.innerHTML = "✓ Great! You're in our service area (within 40 miles of Rochester Hills)";</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>} else {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>locationState = { checked: true, isLocal: false, distanceMiles: null, checking: false };</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>locationStatus.className = 'location-status error';</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>locationStatus.innerHTML = "You appear to be outside our 40-mile service area — we may still have referrals!";</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>return;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>// 2. City name lookup (strip state abbreviation if present, e.g. "Troy, MI")</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const cityOnly = normalized.replace(/,?\s*[a-z]{2}$/, '').trim();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const matched = localCities.some(city =&gt; cityOnly === city || normalized.startsWith(city));</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>if (matched) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>locationState = { checked: true, isLocal: true, distanceMiles: 20, checking: false };</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>locationStatus.className = 'location-status found';</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>locationStatus.innerHTML = "✓ Great! You're in our service area (within 40 miles of Rochester Hills)";</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>} else if (cityOnly.length &gt;= 3) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>// Unknown city — soft message, don't block</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>locationState = { checked: true, isLocal: false, distanceMiles: null, checking: false };</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>locationStatus.className = 'location-status error';</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>locationStatus.innerHTML = "We couldn't confirm your area — you can still submit and we'll follow up!";</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>form.addEventListener('submit', function(e) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>e.preventDefault();</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const locationValue = locationInput.value.trim();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>if (!locationValue) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>locationInput.style.border = '2px solid #c94b4b';</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>locationStatus.className = 'location-status error';</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>locationStatus.innerHTML = '⚠️ Location is required to provide personalized recommendations';</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>locationStatus.style.display = 'block';</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>locationInput.focus();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>locationInput.addEventListener('input', function clearError() {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>locationInput.style.border = '1px solid #000000';</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>locationInput.removeEventListener('input', clearError);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>}, { once: true });</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>return;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>// Run check synchronously if not yet done (e.g. user hit Enter quickly)</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>if (!locationState.checked) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>clearTimeout(locationDebounceTimer);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>checkLocation(locationValue);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>calculate();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>});</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>function calculate() {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const dueDateStr = document.getElementById('due-date').value;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>if (!dueDateStr) return alert("Please enter your due date.");</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const dueDate = new Date(dueDateStr);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const isFirst = document.querySelector('input[name="first-baby"]:checked')?.value === 'yes';</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const multiples = document.getElementById('multiples').checked;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const vibe = document.querySelector('input[name="vibe"]:checked')?.value || 'full';</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const setting = document.querySelector('input[name="setting"]:checked')?.value || 'both';</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const highRisk = document.getElementById('high-risk').checked;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const now = new Date();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const daysSinceLMP = Math.floor((now - new Date(dueDate.getTime() - 280 * 24 * 60 * 60 * 1000)) / (1000 * 60 * 60 * 24));</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const currentWeek = Math.max(1, Math.min(42, Math.ceil(daysSinceLMP / 7)));</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>let startWeek, endWeek;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>if (multiples) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>startWeek = 24; endWeek = 28;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>} else if (!isFirst) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>startWeek = vibe === 'full' ? 28 : 26;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>endWeek <span class="Apple-converted-space">  </span>= vibe === 'full' ? 32 : 30;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>} else {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>startWeek = vibe === 'full' ? 30 : 28;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>endWeek <span class="Apple-converted-space">  </span>= vibe === 'full' ? 34 : 32;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>if (!multiples) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>if (setting === 'outdoor') {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>startWeek = Math.max(20, startWeek - 2);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>endWeek <span class="Apple-converted-space">  </span>= Math.max(22, endWeek - 2);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>} else if (setting === 'indoor') {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>startWeek = Math.min(32, startWeek + 1);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>endWeek <span class="Apple-converted-space">  </span>= Math.min(34, endWeek + 1);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>if (highRisk &amp;&amp; !multiples) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>startWeek = Math.max(20, startWeek - 2);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>endWeek <span class="Apple-converted-space">  </span>= Math.max(22, endWeek - 2);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const isLate <span class="Apple-converted-space">    </span>= currentWeek &gt; 34;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const isInWindow = currentWeek &gt;= startWeek &amp;&amp; currentWeek &lt;= endWeek;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const conception = new Date(dueDate);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>conception.setDate(conception.getDate() - 280);</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>let startDate, endDate, bookBy;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>if (!isLate) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>startDate = new Date(conception); startDate.setDate(startDate.getDate() + startWeek * 7);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>endDate <span class="Apple-converted-space">  </span>= new Date(conception); endDate.setDate(endDate.getDate() + endWeek * 7);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>bookBy<span class="Apple-converted-space">    </span>= new Date(startDate);<span class="Apple-converted-space">  </span>bookBy.setDate(bookBy.getDate() - 42);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const fmt = d =&gt; d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>document.getElementById('current-week-badge').textContent = `You're at Week ${currentWeek}`;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>document.getElementById('current-week').textContent = `Week ${currentWeek}`;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>if (isLate) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>document.getElementById('date-range').innerHTML = `Maternity booking window has closed 💕`;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>document.getElementById('weeks-range').textContent = `You're at ${currentWeek} weeks — beyond our 34-week cutoff for maternity sessions`;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>document.getElementById('book-by').innerHTML = `&lt;span style="color:#c94b4b;"&gt;Passed&lt;/span&gt;`;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>document.getElementById('status').textContent = `Beyond our 34-week cutoff`;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>document.getElementById('backup').textContent = `Newborn portraits (first 5–14 days)`;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>} else {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>document.getElementById('date-range').textContent = `${fmt(startDate)} – ${fmt(endDate)}`;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>document.getElementById('weeks-range').textContent = `${startWeek}–${endWeek} weeks`;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>const bookByPast = bookBy &lt; now;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>document.getElementById('book-by').innerHTML = bookByPast</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>? `&lt;span style="color:#c94b4b;"&gt;Today — don't wait!&lt;/span&gt;`</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>: fmt(bookBy);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>document.getElementById('status').textContent = isInWindow</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>? `You're in the sweet spot!`</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>: (currentWeek &lt; startWeek ? `Perfect time to book now` : `Still good — don't wait too long`);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>document.getElementById('backup').textContent = `${endWeek}–${Math.min(endWeek + 4, 36)} weeks (flexible backup)`;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>// Build explanation</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const adjustmentNotes = [];</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>if (setting === 'outdoor') adjustmentNotes.push('outdoor sessions (shifted earlier for comfort)');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>if (setting === 'indoor') adjustmentNotes.push('indoor/studio sessions (allows a bit more flexibility later)');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>if (highRisk) adjustmentNotes.push('high-risk pregnancy (shifted earlier to build in flexibility)');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>if (multiples) adjustmentNotes.push('multiple pregnancy (earlier window is standard)');</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>let exp = `&lt;h4&gt;Your Personalized Timing&lt;/h4&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                       </span>&lt;p&gt;Based on your details, your ideal window is &lt;strong&gt;weeks ${startWeek}–${endWeek}&lt;/strong&gt;.`;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>if (adjustmentNotes.length &gt; 0) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>exp += ` This has been adjusted for: ${adjustmentNotes.join(', ')}.`;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>exp += `&lt;/p&gt;`;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>if (isLate) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>exp += `&lt;p&gt;&lt;strong&gt;Unfortunately our maternity booking window has closed&lt;/strong&gt; — we are unable to accept maternity sessions beyond 34 weeks. But this chapter isn't over! Here are your best next steps:&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;ul&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;li&gt;&lt;strong&gt;Book a newborn session with us&lt;/strong&gt; — the first 5–14 days are pure magic and we'd love to capture them&lt;/li&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;li&gt;If maternity photos are important to you, a few photographers may still accept sessions up to 36–37 weeks — reach out quickly&lt;/li&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;li&gt;Be open to last-minute dates and comfortable posed styles&lt;/li&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;/ul&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;p style="margin-top:25px; font-size:18px; font-weight:600;"&gt;✨ &lt;strong&gt;Newborn portraits&lt;/strong&gt; in those first precious days are absolutely magical — and honestly, some of our most breathtaking work. We'd love to be there for it.&lt;/p&gt;`;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>} else if (isInWindow) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>exp += `&lt;p&gt;You're right in the &lt;strong&gt;ideal window&lt;/strong&gt; — your bump is prominent and you're likely still feeling great. Book now to secure your dream date!&lt;/p&gt;`;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>} else if (currentWeek &lt; startWeek) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>exp += `&lt;p&gt;You're approaching the perfect time — now is ideal for reaching out (most photographers need 4–8 weeks notice).&lt;/p&gt;`;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>} else {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>exp += `&lt;p&gt;You're just past the main window but still in a beautiful range. Reach out soon to catch availability.&lt;/p&gt;`;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>document.getElementById('explanation').innerHTML = exp;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>// Read from locationState</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const { isLocal, distanceMiles } = locationState;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const distLabel = isLocal</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>? `✓ You're ${Math.round(distanceMiles)} miles from our studio`</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>: `You're outside our 40-mile service area`;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const footerNote = `&lt;p style="margin-top: 25px; font-size: 12px; opacity: 0.7;"&gt;Professional hair &amp; makeup • Designer gowns • Serving Rochester Hills &amp; 40-mile radius&lt;/p&gt;`;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const combinedCTAEl = document.getElementById('combined-cta-section');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>let combinedCTA = '';</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>if (isLocal) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>if (isInWindow) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>combinedCTA = `</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;div class="cta-block" style="background:#000;color:#fff;border:2px solid #000;text-align:center;"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;div style="font-size:12px;text-transform:uppercase;letter-spacing:2px;margin-bottom:15px;opacity:0.7;"&gt;${distLabel}&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;h4 style="font-family:'Helvetica Neue',Arial,sans-serif;font-size:24px;margin-bottom:20px;text-transform:uppercase;letter-spacing:2px;font-weight:300;"&gt;You're in the Perfect Window!&lt;/h4&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;p style="margin-bottom:30px;font-size:16px;line-height:1.6;"&gt;Your bump is beautiful and you're likely still feeling great. This is the ideal time to book your maternity session with Two Wild Souls Photography.&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;a href="https://twowildsoulsphotography.com/contact" class="cta-btn" target="_blank" style="background:#fff;color:#000;display:inline-block;padding:18px 45px;text-decoration:none;font-size:14px;font-weight:600;font-family:'Helvetica Neue',Arial,sans-serif;text-transform:uppercase;letter-spacing:1.5px;margin:0;"&gt;Book Your Dream Session&lt;/a&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;p style="margin-top:25px;font-size:12px;opacity:0.7;"&gt;Professional hair &amp; makeup • Designer gowns • 100% Love It Guarantee&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;`;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>} else if (currentWeek &lt; startWeek) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>combinedCTA = `</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;div class="cta-block" style="background:#000;color:#fff;text-align:center;"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;div style="font-size:12px;text-transform:uppercase;letter-spacing:2px;margin-bottom:15px;opacity:0.7;"&gt;${distLabel}&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;h4 style="font-family:'Helvetica Neue',Arial,sans-serif;font-size:22px;margin-bottom:20px;text-transform:uppercase;letter-spacing:2px;font-weight:300;"&gt;Secure Your Spot Early&lt;/h4&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;p style="margin-bottom:30px;font-size:15px;line-height:1.6;opacity:0.9;"&gt;Your ideal window is weeks ${startWeek}–${endWeek}. Many clients book early to lock in their preferred date — reach out now and we'll hold your spot.&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;a href="https://twowildsoulsphotography.com/contact" class="cta-btn" target="_blank" style="background:#fff;color:#000;display:inline-block;padding:18px 45px;text-decoration:none;font-size:14px;font-weight:600;font-family:'Helvetica Neue',Arial,sans-serif;text-transform:uppercase;letter-spacing:1.5px;margin:0;"&gt;Reserve Your Date&lt;/a&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>${footerNote}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;`;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>} else if (isLate) {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>combinedCTA = `</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;div class="cta-block" style="background:#c94b4b;color:#fff;border:3px solid #c94b4b;text-align:center;"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;div style="font-size:14px;text-transform:uppercase;letter-spacing:2px;margin-bottom:15px;opacity:0.9;"&gt;⚠️ Beyond Our Maternity Cutoff • ${Math.round(distanceMiles)} miles from studio&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;h4 style="font-family:'Helvetica Neue',Arial,sans-serif;font-size:24px;margin-bottom:20px;text-transform:uppercase;letter-spacing:2px;font-weight:300;"&gt;We Can't Wait to Meet Baby!&lt;/h4&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;p style="margin-bottom:30px;font-size:16px;line-height:1.6;"&gt;At ${currentWeek} weeks, we're unable to book maternity sessions — but your newborn session is going to be absolutely magical. Contact us now to reserve your spot for those precious first days.&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;a href="https://twowildsoulsphotography.com/contact" class="cta-btn" target="_blank" style="background:#fff;color:#c94b4b;display:inline-block;padding:18px 45px;text-decoration:none;font-size:14px;font-weight:600;font-family:'Helvetica Neue',Arial,sans-serif;text-transform:uppercase;letter-spacing:1.5px;border:2px solid #fff;margin:0;"&gt;Book My Newborn Session&lt;/a&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;p style="margin-top:25px;font-size:12px;opacity:0.9;"&gt;Newborn sessions available in the first 5–14 days 💕&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;`;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>} else {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>combinedCTA = `</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;div class="cta-block" style="background:#000;color:#fff;text-align:center;"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;div style="font-size:12px;text-transform:uppercase;letter-spacing:2px;margin-bottom:15px;opacity:0.7;"&gt;${distLabel}&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;h4 style="font-family:'Helvetica Neue',Arial,sans-serif;font-size:22px;margin-bottom:20px;text-transform:uppercase;letter-spacing:2px;font-weight:300;"&gt;Still in a Beautiful Range&lt;/h4&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;p style="margin-bottom:30px;font-size:15px;line-height:1.6;"&gt;You're just past the main window but timing is still great. Book soon to secure availability.&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;a href="https://twowildsoulsphotography.com/contact" class="cta-btn" target="_blank" style="background:#fff;color:#000;display:inline-block;padding:18px 45px;text-decoration:none;font-size:14px;font-weight:600;font-family:'Helvetica Neue',Arial,sans-serif;text-transform:uppercase;letter-spacing:1.5px;margin:0;"&gt;Book Your Session&lt;/a&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>${footerNote}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;`;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>} else {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>combinedCTA = `</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;div class="cta-block" style="background:#f5f5f5;border:1px solid #000;text-align:center;"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;h4 style="font-family:'Helvetica Neue',Arial,sans-serif;font-size:18px;margin-bottom:14px;text-transform:uppercase;letter-spacing:1.5px;font-weight:500;overflow-wrap:break-word;word-break:break-word;"&gt;Find a Photographer Near You&lt;/h4&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;p style="margin-bottom:24px;font-size:14px;color:#666;line-height:1.6;max-width:460px;margin-left:auto;margin-right:auto;"&gt;You're outside our 40-mile service area, but we can help you find a qualified maternity photographer in your region.&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;div style="display:flex;flex-direction:column;align-items:center;gap:10px;"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;a href="https://www.google.com/search?q=maternity+photographers+near+me" target="_blank" style="width:200px;text-align:center;padding:14px 16px;background:#000;color:#fff;text-decoration:none;font-size:12px;font-weight:500;font-family:'Helvetica Neue',Arial,sans-serif;text-transform:uppercase;letter-spacing:1px;box-sizing:border-box;"&gt;Find Photographers&lt;/a&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;a href="https://twowildsoulsphotography.com/contact" style="width:200px;text-align:center;padding:14px 16px;background:#fff;color:#000;border:1px solid #000;text-decoration:none;font-size:12px;font-weight:500;font-family:'Helvetica Neue',Arial,sans-serif;text-transform:uppercase;letter-spacing:1px;box-sizing:border-box;"&gt;Get Referrals&lt;/a&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;`;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>combinedCTAEl.innerHTML = combinedCTA;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>document.getElementById('form-card').style.display = 'none';</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const resultsEl = document.getElementById('results');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>resultsEl.classList.add('active');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>if (isLate) resultsEl.classList.add('late');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>setTimeout(() =&gt; resultsEl.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>function resetCalculator() {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>document.getElementById('form-card').style.display = 'block';</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>document.getElementById('results').classList.remove('active', 'late');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>form.reset();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>locationStatus.className = 'location-status';</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>locationState = { checked: false, isLocal: false, distanceMiles: null, checking: false };</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>updateButtonState();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>setTimeout(() =&gt; document.getElementById('form-card').scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/script&gt;</span></p>
-<p class="p1"><span class="s1">&lt;/body&gt;</span></p>
-<p class="p1"><span class="s1">&lt;/html&gt;</span></p>
+    <div class="container">
+        <div class="card" id="form-card">
+            <h2 style="font-family: 'Helvetica Neue', Arial, sans-serif; text-align: center; font-size: 24px; margin-bottom: 50px; font-weight: 300; text-transform: uppercase; letter-spacing: 2px;">Find Your Ideal Timing</h2>
+            <form id="calc-form">
+                <div class="form-group">
+                    <label for="due-date">What's your due date?</label>
+                    <input type="date" id="due-date" required onclick="try{this.showPicker()}catch(e){}">
+                </div>
+                <div class="form-group">
+                    <label>Is this your first baby?</label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="first-yes" name="first-baby" value="yes" required>
+                            <label for="first-yes" class="radio-label">Yes, first baby</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="first-no" name="first-baby" value="no">
+                            <label for="first-no" class="radio-label">No, 2nd or later</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="multiples" style="width: auto; margin-right: 12px; transform: scale(1.3);">
+                        Expecting multiples (twins, triplets, etc.)
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label>Preferred style</label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="vibe-full" name="vibe" value="full" required>
+                            <label for="vibe-full" class="radio-label">Full, dramatic bump</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="vibe-comfortable" name="vibe" value="comfortable">
+                            <label for="vibe-comfortable" class="radio-label">Earlier & more comfortable</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Session setting</label>
+                    <div class="radio-group">
+                        <div class="radio-option radio-option--third">
+                            <input type="radio" id="setting-indoor" name="setting" value="indoor" required>
+                            <label for="setting-indoor" class="radio-label">🏠 Indoor / Studio</label>
+                        </div>
+                        <div class="radio-option radio-option--third">
+                            <input type="radio" id="setting-outdoor" name="setting" value="outdoor">
+                            <label for="setting-outdoor" class="radio-label">🌿 Outdoor</label>
+                        </div>
+                        <div class="radio-option radio-option--third">
+                            <input type="radio" id="setting-both" name="setting" value="both">
+                            <label for="setting-both" class="radio-label">✨ Both</label>
+                        </div>
+                    </div>
+                    <small>Outdoor sessions are best earlier for comfort — indoor studio sessions allow more flexibility later in pregnancy</small>
+                </div>
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="high-risk" style="width: auto; margin-right: 12px; transform: scale(1.3);">
+                        High-risk pregnancy
+                    </label>
+                    <small style="margin-top: 8px; display: block;">We recommend scheduling earlier to ensure you're comfortable and have flexibility if plans change</small>
+                </div>
+                <div class="form-group">
+                    <label>Your location</label>
+                    <input type="text" id="location-input" placeholder="City, State or Zip Code (e.g., Troy, MI or 48307)" required>
+                    <small>Required to determine if you're within 40 miles of our Rochester Hills studio</small>
+                    <div class="location-status" id="location-status"></div>
+                </div>
+                <button type="submit" class="btn" id="submit-btn">Calculate My Perfect Timing ✨</button>
+            </form>
+        </div>
+
+        <div class="results" id="results">
+            <div class="card">
+                <div class="results-hero">
+                    <div class="hero-header">
+                        <h3>Your Ideal Session Window</h3>
+                        <div class="current-week-badge" id="current-week-badge">Week ??</div>
+                        <div class="date-range-display" id="date-range"></div>
+                        <p class="weeks-range-display" id="weeks-range"></p>
+                    </div>
+                    <div class="hero-info-grid">
+                        <div class="hero-info-item">
+                            <span class="icon">📅</span>
+                            <div class="item-text">
+                                <h4>Book By</h4>
+                                <span class="value" id="book-by"></span>
+                                <p class="description">Most photographers need 4–8 weeks notice</p>
+                            </div>
+                        </div>
+                        <div class="hero-info-item">
+                            <span class="icon">⏰</span>
+                            <div class="item-text">
+                                <h4>Your Status</h4>
+                                <span class="value" id="current-week"></span>
+                                <p class="description" id="status"></p>
+                            </div>
+                        </div>
+                        <div class="hero-info-item">
+                            <span class="icon">✨</span>
+                            <div class="item-text">
+                                <h4>Backup Option</h4>
+                                <span class="value" id="backup"></span>
+                                <p class="description">If ideal timing doesn't work</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="combined-cta-section" style="margin-bottom: 40px;"></div>
+
+                <div class="explanation" id="explanation"></div>
+
+                <div style="text-align:center; margin:40px 0;">
+                    <button class="btn" onclick="resetCalculator()" style="max-width:400px;">Calculate Again</button>
+                </div>
+            </div>
+
+            <div class="footer">
+                <p>Created with love by <a href="https://twowildsoulsphotography.com" target="_blank">Two Wild Souls Photography</a></p>
+                <p style="margin-top: 10px;">Maternity & Newborn portraits in Rochester Hills • Metro Detroit</p>
+                <p style="margin-top: 20px; font-size: 14px;">© 2026 Two Wild Souls Photography • All Rights Reserved</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function sendHeightToParent() {
+            window.parent.postMessage({ calculatorHeight: document.body.scrollHeight }, '*');
+        }
+        window.addEventListener('load', sendHeightToParent);
+        window.addEventListener('resize', sendHeightToParent);
+        new MutationObserver(sendHeightToParent).observe(document.body, { childList: true, subtree: true, attributes: true });
+
+        const STUDIO_LAT = 42.6533;
+        const STUDIO_LNG = -83.1499;
+        const RADIUS_MILES = 40;
+
+        const form = document.getElementById('calc-form');
+        const dueDateInput = document.getElementById('due-date');
+        const locationInput = document.getElementById('location-input');
+        const locationStatus = document.getElementById('location-status');
+        const submitBtn = document.getElementById('submit-btn');
+
+        // FIX: Use a proper state object so calculate() always reads current values
+        let locationState = {
+            checked: false,
+            isLocal: false,
+            distanceMiles: null,
+            checking: false
+        };
+
+        let locationDebounceTimer = null;
+
+        // Extended city/state lookup for Metro Detroit area (no fetch needed)
+        const localCities = [
+            // Oakland County
+            'rochester hills','rochester','troy','auburn hills','pontiac','waterford',
+            'clarkston','lake orion','oxford','orion township','independence township',
+            'birmingham','bloomfield hills','bloomfield township','west bloomfield',
+            'novi','wixom','walled lake','milford','highland','white lake',
+            'ferndale','royal oak','berkley','hazel park','madison heights',
+            'southfield','lathrup village','oak park','huntington woods',
+            'sterling heights','utica','shelby township','macomb township',
+            'washington township','romeo','ray township',
+            // Macomb County
+            'clinton township','mount clemens','harrison township','chesterfield',
+            'new baltimore','richmond','eastpointe','roseville','st. clair shores',
+            'center line','fraser','warren',
+            // Wayne County (inner)
+            'detroit','dearborn','dearborn heights','livonia','westland','garden city',
+            'inkster','wayne','canton','plymouth','northville','farmington hills','farmington',
+            'redford','taylor','allen park','lincoln park','wyandotte','riverview',
+            'trenton','grosse pointe','grosse pointe park','grosse pointe farms',
+            'grosse pointe woods','grosse pointe shores','harper woods',
+            // Washtenaw / Livingston fringe
+            'ann arbor','ypsilanti','saline','milan','brighton','howell'
+        ];
+
+        const today = new Date();
+        const minDate = new Date(today); minDate.setMonth(minDate.getMonth() - 2);
+        const maxDate = new Date(today); maxDate.setMonth(maxDate.getMonth() + 9);
+        dueDateInput.min = minDate.toISOString().split('T')[0];
+        dueDateInput.max = maxDate.toISOString().split('T')[0];
+
+        const fallbackFortyMileZips = [
+            '48306','48307','48309','48326','48327','48328','48329',
+            '48083','48084','48085','48009','48012','48301','48302','48304',
+            '48310','48312','48313','48314','48315','48316','48317','48318',
+            '48035','48036','48038','48043','48044','48045','48046',
+            '48089','48091','48092','48093','48021','48066',
+            '48067','48068','48069','48073','48220','48237',
+            '48340','48341','48342','48343','48320','48323','48324','48325',
+            '48346','48348','48350','48462','48359','48362','48363','48370','48371',
+            '48322','48334','48335','48336','48374','48375','48376','48377',
+            '48033','48034','48075','48076','48240',
+            '48026','48080','48081','48082','48088','48236','48230',
+            '48382','48386','48390','48393',
+            '48150','48152','48154','48170','48185','48239',
+            '48025','48030','48071','48072','48094','48095','48096','48097','48098',
+            '48101','48167','48178','48187','48188','48223','48224','48225','48234','48235',
+            '48183','48184','48186','48189','48192','48195','48242','48243',
+            '48160','48161','48164','48165','48168','48169','48174','48176',
+            '48197','48198','48141','48143','48144','48146','48191'
+        ];
+
+        locationInput.addEventListener('input', function() {
+            clearTimeout(locationDebounceTimer);
+            const value = this.value.trim();
+
+            // Reset state when user edits location
+            locationState = { checked: false, isLocal: false, distanceMiles: null, checking: false };
+
+            if (value.length < 3) {
+                locationStatus.className = 'location-status';
+                updateButtonState();
+                return;
+            }
+
+            // Instant offline check — no fetch needed
+            locationDebounceTimer = setTimeout(() => checkLocation(value), 400);
+        });
+
+        function updateButtonState() {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = 'Calculate My Perfect Timing ✨';
+        }
+
+        // Pure offline location check: zip codes + city name matching. No fetch() calls.
+        function checkLocation(locationStr) {
+            if (!locationStr) return;
+
+            const normalized = locationStr.toLowerCase().trim();
+
+            // 1. Zip code lookup
+            const zipMatch = normalized.match(/\b(\d{5})\b/);
+            if (zipMatch) {
+                if (fallbackFortyMileZips.includes(zipMatch[1])) {
+                    locationState = { checked: true, isLocal: true, distanceMiles: 20, checking: false };
+                    locationStatus.className = 'location-status found';
+                    locationStatus.innerHTML = "✓ Great! You're in our service area (within 40 miles of Rochester Hills)";
+                } else {
+                    locationState = { checked: true, isLocal: false, distanceMiles: null, checking: false };
+                    locationStatus.className = 'location-status error';
+                    locationStatus.innerHTML = "You appear to be outside our 40-mile service area — we may still have referrals!";
+                }
+                return;
+            }
+
+            // 2. City name lookup (strip state abbreviation if present, e.g. "Troy, MI")
+            const cityOnly = normalized.replace(/,?\s*[a-z]{2}$/, '').trim();
+            const matched = localCities.some(city => cityOnly === city || normalized.startsWith(city));
+
+            if (matched) {
+                locationState = { checked: true, isLocal: true, distanceMiles: 20, checking: false };
+                locationStatus.className = 'location-status found';
+                locationStatus.innerHTML = "✓ Great! You're in our service area (within 40 miles of Rochester Hills)";
+            } else if (cityOnly.length >= 3) {
+                // Unknown city — soft message, don't block
+                locationState = { checked: true, isLocal: false, distanceMiles: null, checking: false };
+                locationStatus.className = 'location-status error';
+                locationStatus.innerHTML = "We couldn't confirm your area — you can still submit and we'll follow up!";
+            }
+        }
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const locationValue = locationInput.value.trim();
+            if (!locationValue) {
+                locationInput.style.border = '2px solid #c94b4b';
+                locationStatus.className = 'location-status error';
+                locationStatus.innerHTML = '⚠️ Location is required to provide personalized recommendations';
+                locationStatus.style.display = 'block';
+                locationInput.focus();
+                locationInput.addEventListener('input', function clearError() {
+                    locationInput.style.border = '1px solid #000000';
+                    locationInput.removeEventListener('input', clearError);
+                }, { once: true });
+                return;
+            }
+
+            // Run check synchronously if not yet done (e.g. user hit Enter quickly)
+            if (!locationState.checked) {
+                clearTimeout(locationDebounceTimer);
+                checkLocation(locationValue);
+            }
+
+            calculate();
+        });
+
+        function calculate() {
+            const dueDateStr = document.getElementById('due-date').value;
+            if (!dueDateStr) return alert("Please enter your due date.");
+
+            const dueDate = new Date(dueDateStr);
+            const isFirst = document.querySelector('input[name="first-baby"]:checked')?.value === 'yes';
+            const multiples = document.getElementById('multiples').checked;
+            const vibe = document.querySelector('input[name="vibe"]:checked')?.value || 'full';
+            const setting = document.querySelector('input[name="setting"]:checked')?.value || 'both';
+            const highRisk = document.getElementById('high-risk').checked;
+
+            const now = new Date();
+            const daysSinceLMP = Math.floor((now - new Date(dueDate.getTime() - 280 * 24 * 60 * 60 * 1000)) / (1000 * 60 * 60 * 24));
+            const currentWeek = Math.max(1, Math.min(42, Math.ceil(daysSinceLMP / 7)));
+
+            let startWeek, endWeek;
+            if (multiples) {
+                startWeek = 24; endWeek = 28;
+            } else if (!isFirst) {
+                startWeek = vibe === 'full' ? 28 : 26;
+                endWeek   = vibe === 'full' ? 32 : 30;
+            } else {
+                startWeek = vibe === 'full' ? 30 : 28;
+                endWeek   = vibe === 'full' ? 34 : 32;
+            }
+
+            if (!multiples) {
+                if (setting === 'outdoor') {
+                    startWeek = Math.max(20, startWeek - 2);
+                    endWeek   = Math.max(22, endWeek - 2);
+                } else if (setting === 'indoor') {
+                    startWeek = Math.min(32, startWeek + 1);
+                    endWeek   = Math.min(34, endWeek + 1);
+                }
+            }
+
+            if (highRisk && !multiples) {
+                startWeek = Math.max(20, startWeek - 2);
+                endWeek   = Math.max(22, endWeek - 2);
+            }
+
+            const isLate     = currentWeek > 34;
+            const isInWindow = currentWeek >= startWeek && currentWeek <= endWeek;
+
+            const conception = new Date(dueDate);
+            conception.setDate(conception.getDate() - 280);
+
+            let startDate, endDate, bookBy;
+            if (!isLate) {
+                startDate = new Date(conception); startDate.setDate(startDate.getDate() + startWeek * 7);
+                endDate   = new Date(conception); endDate.setDate(endDate.getDate() + endWeek * 7);
+                bookBy    = new Date(startDate);  bookBy.setDate(bookBy.getDate() - 42);
+            }
+
+            const fmt = d => d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+
+            document.getElementById('current-week-badge').textContent = `You're at Week ${currentWeek}`;
+            document.getElementById('current-week').textContent = `Week ${currentWeek}`;
+
+            if (isLate) {
+                document.getElementById('date-range').innerHTML = `Maternity booking window has closed 💕`;
+                document.getElementById('weeks-range').textContent = `You're at ${currentWeek} weeks — beyond our 34-week cutoff for maternity sessions`;
+                document.getElementById('book-by').innerHTML = `<span style="color:#c94b4b;">Passed</span>`;
+                document.getElementById('status').textContent = `Beyond our 34-week cutoff`;
+                document.getElementById('backup').textContent = `Newborn portraits (first 5–14 days)`;
+            } else {
+                document.getElementById('date-range').textContent = `${fmt(startDate)} – ${fmt(endDate)}`;
+                document.getElementById('weeks-range').textContent = `${startWeek}–${endWeek} weeks`;
+                const bookByPast = bookBy < now;
+                document.getElementById('book-by').innerHTML = bookByPast
+                    ? `<span style="color:#c94b4b;">Today — don't wait!</span>`
+                    : fmt(bookBy);
+                document.getElementById('status').textContent = isInWindow
+                    ? `You're in the sweet spot!`
+                    : (currentWeek < startWeek ? `Perfect time to book now` : `Still good — don't wait too long`);
+                document.getElementById('backup').textContent = `${endWeek}–${Math.min(endWeek + 4, 36)} weeks (flexible backup)`;
+            }
+
+            // Build explanation
+            const adjustmentNotes = [];
+            if (setting === 'outdoor') adjustmentNotes.push('outdoor sessions (shifted earlier for comfort)');
+            if (setting === 'indoor') adjustmentNotes.push('indoor/studio sessions (allows a bit more flexibility later)');
+            if (highRisk) adjustmentNotes.push('high-risk pregnancy (shifted earlier to build in flexibility)');
+            if (multiples) adjustmentNotes.push('multiple pregnancy (earlier window is standard)');
+
+            let exp = `<h4>Your Personalized Timing</h4>
+                       <p>Based on your details, your ideal window is <strong>weeks ${startWeek}–${endWeek}</strong>.`;
+            if (adjustmentNotes.length > 0) {
+                exp += ` This has been adjusted for: ${adjustmentNotes.join(', ')}.`;
+            }
+            exp += `</p>`;
+
+            if (isLate) {
+                exp += `<p><strong>Unfortunately our maternity booking window has closed</strong> — we are unable to accept maternity sessions beyond 34 weeks. But this chapter isn't over! Here are your best next steps:</p>
+                        <ul>
+                            <li><strong>Book a newborn session with us</strong> — the first 5–14 days are pure magic and we'd love to capture them</li>
+                            <li>If maternity photos are important to you, a few photographers may still accept sessions up to 36–37 weeks — reach out quickly</li>
+                            <li>Be open to last-minute dates and comfortable posed styles</li>
+                        </ul>
+                        <p style="margin-top:25px; font-size:18px; font-weight:600;">✨ <strong>Newborn portraits</strong> in those first precious days are absolutely magical — and honestly, some of our most breathtaking work. We'd love to be there for it.</p>`;
+            } else if (isInWindow) {
+                exp += `<p>You're right in the <strong>ideal window</strong> — your bump is prominent and you're likely still feeling great. Book now to secure your dream date!</p>`;
+            } else if (currentWeek < startWeek) {
+                exp += `<p>You're approaching the perfect time — now is ideal for reaching out (most photographers need 4–8 weeks notice).</p>`;
+            } else {
+                exp += `<p>You're just past the main window but still in a beautiful range. Reach out soon to catch availability.</p>`;
+            }
+            document.getElementById('explanation').innerHTML = exp;
+
+            // Read from locationState
+            const { isLocal, distanceMiles } = locationState;
+            const distLabel = isLocal
+                ? `✓ You're ${Math.round(distanceMiles)} miles from our studio`
+                : `You're outside our 40-mile service area`;
+            const footerNote = `<p style="margin-top: 25px; font-size: 12px; opacity: 0.7;">Professional hair & makeup • Designer gowns • Serving Rochester Hills & 40-mile radius</p>`;
+
+            const combinedCTAEl = document.getElementById('combined-cta-section');
+            let combinedCTA = '';
+
+            if (isLocal) {
+                if (isInWindow) {
+                    combinedCTA = `
+                        <div class="cta-block" style="background:#000;color:#fff;border:2px solid #000;text-align:center;">
+                            <div style="font-size:12px;text-transform:uppercase;letter-spacing:2px;margin-bottom:15px;opacity:0.7;">${distLabel}</div>
+                            <h4 style="font-family:'Helvetica Neue',Arial,sans-serif;font-size:24px;margin-bottom:20px;text-transform:uppercase;letter-spacing:2px;font-weight:300;">You're in the Perfect Window!</h4>
+                            <p style="margin-bottom:30px;font-size:16px;line-height:1.6;">Your bump is beautiful and you're likely still feeling great. This is the ideal time to book your maternity session with Two Wild Souls Photography.</p>
+                            <a href="https://twowildsoulsphotography.com/contact" class="cta-btn" target="_blank" style="background:#fff;color:#000;display:inline-block;padding:18px 45px;text-decoration:none;font-size:14px;font-weight:600;font-family:'Helvetica Neue',Arial,sans-serif;text-transform:uppercase;letter-spacing:1.5px;margin:0;">Book Your Dream Session</a>
+                            <p style="margin-top:25px;font-size:12px;opacity:0.7;">Professional hair & makeup • Designer gowns • 100% Love It Guarantee</p>
+                        </div>`;
+                } else if (currentWeek < startWeek) {
+                    combinedCTA = `
+                        <div class="cta-block" style="background:#000;color:#fff;text-align:center;">
+                            <div style="font-size:12px;text-transform:uppercase;letter-spacing:2px;margin-bottom:15px;opacity:0.7;">${distLabel}</div>
+                            <h4 style="font-family:'Helvetica Neue',Arial,sans-serif;font-size:22px;margin-bottom:20px;text-transform:uppercase;letter-spacing:2px;font-weight:300;">Secure Your Spot Early</h4>
+                            <p style="margin-bottom:30px;font-size:15px;line-height:1.6;opacity:0.9;">Your ideal window is weeks ${startWeek}–${endWeek}. Many clients book early to lock in their preferred date — reach out now and we'll hold your spot.</p>
+                            <a href="https://twowildsoulsphotography.com/contact" class="cta-btn" target="_blank" style="background:#fff;color:#000;display:inline-block;padding:18px 45px;text-decoration:none;font-size:14px;font-weight:600;font-family:'Helvetica Neue',Arial,sans-serif;text-transform:uppercase;letter-spacing:1.5px;margin:0;">Reserve Your Date</a>
+                            ${footerNote}
+                        </div>`;
+                } else if (isLate) {
+                    combinedCTA = `
+                        <div class="cta-block" style="background:#c94b4b;color:#fff;border:3px solid #c94b4b;text-align:center;">
+                            <div style="font-size:14px;text-transform:uppercase;letter-spacing:2px;margin-bottom:15px;opacity:0.9;">⚠️ Beyond Our Maternity Cutoff • ${Math.round(distanceMiles)} miles from studio</div>
+                            <h4 style="font-family:'Helvetica Neue',Arial,sans-serif;font-size:24px;margin-bottom:20px;text-transform:uppercase;letter-spacing:2px;font-weight:300;">We Can't Wait to Meet Baby!</h4>
+                            <p style="margin-bottom:30px;font-size:16px;line-height:1.6;">At ${currentWeek} weeks, we're unable to book maternity sessions — but your newborn session is going to be absolutely magical. Contact us now to reserve your spot for those precious first days.</p>
+                            <a href="https://twowildsoulsphotography.com/contact" class="cta-btn" target="_blank" style="background:#fff;color:#c94b4b;display:inline-block;padding:18px 45px;text-decoration:none;font-size:14px;font-weight:600;font-family:'Helvetica Neue',Arial,sans-serif;text-transform:uppercase;letter-spacing:1.5px;border:2px solid #fff;margin:0;">Book My Newborn Session</a>
+                            <p style="margin-top:25px;font-size:12px;opacity:0.9;">Newborn sessions available in the first 5–14 days 💕</p>
+                        </div>`;
+                } else {
+                    combinedCTA = `
+                        <div class="cta-block" style="background:#000;color:#fff;text-align:center;">
+                            <div style="font-size:12px;text-transform:uppercase;letter-spacing:2px;margin-bottom:15px;opacity:0.7;">${distLabel}</div>
+                            <h4 style="font-family:'Helvetica Neue',Arial,sans-serif;font-size:22px;margin-bottom:20px;text-transform:uppercase;letter-spacing:2px;font-weight:300;">Still in a Beautiful Range</h4>
+                            <p style="margin-bottom:30px;font-size:15px;line-height:1.6;">You're just past the main window but timing is still great. Book soon to secure availability.</p>
+                            <a href="https://twowildsoulsphotography.com/contact" class="cta-btn" target="_blank" style="background:#fff;color:#000;display:inline-block;padding:18px 45px;text-decoration:none;font-size:14px;font-weight:600;font-family:'Helvetica Neue',Arial,sans-serif;text-transform:uppercase;letter-spacing:1.5px;margin:0;">Book Your Session</a>
+                            ${footerNote}
+                        </div>`;
+                }
+            } else {
+                combinedCTA = `
+                    <div class="cta-block" style="background:#f5f5f5;border:1px solid #000;text-align:center;">
+                        <h4 style="font-family:'Helvetica Neue',Arial,sans-serif;font-size:18px;margin-bottom:14px;text-transform:uppercase;letter-spacing:1.5px;font-weight:500;overflow-wrap:break-word;word-break:break-word;">Find a Photographer Near You</h4>
+                        <p style="margin-bottom:24px;font-size:14px;color:#666;line-height:1.6;max-width:460px;margin-left:auto;margin-right:auto;">You're outside our 40-mile service area, but we can help you find a qualified maternity photographer in your region.</p>
+                        <div style="display:flex;flex-direction:column;align-items:center;gap:10px;">
+                            <a href="https://www.google.com/search?q=maternity+photographers+near+me" target="_blank" style="width:200px;text-align:center;padding:14px 16px;background:#000;color:#fff;text-decoration:none;font-size:12px;font-weight:500;font-family:'Helvetica Neue',Arial,sans-serif;text-transform:uppercase;letter-spacing:1px;box-sizing:border-box;">Find Photographers</a>
+                            <a href="https://twowildsoulsphotography.com/contact" style="width:200px;text-align:center;padding:14px 16px;background:#fff;color:#000;border:1px solid #000;text-decoration:none;font-size:12px;font-weight:500;font-family:'Helvetica Neue',Arial,sans-serif;text-transform:uppercase;letter-spacing:1px;box-sizing:border-box;">Get Referrals</a>
+                        </div>
+                    </div>`;
+            }
+
+            combinedCTAEl.innerHTML = combinedCTA;
+
+            document.getElementById('form-card').style.display = 'none';
+            const resultsEl = document.getElementById('results');
+            resultsEl.classList.add('active');
+            if (isLate) resultsEl.classList.add('late');
+            setTimeout(() => resultsEl.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+        }
+
+        function resetCalculator() {
+            document.getElementById('form-card').style.display = 'block';
+            document.getElementById('results').classList.remove('active', 'late');
+            form.reset();
+            locationStatus.className = 'location-status';
+            locationState = { checked: false, isLocal: false, distanceMiles: null, checking: false };
+            updateButtonState();
+            setTimeout(() => document.getElementById('form-card').scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+        }
+    </script>
 </body>
 </html>
