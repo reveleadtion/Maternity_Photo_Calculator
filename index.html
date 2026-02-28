@@ -208,45 +208,52 @@
         </div>
     </div>
 
-    <!-- Step 4: Vibe + Setting -->
+    <!-- Step 4: Preferred Style -->
     <div class="step" id="step-4">
-        <div class="question">What's your session vibe?</div>
-        <div class="hint">Choose the experience that fits your vision.</div>
+        <div class="question">Preferred style</div>
+        <div class="hint">Choose how you'd like your bump to look in the photos.</div>
         <div class="options">
-            <div class="option" data-value="full" onclick="selectOption(this, 'vibe', null, null)">
-                <div class="option-title">Full Experience</div>
-                <div class="option-desc">Timeless, luxurious portraits</div>
+            <div class="option" data-value="full" onclick="selectOption(this, 'style', 4, 5)">
+                <div class="option-title">Full, dramatic bump</div>
+                <div class="option-desc">Later in pregnancy — maximum curve & glow</div>
             </div>
-            <div class="option" data-value="petite" onclick="selectOption(this, 'vibe', null, null)">
-                <div class="option-title">Petite Session</div>
-                <div class="option-desc">Quick, essential captures</div>
+            <div class="option" data-value="early" onclick="selectOption(this, 'style', 4, 5)">
+                <div class="option-title">Earlier & more comfortable</div>
+                <div class="option-desc">Softer bump — easier to move & pose</div>
             </div>
         </div>
-
-        <div class="question" style="margin-top: 32px;">Preferred setting?</div>
-        <div class="hint">This influences timing for weather or comfort.</div>
-        <div class="options">
-            <div class="option" data-value="outdoor" onclick="selectOption(this, 'setting', 4, 5)">
-                <div class="option-title">Outdoor</div>
-                <div class="option-desc">Natural light, scenic locations</div>
-            </div>
-            <div class="option" data-value="indoor" onclick="selectOption(this, 'setting', 4, 5)">
-                <div class="option-title">Indoor/Studio</div>
-                <div class="option-desc">Controlled, intimate</div>
-            </div>
-            <div class="option" data-value="both" onclick="selectOption(this, 'setting', 4, 5)">
-                <div class="option-title">Both</div>
-                <div class="option-desc">Mix of outdoor & indoor</div>
-            </div>
-        </div>
-        <div class="error-msg" id="error-4">Please select both vibe and setting.</div>
+        <div class="error-msg" id="error-4">Please select your preferred style.</div>
         <div class="buttons">
             <button class="btn btn-back" onclick="goToStep(3)">Back</button>
         </div>
     </div>
 
-    <!-- Step 5: High-risk -->
+    <!-- Step 5: Preferred Setting -->
     <div class="step" id="step-5">
+        <div class="question">Preferred setting?</div>
+        <div class="hint">This influences timing for weather or comfort.</div>
+        <div class="options">
+            <div class="option" data-value="outdoor" onclick="selectOption(this, 'setting', 5, 6)">
+                <div class="option-title">Outdoor</div>
+                <div class="option-desc">Natural light, scenic locations</div>
+            </div>
+            <div class="option" data-value="indoor" onclick="selectOption(this, 'setting', 5, 6)">
+                <div class="option-title">Indoor/Studio</div>
+                <div class="option-desc">Controlled, intimate</div>
+            </div>
+            <div class="option" data-value="both" onclick="selectOption(this, 'setting', 5, 6)">
+                <div class="option-title">Both</div>
+                <div class="option-desc">Mix of outdoor & indoor</div>
+            </div>
+        </div>
+        <div class="error-msg" id="error-5">Please select your preferred setting.</div>
+        <div class="buttons">
+            <button class="btn btn-back" onclick="goToStep(4)">Back</button>
+        </div>
+    </div>
+
+    <!-- Step 6: High-risk (final) -->
+    <div class="step" id="step-6">
         <div class="question">Any special considerations?</div>
         <div class="hint">This refines your recommendation. Skip if none apply.</div>
         <div class="options" style="grid-template-columns: 1fr;">
@@ -257,7 +264,7 @@
             </div>
         </div>
         <div class="buttons">
-            <button class="btn btn-back" onclick="goToStep(4)">Back</button>
+            <button class="btn btn-back" onclick="goToStep(5)">Back</button>
             <button class="btn btn-gold" onclick="calculateAndRedirect()">See My Recommendation →</button>
         </div>
     </div>
@@ -297,13 +304,13 @@ const state = {
     dueDate: null,
     firstBaby: null,
     multiples: null,
-    vibe: null,
+    style: null,      // 'full' or 'early'
     setting: null,
     highRisk: false
 };
 
 let currentStep = 1;
-const totalSteps = 5;
+const totalSteps = 6; // now 6 steps
 
 const today = new Date(); today.setHours(0,0,0,0);
 const MIN_DAYS_FROM_TODAY = 56;
@@ -457,7 +464,7 @@ function renderCalendar() {
 }
 
 // ────────────────────────────────────────────────
-// Final Calculation & Redirect
+// Final Calculation & Redirect (updated for 'style' instead of 'vibe')
 // ────────────────────────────────────────────────
 function calculateAndRedirect() {
     document.querySelectorAll('.step').forEach(s => s.style.display = 'none');
@@ -468,7 +475,7 @@ function calculateAndRedirect() {
         const due = state.dueDate;
         const isFirst = state.firstBaby === 'yes';
         const multiples = state.multiples === 'yes';
-        const vibe = state.vibe;
+        const style = state.style || 'full'; // default to full
         const setting = state.setting;
         const highRisk = state.highRisk;
 
@@ -476,47 +483,56 @@ function calculateAndRedirect() {
         const daysSince = Math.floor((today - conception) / 86400000);
         const currentWeek = Math.max(1, Math.min(42, Math.ceil(daysSince / 7)));
 
-        let start = multiples ? 24 : (isFirst ? (vibe === 'full' ? 30 : 28) : (vibe === 'full' ? 28 : 26));
-        let end   = multiples ? 28 : (isFirst ? (vibe === 'full' ? 34 : 32) : (vibe === 'full' ? 32 : 30));
+        let startWeek, endWeek;
+        if (multiples) {
+            startWeek = 24; endWeek = 28;
+        } else if (!isFirst) {
+            startWeek = style === 'full' ? 28 : 26;
+            endWeek   = style === 'full' ? 32 : 30;
+        } else {
+            startWeek = style === 'full' ? 30 : 28;
+            endWeek   = style === 'full' ? 34 : 32;
+        }
 
         if (!multiples) {
-            if (setting === 'outdoor') { start = Math.max(20, start - 2); end = Math.max(22, end - 2); }
-            if (setting === 'indoor')  { start = Math.min(32, start + 1); end = Math.min(34, end + 1); }
+            if (setting === 'outdoor') { startWeek = Math.max(20, startWeek - 2); endWeek = Math.max(22, endWeek - 2); }
+            else if (setting === 'indoor') { startWeek = Math.min(32, startWeek + 1); endWeek = Math.min(34, endWeek + 1); }
         }
-        if (highRisk && !multiples) { start = Math.max(20, start - 2); end = Math.max(22, end - 2); }
 
-        end = Math.min(end, 32);
-        start = Math.min(start, 32);
+        if (highRisk && !multiples) { startWeek = Math.max(20, startWeek - 2); endWeek = Math.max(22, endWeek - 2); }
+
+        endWeek = Math.min(endWeek, 32);
+        startWeek = Math.min(startWeek, 32);
 
         const isLate   = currentWeek >= 33;
         const isUrgent = currentWeek === 32;
-        const isInWindow = currentWeek >= start && currentWeek <= end && !isUrgent && !isLate;
+        const isInWindow = currentWeek >= startWeek && currentWeek <= endWeek && !isUrgent && !isLate;
 
         let context = 'early';
         if (isLate || isUrgent) context = 'late';
         else if (isInWindow) context = 'inWindow';
-        else if (currentWeek > end) context = 'pastWindow';
+        else if (currentWeek > endWeek) context = 'pastWindow';
 
         const maternityUrl = 'https://twowildsoulsphotography.com/detroit-maternity-photographer-ads-custom';
         const newbornUrl   = 'https://twowildsoulsphotography.com/detroit-newborn-photographer-ads';
         const dest = isLate ? newbornUrl : maternityUrl;
 
-        let bookBy = '';
+        let bookByStr = '';
         if (!isLate && !isUrgent) {
             const bookDate = new Date(conception);
-            bookDate.setDate(bookDate.getDate() + start * 7 - 42);
-            bookBy = bookDate.toLocaleDateString('en-US', {month:'long', day:'numeric', year:'numeric'});
+            bookDate.setDate(bookDate.getDate() + startWeek * 7 - 42);
+            bookByStr = bookDate.toLocaleDateString('en-US', {month:'long', day:'numeric', year:'numeric'});
         } else if (isUrgent) {
-            bookBy = 'Today';
+            bookByStr = 'Today';
         }
 
         const params = new URLSearchParams({
             week: currentWeek,
             status: context,
-            window: isLate || isUrgent ? '' : `${start}-${end}`,
-            bookby: bookBy,
+            window: isLate || isUrgent ? '' : `${startWeek}-${endWeek}`,
+            bookby: bookByStr,
             type: isLate ? 'newborn' : 'maternity',
-            vibe: vibe || '',
+            style: style,           // ← updated key (was vibe)
             setting: setting || '',
             duedate: due.toLocaleDateString('en-US', {month:'long', day:'numeric', year:'numeric'})
         });
