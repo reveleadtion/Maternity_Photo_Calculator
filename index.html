@@ -1,352 +1,528 @@
 <!DOCTYPE html>
 <html lang="en">
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="description" content="Find your ideal maternity photo window. Answer 5 quick questions and get a personalized session quote from Two Wild Souls Photography.">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Find your ideal maternity photo week window in 20 seconds and get a personalized quote. Pro hair &amp; makeup, designer gowns, studio &amp; outdoor. Metro Detroit.">
 
-<!-- Meta Pixel -->
-<script>
-!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
-n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}
-(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '1484618222285119');
-fbq('track', 'PageView');
-</script>
-<noscript>
-  <img height="1" width="1" style="display:none"
-    src="https://www.facebook.com/tr?id=1484618222285119&ev=PageView&noscript=1"/>
-</noscript>
+    <!-- Meta Pixel -->
+    <script>
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+    n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}
+    (window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1484618222285119');
+    fbq('track', 'PageView');
+    </script>
+    <noscript>
+      <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1484618222285119&amp;ev=PageView&amp;noscript=1">
+    </noscript>
 
-<title>Maternity Photo Quiz</title>
-<style>
-:root{
-  --sage:#7C8A5A;--gold:#C7B27A;--dark:#3F4438;--text:#2E2F2C;--muted:#6B6E6A;
-  --border:#DDD9D3;--bg:#FAFAF7;
-  font-synthesis:none;
-}
-*,*::before,*::after{box-sizing:border-box;max-width:100%;min-width:0;word-break:break-word;overflow-wrap:break-word}
-html,body{margin:0;padding:0;width:100%;overflow:hidden;background:var(--bg);
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  color:var(--text);-webkit-text-size-adjust:none;text-size-adjust:none}
-.serif{font-family:Georgia,"Times New Roman",serif}
-.wrap{padding:18px 16px 32px;width:100%}
-.brand{text-align:center;margin-bottom:12px}
-.brand-name{font-size:20px;font-weight:400;color:var(--dark);line-height:1.2}
-.brand-name em{color:var(--gold);font-style:italic}
-.brand-sub{font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:0;color:var(--sage);margin-top:3px}
-.features{font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:0;color:#6B6E6A;text-align:center;line-height:1.9;margin:8px 0 14px}
-.features strong{color:var(--dark)}
-.intro{text-align:center;margin-bottom:16px}
-.intro h2{font-size:18px;font-weight:400;color:var(--dark);margin-bottom:8px;line-height:1.3}
-.intro p{font-size:12px;color:var(--muted);line-height:1.6}
-.prog-bar{height:3px;background:rgba(63,68,56,.12);border-radius:2px;margin-bottom:12px;overflow:hidden}
-.prog-fill{height:100%;background:linear-gradient(90deg,var(--sage),var(--gold));
-  transform:scaleX(0);transform-origin:left;transition:transform .45s ease;will-change:transform}
-.dots{display:flex;justify-content:center;gap:8px;margin-bottom:14px}
-.dot{width:6px;height:6px;border-radius:50%;background:#E0DDD8;flex-shrink:0;transition:background .25s,transform .25s}
-.dot.active{background:var(--sage);transform:scale(1.4)}
-.dot.done{background:var(--gold);transform:scale(1.1)}
-.step{display:none}
-.step.on{display:block;animation:up .28s ease}
-@keyframes up{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
-.q{font-size:20px;font-weight:400;text-align:center;color:var(--text);margin-bottom:6px;line-height:1.3}
-.hint{font-size:12px;color:var(--muted);font-style:italic;text-align:center;margin-bottom:12px}
-.opts{display:flex;flex-direction:column;gap:9px;margin-bottom:12px}
-.opt{padding:12px 10px;border:1.5px solid var(--border);border-radius:6px;cursor:pointer;background:#fff;text-align:center;transition:border-color .18s,background .18s}
-.opt:hover{border-color:var(--sage);background:rgba(124,138,90,.04)}
-.opt.sel{border-color:var(--sage);background:rgba(124,138,90,.08);box-shadow:0 0 0 2px rgba(124,138,90,.15)}
-.opt-title{font-size:14px;font-weight:500;color:var(--text);margin-bottom:3px}
-.opt-desc{font-size:11px;color:var(--muted);line-height:1.4}
-.date-btn{display:block;width:100%;padding:14px 10px;font-size:14px;font-family:inherit;background:#fff;border:1.5px solid var(--border);border-radius:6px;cursor:pointer;text-align:center;color:var(--muted);margin-bottom:12px;transition:border-color .18s;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.date-btn.filled{color:var(--text)}
-.date-btn:hover{border-color:var(--sage)}
-.btns{display:flex;gap:10px;justify-content:center;margin-top:14px}
-.btn{padding:13px 0;width:140px;font-size:11px;font-weight:500;letter-spacing:.5px;text-transform:uppercase;border-radius:6px;cursor:pointer;font-family:inherit;border:none}
-.btn-back{background:transparent;border:1.5px solid var(--border);color:var(--muted)}
-.btn-next{background:linear-gradient(90deg,var(--sage),var(--gold));color:#fff}
-.err{color:#bf5040;font-size:11px;text-align:center;margin:5px 0;display:none}
-.err.on{display:block}
-.loading{display:none;text-align:center;padding:48px 16px}
-.spinner{width:38px;height:38px;border:4px solid rgba(124,138,90,.2);border-top-color:var(--sage);border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 16px}
-@keyframes spin{to{transform:rotate(360deg)}}
-.loading-pkg{font-size:20px;font-style:italic;color:var(--dark);margin-bottom:6px}
-.loading-tag{font-size:11px;text-transform:uppercase;color:var(--sage);margin-bottom:12px}
-.loading-msg{font-size:12px;color:var(--muted)}
-.footer{text-align:center;margin-top:28px;font-size:10px;color:var(--muted);opacity:.7}
-#co{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9999;align-items:center;justify-content:center;padding:10px}
-#co.on{display:flex}
-.cal{background:#fff;border-radius:10px;overflow:hidden;width:300px;max-width:100%;box-shadow:0 12px 40px rgba(0,0,0,.25)}
-.cal-hdr{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:var(--dark);color:#fff}
-.cal-hdr span{font-size:15px}
-.cal-hdr button{background:none;border:none;color:#fff;font-size:22px;cursor:pointer;padding:0 2px;line-height:1}
-.cal-dl{display:grid;grid-template-columns:repeat(7,1fr);padding:8px 8px 2px;font-size:9px;text-transform:uppercase;color:var(--muted);text-align:center;font-weight:500}
-.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);grid-template-rows:repeat(6,1fr);padding:2px 8px 8px;gap:2px;height:198px;position:relative}
-.cal-day{display:flex;align-items:center;justify-content:center;font-size:11px;border-radius:50%;cursor:pointer;border:none;background:none;font-family:inherit;color:var(--text);transition:background .12s;aspect-ratio:1}
-.cal-day:hover:not(.dis):not(.empty){background:rgba(124,138,90,.12)}
-.cal-day.sel{background:var(--sage);color:#fff}
-.cal-day.today{font-weight:700;color:var(--sage)}
-.cal-day.dis{color:#ccc;cursor:default}
-.cal-day.soon{color:#ccc;cursor:pointer}
-.cal-day.soon:hover{background:rgba(191,80,64,.08);color:#bf5040}
-.cal-day.empty{pointer-events:none}
-#tsm{display:none;position:absolute;left:50%;transform:translateX(-50%);bottom:calc(100% + 6px);background:var(--dark);color:#fff;font-size:11px;line-height:1.5;padding:9px 12px;border-radius:8px;width:200px;text-align:center;pointer-events:none;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:10}
-#tsm::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:var(--dark)}
-#tsm.on{display:block}
-.cal-footer{display:flex;gap:8px;padding:9px 12px;border-top:1px solid var(--border);justify-content:flex-end}
-.cal-footer button{padding:7px 16px;border-radius:5px;font-size:11px;font-weight:500;cursor:pointer;font-family:inherit;text-transform:uppercase;letter-spacing:.3px}
-.cal-cancel{background:none;border:1.5px solid var(--border);color:var(--muted)}
-.cal-done{background:linear-gradient(90deg,var(--sage),var(--gold));color:#fff;border:none}
-</style>
+    <title>Find Your Best Time for Maternity Photos | Instant Results</title>
 
-<main class="wrap">
-  <div class="brand">
-    <div class="brand-name serif">Two Wild <em>Souls</em> Photography</div>
-    <div class="brand-sub">Metro Detroit Maternity Portraits</div>
-  </div>
-  <div class="features"><strong>Pro Hair + Makeup · Designer Gowns</strong><br><strong>In-Studio &amp; Outdoors · Fully Guided</strong></div>
-  <div class="intro">
-    <h2 class="serif">Get Your Personalized Maternity Quote</h2>
-    <p>Answer a few quick questions → get your ideal week window, booking urgency, and quote. Only 6 sessions/month available.</p>
-  </div>
-  <div class="prog-bar"><div class="prog-fill" id="pf"></div></div>
-  <div class="dots" id="dots"></div>
+    <style>
+    @import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap");
+    :root {
+        --bg: #FAFAF7; --text: #2E2F2C; --text-light: #6B6E6A;
+        --accent: #7C8A5A; --gold: #C7B27A; --deep: #3F4438;
+        --border: #DDD9D3; --error: #bf5040;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family: "DM Sans", sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; min-height: 100vh; padding: 24px 16px 40px; }
+    .container { max-width: 900px; margin: 0 auto; }
+    .brand-header { text-align: center; margin-bottom: 20px; }
+    .brand-logo { font-family: "Playfair Display", serif; font-size: clamp(18px, 7vw, 22px); font-weight: 400; color: var(--deep); margin-bottom: 4px; }
+    .brand-logo span { color: var(--gold); font-style: italic; }
+    .brand-tagline { font-size: 11px; font-weight: 500; letter-spacing: 1.2px; text-transform: uppercase; color: var(--accent); margin-bottom: 4px; }
+    .tagline-excerpt { font-size: 11px; font-weight: 500; letter-spacing: 0.8px; text-transform: uppercase; color: var(--text-light); text-align: center; margin: 12px 0 20px; line-height: 1.6; }
+    .tagline-excerpt strong { color: var(--deep); }
+    .intro-section { text-align: center; margin-bottom: 24px; }
+    .intro-title { font-family: "Playfair Display", serif; font-size: clamp(14px, 5vw, 20px); font-weight: 400; color: var(--deep); margin-bottom: 8px; }
+    .intro-text { font-size: 14px; color: var(--text-light); line-height: 1.6; }
+    .progress-bar { height: 3px; background: rgba(63,68,56,0.12); margin: 0 0 20px; border-radius: 2px; overflow: hidden; }
+    .progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--accent), var(--gold)); transition: width 0.5s ease; }
+    .dots { display: flex; justify-content: center; gap: 8px; margin: 0 0 16px; }
+    .dot { width: 6px; height: 6px; border-radius: 50%; background: #E0DDD8; transition: all 0.3s; }
+    .dot.active { background: var(--accent); transform: scale(1.4); }
+    .dot.completed { background: var(--gold); transform: scale(1.1); }
+    .step { display: none; animation: fadeIn 0.3s ease; }
+    .step.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    .question { font-family: "Playfair Display", serif; font-size: clamp(20px, 5vw, 26px); font-weight: 400; margin: 0 0 8px; text-align: center; }
+    .hint { font-size: 13px; color: var(--text-light); font-style: italic; text-align: center; margin: 0 0 16px; }
+    .options { display: grid; grid-template-columns: 1fr; gap: 12px; margin: 0 0 20px; }
+    .option { padding: 16px; border: 1.5px solid var(--border); border-radius: 6px; cursor: pointer; transition: all 0.2s; background: white; text-align: center; }
+    .option:hover { border-color: var(--accent); background: rgba(124,138,90,0.04); }
+    .option.selected { border-color: var(--accent); background: rgba(124,138,90,0.08); box-shadow: 0 0 0 2px rgba(124,138,90,0.15); }
+    .option-title { font-size: 15px; font-weight: 500; margin-bottom: 4px; }
+    .option-desc { font-size: 12px; color: var(--text-light); }
+    .date-picker { width: 100%; padding: 14px 20px; font-size: 15px; background: white; border: 1.5px solid var(--border); border-radius: 6px; cursor: pointer; text-align: center; transition: all 0.2s; margin-bottom: 16px; font-family: "DM Sans", sans-serif; }
+    .date-picker:hover { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(124,138,90,0.1); }
+    .date-placeholder { color: var(--text-light); }
+    .buttons { display: flex; gap: 12px; justify-content: center; margin-top: 20px; flex-wrap: wrap; }
+    .btn { padding: 12px 28px; font-size: 12px; font-weight: 500; letter-spacing: 0.8px; text-transform: uppercase; border-radius: 6px; cursor: pointer; transition: all 0.2s; min-width: 140px; font-family: "DM Sans", sans-serif; }
+    .btn-back { background: transparent; border: 1.5px solid var(--border); color: var(--text-light); }
+    .btn-back:hover { border-color: var(--text); color: var(--text); }
+    .btn-next { background: linear-gradient(90deg, var(--accent), var(--gold)); color: white; border: none; }
+    .error-msg { color: var(--error); font-size: 12px; text-align: center; margin: 8px 0; display: none; }
+    .error-msg.show { display: block; }
+    .loading-screen { text-align: center; padding: 60px 20px; display: none; }
+    .spinner { width: 40px; height: 40px; border: 4px solid rgba(124,138,90,0.2); border-top: 4px solid var(--accent); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 16px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .footer-brand { text-align: center; margin-top: 40px; font-size: 11px; color: var(--text-light); opacity: 0.7; }
+    #calendar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.55); z-index: 1000; align-items: center; justify-content: center; padding: 16px; }
+    #calendar-overlay.open { display: flex; }
+    .calendar { background: white; border-radius: 12px; box-shadow: 0 16px 48px rgba(0,0,0,0.25); max-width: 360px; width: 100%; overflow: hidden; }
+    .cal-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; background: var(--deep); color: white; }
+    .cal-header span { font-family: "Playfair Display", serif; font-size: 17px; font-weight: 400; }
+    .cal-header button { background: none; border: none; color: white; font-size: 22px; cursor: pointer; padding: 0 6px; line-height: 1; }
+    .cal-weekdays { display: grid; grid-template-columns: repeat(7, 1fr); padding: 10px 12px 4px; gap: 2px; font-size: 11px; font-weight: 500; letter-spacing: 0.5px; text-transform: uppercase; color: var(--text-light); text-align: center; }
+    .cal-days-grid { display: grid; grid-template-columns: repeat(7, 1fr); grid-template-rows: repeat(6, 1fr); padding: 4px 12px 12px; gap: 3px; height: 228px; }
+    .cal-day { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; font-size: 13px; border-radius: 50%; cursor: pointer; transition: all 0.15s; border: none; background: none; font-family: "DM Sans", sans-serif; color: var(--text); }
+    .cal-day:hover:not(.disabled):not(.empty) { background: rgba(124,138,90,0.12); }
+    .cal-day.selected { background: var(--accent); color: white; }
+    .cal-day.today { font-weight: 700; color: var(--accent); }
+    .cal-day.disabled { color: #CCC; cursor: not-allowed; }
+    .cal-day.too-soon { color: #CCC; cursor: pointer; }
+    .cal-day.too-soon:hover { background: rgba(191,80,64,0.08); color: #bf5040; }
+    .cal-day.empty { pointer-events: none; }
+    #too-soon-popup { display: none; position: absolute; left: 50%; transform: translateX(-50%); bottom: calc(100% + 8px); background: #3F4438; color: white; font-size: 12px; line-height: 1.5; padding: 10px 14px; border-radius: 8px; width: 240px; text-align: center; z-index: 10; pointer-events: none; box-shadow: 0 4px 16px rgba(0,0,0,0.25); }
+    #too-soon-popup::after { content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); border: 6px solid transparent; border-top-color: #3F4438; }
+    #too-soon-popup.show { display: block; animation: fadeIn 0.2s ease; }
+    .cal-days-wrapper { position: relative; }
+    .cal-footer { display: flex; gap: 10px; padding: 12px 16px; border-top: 1px solid var(--border); justify-content: flex-end; }
+    .cal-footer button { padding: 8px 20px; border-radius: 5px; font-size: 12px; font-weight: 500; cursor: pointer; font-family: "DM Sans", sans-serif; letter-spacing: 0.5px; text-transform: uppercase; }
+    .btn-cancel { background: none; border: 1.5px solid var(--border); color: var(--text-light); }
+    .btn-done { background: linear-gradient(90deg, var(--accent), var(--gold)); color: white; border: none; }
+    @media (min-width: 500px) { .options { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); } }
+    </style>
 
-  <div class="step on" id="s1">
-    <div class="q serif">When is your due date?</div>
-    <div class="hint">We'll calculate your ideal photo window from this.</div>
-    <button class="date-btn" id="db" onclick="openCal()">Tap to select your due date…</button>
-    <div class="err" id="e1">Please select a due date to continue.</div>
-    <div class="btns"><button class="btn btn-next" onclick="v1()">Next →</button></div>
-  </div>
-
-  <div class="step" id="s2">
-    <div class="q serif">Is this your first baby?</div>
-    <div class="opts">
-      <div class="opt" data-k="firstBaby" data-v="yes" onclick="pick(this)"><div class="opt-title">Yes — first time!</div><div class="opt-desc">Exciting new chapter</div></div>
-      <div class="opt" data-k="firstBaby" data-v="no" onclick="pick(this)"><div class="opt-title">No — adding to the family</div><div class="opt-desc">I've been through this before</div></div>
+<main>
+<div class="container">
+    <div class="brand-header">
+        <div class="brand-logo">Two Wild <span>Souls</span> Photography</div>
+        <div class="brand-tagline">Metro Detroit Maternity Portraits</div>
     </div>
-    <div class="err" id="e2">Please make a selection.</div>
-    <div class="btns"><button class="btn btn-back" onclick="go(1)">← Back</button></div>
-  </div>
-
-  <div class="step" id="s3">
-    <div class="q serif">Expecting multiples?</div>
-    <div class="opts">
-      <div class="opt" data-k="multiples" data-v="yes" onclick="pick(this)"><div class="opt-title">Yes — twins or more!</div></div>
-      <div class="opt" data-k="multiples" data-v="no" onclick="pick(this)"><div class="opt-title">No — just one</div></div>
+    <div class="tagline-excerpt">
+        <strong>Pro Hair + Makeup · Designer Gowns · In-Studio &amp; Outdoors · Fully Guided</strong>
     </div>
-    <div class="err" id="e3">Please make a selection.</div>
-    <div class="btns"><button class="btn btn-back" onclick="go(2)">← Back</button></div>
-  </div>
-
-  <div class="step" id="s4">
-    <div class="q serif">What look are you going for?</div>
-    <div class="opts">
-      <div class="opt" data-k="style" data-v="full" onclick="pick(this)"><div class="opt-title">Full, dramatic bump</div><div class="opt-desc">Classic maternity — beautifully round</div></div>
-      <div class="opt" data-k="style" data-v="early" onclick="pick(this)"><div class="opt-title">Earlier &amp; more comfortable</div><div class="opt-desc">More energy, easier to move around</div></div>
+    <div class="intro-section">
+        <h2 class="intro-title">Get Your Personalized Maternity Quote</h2>
+        <p class="intro-text">
+            Answer a few questions (20 seconds) → Get your exact week window, booking urgency, and quote so you can reserve your spot before we fill up <i>(only 6 sessions/month)</i>.
+        </p>
     </div>
-    <div class="err" id="e4">Please make a selection.</div>
-    <div class="btns"><button class="btn btn-back" onclick="go(3)">← Back</button></div>
-  </div>
 
-  <div class="step" id="s5">
-    <div class="q serif">Who's joining you?</div>
-    <div class="hint">Helps us match you to the right experience.</div>
-    <div class="opts">
-      <div class="opt" data-k="whoJoins" data-v="momOnly" onclick="pick(this)"><div class="opt-title">Just me 🤍</div><div class="opt-desc">Intimate studio portraits — all about you</div></div>
-      <div class="opt" data-k="whoJoins" data-v="partner" onclick="pick(this)"><div class="opt-title">Me + my partner 💑</div><div class="opt-desc">Include your husband or partner</div></div>
-      <div class="opt" data-k="whoJoins" data-v="family" onclick="pick(this)"><div class="opt-title">The whole family 👨‍👩‍👧</div><div class="opt-desc">Partner, kids, fur babies — all welcome</div></div>
+    <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+    <div class="dots" id="dots"></div>
+
+    <!-- Step 1: Due Date -->
+    <div class="step active" id="step-1">
+        <div class="question">When is your due date?</div>
+        <div class="hint">We'll calculate your ideal photo window from this.</div>
+        <div class="date-picker" id="date-display" onclick="openCalendar()">
+            <span id="selected-date" class="date-placeholder">Tap to select your due date...</span>
+        </div>
+        <div class="error-msg" id="error-1">Please select a due date to continue.</div>
+        <div class="buttons">
+            <button class="btn btn-next" onclick="validateStep1()">Next →</button>
+        </div>
     </div>
-    <div class="err" id="e5">Please make a selection.</div>
-    <div class="btns"><button class="btn btn-back" onclick="go(4)">← Back</button></div>
-  </div>
 
-  <div class="loading" id="loading">
-    <div class="spinner"></div>
-    <div class="loading-pkg serif" id="lpkg"></div>
-    <div class="loading-tag" id="ltag"></div>
-    <div class="loading-msg">Building your personalized quote…</div>
-  </div>
+    <!-- Step 2: First Baby -->
+    <div class="step" id="step-2">
+        <div class="question">Is this your first baby?</div>
+        <div class="options">
+            <div class="option" data-key="firstBaby" data-value="yes" onclick="selectOption(this)">
+                <div class="option-title">Yes — first time!</div>
+                <div class="option-desc">Exciting new chapter</div>
+            </div>
+            <div class="option" data-key="firstBaby" data-value="no" onclick="selectOption(this)">
+                <div class="option-title">No — I've done this before</div>
+                <div class="option-desc">Adding to the family</div>
+            </div>
+        </div>
+        <div class="error-msg" id="error-2">Please make a selection.</div>
+        <div class="buttons"><button class="btn btn-back" onclick="goToStep(1)">Back</button></div>
+    </div>
 
-  <div class="footer">© Two Wild Souls Photography · Metro Detroit</div>
+    <!-- Step 3: Multiples -->
+    <div class="step" id="step-3">
+        <div class="question">Are you expecting multiples?</div>
+        <div class="options">
+            <div class="option" data-key="multiples" data-value="yes" onclick="selectOption(this)">
+                <div class="option-title">Yes — twins or more!</div>
+            </div>
+            <div class="option" data-key="multiples" data-value="no" onclick="selectOption(this)">
+                <div class="option-title">No — just one</div>
+            </div>
+        </div>
+        <div class="error-msg" id="error-3">Please make a selection.</div>
+        <div class="buttons"><button class="btn btn-back" onclick="goToStep(2)">Back</button></div>
+    </div>
+
+    <!-- Step 4: Preferred Style -->
+    <div class="step" id="step-4">
+        <div class="question">What look are you going for?</div>
+        <div class="options">
+            <div class="option" data-key="style" data-value="full" onclick="selectOption(this)">
+                <div class="option-title">Full, dramatic bump</div>
+                <div class="option-desc">Classic maternity look — beautifully round</div>
+            </div>
+            <div class="option" data-key="style" data-value="early" onclick="selectOption(this)">
+                <div class="option-title">Earlier &amp; more comfortable</div>
+                <div class="option-desc">More energy, easier to move around</div>
+            </div>
+        </div>
+        <div class="error-msg" id="error-4">Please make a selection.</div>
+        <div class="buttons"><button class="btn btn-back" onclick="goToStep(3)">Back</button></div>
+    </div>
+
+    <!-- Step 5: Who's joining? -->
+    <div class="step" id="step-5">
+        <div class="question">Who's joining you for photos?</div>
+        <div class="hint">This helps us match you to the right experience.</div>
+        <div class="options">
+            <div class="option" data-key="whoJoins" data-value="momOnly" onclick="selectOption(this)">
+                <div class="option-title">Just me 🤍</div>
+                <div class="option-desc">Intimate studio portraits — all about you and your bump</div>
+            </div>
+            <div class="option" data-key="whoJoins" data-value="partner" onclick="selectOption(this)">
+                <div class="option-title">Me + my partner 💑</div>
+                <div class="option-desc">Include your husband or partner in some or all shots</div>
+            </div>
+            <div class="option" data-key="whoJoins" data-value="family" onclick="selectOption(this)">
+                <div class="option-title">The whole family 👨‍👩‍👧</div>
+                <div class="option-desc">Partner, kids, fur babies — everyone welcome</div>
+            </div>
+        </div>
+        <div class="error-msg" id="error-5">Please make a selection.</div>
+        <div class="buttons"><button class="btn btn-back" onclick="goToStep(4)">Back</button></div>
+    </div>
+
+    <!-- Transition Screen -->
+    <div class="loading-screen" id="loading">
+        <div class="spinner"></div>
+        <div id="transition-package-name" style="font-family:'Playfair Display',serif; font-size:clamp(20px,5vw,26px); font-style:italic; color:var(--deep); margin: 16px 0 6px;"></div>
+        <p id="transition-tagline" style="font-size:12px; letter-spacing:0.8px; text-transform:uppercase; color:var(--accent); margin-bottom:12px;"></p>
+        <p style="font-size:13px; color:var(--text-light);">Building your personalized quote…</p>
+    </div>
+
+    <div class="footer-brand">© Two Wild Souls Photography · Metro Detroit</div>
+</div>
 </main>
 
-<div id="co" onclick="if(event.target===this)closeCal()">
-  <div class="cal">
-    <div class="cal-hdr">
-      <button aria-label="Previous month" onclick="cm(-1)">‹</button>
-      <span class="serif" id="ct"></span>
-      <button aria-label="Next month" onclick="cm(1)">›</button>
+<!-- Calendar Modal -->
+<div id="calendar-overlay" onclick="handleOverlayClick(event)">
+    <div class="calendar">
+        <div class="cal-header">
+            <button aria-label="Previous month" onclick="changeMonth(-1)">‹</button>
+            <span id="cal-header-text"></span>
+            <button aria-label="Next month" onclick="changeMonth(1)">›</button>
+        </div>
+        <div class="cal-weekdays">
+            <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div>
+            <div>Thu</div><div>Fri</div><div>Sat</div>
+        </div>
+        <div class="cal-days-wrapper">
+            <div id="too-soon-popup">She's already past 32 weeks — unfortunately we can't accommodate sessions this late. Please call us to discuss options! 💛</div>
+            <div id="cal-days-grid" class="cal-days-grid"></div>
+        </div>
+        <div class="cal-footer">
+            <button class="btn-cancel" onclick="closeCalendar()">Cancel</button>
+            <button class="btn-done" onclick="confirmCalendar()">Done</button>
+        </div>
     </div>
-    <div class="cal-dl"><div>Su</div><div>Mo</div><div>Tu</div><div>We</div><div>Th</div><div>Fr</div><div>Sa</div></div>
-    <div class="cal-grid" id="cg"><div id="tsm">Due date is too soon for a maternity session. Call us to discuss options! 💛</div></div>
-    <div class="cal-footer">
-      <button class="cal-cancel" onclick="closeCal()">Cancel</button>
-      <button class="cal-done" onclick="confirmCal()">Done</button>
-    </div>
-  </div>
 </div>
 
 <script>
-var S={dueDate:null,firstBaby:null,multiples:null,style:null,whoJoins:null};
-var cur=1,cY,cM,cTmp=null;
-var $pf,$dots,$db,$co,$cg,$ct,$tsm,$loading,$lpkg,$ltag;
+const state = {
+    dueDate: null, firstBaby: null, multiples: null,
+    style: null, whoJoins: null, highRisk: false
+};
 
-var MN=['January','February','March','April','May','June','July','August','September','October','November','December'];
+let currentStep = 1;
+const totalSteps = 5;
+let calViewYear, calViewMonth, calTempDate = null;
 
-function init(){
-  $pf=document.getElementById('pf');
-  $dots=document.getElementById('dots');
-  $db=document.getElementById('db');
-  $co=document.getElementById('co');
-  $cg=document.getElementById('cg');
-  $ct=document.getElementById('ct');
-  $tsm=document.getElementById('tsm');
-  $loading=document.getElementById('loading');
-  $lpkg=document.getElementById('lpkg');
-  $ltag=document.getElementById('ltag');
-  var n=new Date();cY=n.getFullYear();cM=n.getMonth();
-  uiProg();
-}
+const STEP_NAMES = ['', 'DueDate', 'FirstBaby', 'Multiples', 'Style', 'WhoJoins'];
 
-function uiProg(){
-  $pf.style.transform='scaleX('+((cur-1)/5)+')';
-  var h='';
-  for(var i=1;i<=5;i++) h+='<div class="dot'+(i===cur?' active':i<cur?' done':'')+'"></div>';
-  $dots.innerHTML=h;
-}
-
-var STEP_NAMES=['','DueDate','FirstBaby','Multiples','Style','WhoJoins'];
-
-function go(n){
-  var prev=document.getElementById('s'+cur);
-  if(prev) prev.classList.remove('on');
-  $loading.style.display='none';
-  var next=document.getElementById('s'+n);
-  if(next) next.classList.add('on');
-  cur=n; uiProg();
-  try{fbq('trackCustom','QuizStep',{step:n,step_name:STEP_NAMES[n]||''});}catch(e){}
-}
-
-function v1(){
-  var e=document.getElementById('e1');
-  if(!S.dueDate){e.classList.add('on');return;}
-  e.classList.remove('on');
-  go(2);
-}
-
-function pick(el){
-  var k=el.dataset.k,v=el.dataset.v;
-  var sn=+el.closest('.step').id.slice(1);
-  var opts=el.closest('.opts').querySelectorAll('.opt');
-  for(var i=0;i<opts.length;i++) opts[i].classList.remove('sel');
-  el.classList.add('sel');
-  S[k]=v;
-  var e=document.getElementById('e'+sn);
-  if(e) e.classList.remove('on');
-  setTimeout(sn<5?function(){go(sn+1);}:calc,280);
-}
-
-function openCal(){
-  if(S.dueDate){cY=S.dueDate.getFullYear();cM=S.dueDate.getMonth();cTmp=new Date(S.dueDate);}
-  else{var fv=new Date();fv.setDate(fv.getDate()+56);cY=fv.getFullYear();cM=fv.getMonth();cTmp=null;}
-  renderCal();
-  $co.classList.add('on');
-}
-function closeCal(){$co.classList.remove('on');cTmp=null;}
-function cm(d){cM+=d;if(cM>11){cM=0;cY++;}else if(cM<0){cM=11;cY--;}renderCal();}
-
-function renderCal(){
-  $ct.textContent=MN[cM]+' '+cY;
-  var today=new Date();today.setHours(0,0,0,0);
-  var maxD=new Date(+today+56*864e5);
-  var fd=new Date(cY,cM,1).getDay();
-  var dim=new Date(cY,cM+1,0).getDate();
-  var html='';
-  for(var i=0;i<fd;i++) html+='<button class="cal-day empty" tabindex="-1"></button>';
-  var selT=cTmp?new Date(+cTmp).setHours(0,0,0,0):null;
-  for(var d=1;d<=dim;d++){
-    var td=new Date(cY,cM,d);td.setHours(0,0,0,0);
-    var t=td.getTime(),cls='cal-day';
-    if(t<today.getTime()) cls+=' dis';
-    else if(t<maxD.getTime()) cls+=' dis soon';
-    else{
-      if(t===today.getTime()) cls+=' today';
-      if(selT&&t===selT) cls+=' sel';
+const packages = {
+    portraits: {
+        name: 'Portraits of Just Mom', tagline: 'Intimate · Studio Only · All About You', emoji: '🤍'
+    },
+    whiteGlove: {
+        name: 'White Glove Experience', tagline: 'Full Family · Studio & Outdoors · The Full Story', emoji: '✨'
     }
-    html+='<button class="'+cls+'" data-t="'+t+'" aria-label="'+MN[cM]+' '+d+', '+cY+'">'+d+'</button>';
-  }
-  $cg.innerHTML='<div id="tsm"'+(document.getElementById('tsm')&&document.getElementById('tsm').classList.contains('on')?' class="on"':'')+'>Due date is too soon for a maternity session. Call us to discuss options! 💛</div>'+html;
-  $tsm=document.getElementById('tsm');
-  $cg.onclick=function(e){
-    var btn=e.target.closest('.cal-day');
-    if(!btn||btn.classList.contains('empty')) return;
-    if(btn.classList.contains('soon')){tooSoon();return;}
-    if(btn.classList.contains('dis')) return;
-    cTmp=new Date(+btn.dataset.t);
-    var days=$cg.querySelectorAll('.cal-day');
-    for(var i=0;i<days.length;i++) days[i].classList.remove('sel');
-    btn.classList.add('sel');
-  };
+};
+
+// ─── ENCODING HELPER ─────────────────────────────────────────────────────────
+// Packs all quiz result data into a single opaque base64 string.
+// Meta's classifier only sees: ?d=<random-looking-string>
+function encodeQuizData(data) {
+    return btoa(unescape(encodeURIComponent(JSON.stringify(data))));
 }
 
-var _tst;
-function tooSoon(){
-  $tsm.classList.add('on');
-  clearTimeout(_tst);_tst=setTimeout(function(){$tsm.classList.remove('on');},3500);
+function init() {
+    const now = new Date();
+    calViewYear = now.getFullYear();
+    calViewMonth = now.getMonth();
+    buildDots();
+    updateProgress();
 }
 
-function confirmCal(){
-  if(cTmp){
-    S.dueDate=new Date(cTmp);
-    $db.textContent=S.dueDate.toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
-    $db.classList.add('filled');
-    document.getElementById('e1').classList.remove('on');
-    $co.classList.remove('on');
-    setTimeout(function(){go(2);},300);
-  } else closeCal();
-}
-
-function calc(){
-  document.getElementById('s5').classList.remove('on');
-  var pk=S.whoJoins==='momOnly'?'portraits':'whiteGlove';
-  var pkgs={portraits:{n:'🤍 Portraits of Just Mom',t:'Intimate · Studio Only · All About You'},whiteGlove:{n:'✨ White Glove Experience',t:'Full Family · Studio & Outdoors'}};
-  $lpkg.textContent=pkgs[pk].n;
-  $ltag.textContent=pkgs[pk].t;
-  $loading.style.display='block';
-
-  setTimeout(function(){
-    var due=S.dueDate,isFirst=S.firstBaby==='yes',multi=S.multiples==='yes';
-    var style=S.style||'full',setting=S.whoJoins==='momOnly'?'indoor':'both';
-    var now=new Date();now.setHours(0,0,0,0);
-    var conc=new Date(due-280*864e5);
-    var wk=Math.max(1,Math.min(42,Math.ceil((now-conc)/6048e5)));
-    var sw,ew;
-    if(multi){sw=24;ew=28;}
-    else if(!isFirst){sw=style==='full'?28:26;ew=style==='full'?32:30;}
-    else{sw=style==='full'?30:28;ew=style==='full'?34:32;}
-    if(!multi){
-      if(setting==='outdoor'){sw=Math.max(20,sw-2);ew=Math.max(22,ew-2);}
-      else if(setting==='indoor'){sw=Math.min(32,sw+1);ew=Math.min(34,ew+1);}
+function buildDots() {
+    const container = document.getElementById('dots');
+    container.innerHTML = '';
+    for (let i = 1; i <= totalSteps; i++) {
+        const d = document.createElement('div');
+        d.className = 'dot' + (i === currentStep ? ' active' : i < currentStep ? ' completed' : '');
+        container.appendChild(d);
     }
-    ew=Math.min(ew,32);sw=Math.min(sw,32);
-    var late=wk>=33,urgent=wk===32;
-    var ctx=late||urgent?'late':wk>=sw&&wk<=ew?'inWindow':wk>ew?'pastWindow':'early';
-    var bk='';
-    if(!late&&!urgent){var bd=new Date(+conc+sw*7*864e5-42*864e5);bk=bd.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});}
-    else if(urgent) bk='Today';
-    var qd={week:wk,status:ctx,window:late||urgent?'':sw+'-'+ew,bookby:bk,type:late?'newborn':'maternity',style:style,setting:setting,package:pk};
-    var encoded=encodeURIComponent(JSON.stringify(qd));
-    var up=new URLSearchParams(location.search);
-    var fp='d='+encoded;
-    var fb=up.get('fbclid'),gc=up.get('gclid');
-    if(fb) fp+='&fbclid='+fb;
-    if(gc) fp+='&gclid='+gc;
-    try{fbq('track','Lead',{content_name:'Calculator Complete',content_category:ctx,value:wk,currency:'USD'});}catch(e){}
-    location.href=(late?'https://twowildsoulsphotography.com/detroit-newborn-photographer-ads':'https://twowildsoulsphotography.com/detroit-maternity-photographer-ads-custom')+'?'+fp;
-  },1600);
+}
+
+function updateProgress() {
+    const pct = ((currentStep - 1) / totalSteps) * 100;
+    document.getElementById('progress-fill').style.width = pct + '%';
+    buildDots();
+}
+
+function goToStep(n) {
+    document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+    document.getElementById('loading').style.display = 'none';
+    const target = document.getElementById('step-' + n);
+    if (target) target.classList.add('active');
+    currentStep = n;
+    updateProgress();
+    // Fire QuizStep funnel event
+    try { fbq('trackCustom', 'QuizStep', { step: n, step_name: STEP_NAMES[n] || '' }); } catch(e) {}
+}
+
+function validateStep1() {
+    if (!state.dueDate) { document.getElementById('error-1').classList.add('show'); return; }
+    document.getElementById('error-1').classList.remove('show');
+    goToStep(2);
+}
+
+function selectOption(el) {
+    const key = el.dataset.key;
+    const value = el.dataset.value;
+    const stepNum = parseInt(el.closest('.step').id.replace('step-', ''));
+    el.closest('.options').querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+    el.classList.add('selected');
+    state[key] = value;
+    const err = document.getElementById('error-' + stepNum);
+    if (err) err.classList.remove('show');
+    setTimeout(() => {
+        if (stepNum < 5) goToStep(stepNum + 1);
+        else if (stepNum === 5) calculate();
+    }, 280);
+}
+
+function getRecommendedPackage() {
+    return state.whoJoins === 'momOnly' ? 'portraits' : 'whiteGlove';
+}
+
+function openCalendar() {
+    if (state.dueDate) {
+        calViewYear = state.dueDate.getFullYear();
+        calViewMonth = state.dueDate.getMonth();
+        calTempDate = new Date(state.dueDate);
+    } else {
+        const firstValid = new Date();
+        firstValid.setDate(firstValid.getDate() + 56);
+        calViewYear = firstValid.getFullYear();
+        calViewMonth = firstValid.getMonth();
+        calTempDate = null;
+    }
+    renderCalendar();
+    document.getElementById('calendar-overlay').classList.add('open');
+}
+
+function closeCalendar() {
+    document.getElementById('calendar-overlay').classList.remove('open');
+    calTempDate = null;
+}
+
+function confirmCalendar() {
+    if (calTempDate) {
+        state.dueDate = new Date(calTempDate);
+        const opts = { year: 'numeric', month: 'long', day: 'numeric' };
+        const dateEl = document.getElementById('selected-date');
+        dateEl.textContent = state.dueDate.toLocaleDateString('en-US', opts);
+        dateEl.classList.remove('date-placeholder');
+        document.getElementById('error-1').classList.remove('show');
+        document.getElementById('calendar-overlay').classList.remove('open');
+        setTimeout(() => goToStep(2), 300);
+    } else {
+        document.getElementById('calendar-overlay').classList.remove('open');
+    }
+}
+
+function handleOverlayClick(e) {
+    if (e.target === document.getElementById('calendar-overlay')) closeCalendar();
+}
+
+function changeMonth(dir) {
+    calViewMonth += dir;
+    if (calViewMonth > 11) { calViewMonth = 0; calViewYear++; }
+    if (calViewMonth < 0) { calViewMonth = 11; calViewYear--; }
+    renderCalendar();
+}
+
+function renderCalendar() {
+    const monthNames = ['January','February','March','April','May','June',
+                        'July','August','September','October','November','December'];
+    document.getElementById('cal-header-text').textContent = monthNames[calViewMonth] + ' ' + calViewYear;
+    const grid = document.getElementById('cal-days-grid');
+    grid.innerHTML = '';
+    const today = new Date(); today.setHours(0,0,0,0);
+    const minDate = new Date(today);
+    const maxDate = new Date(today);
+    maxDate.setDate(today.getDate() + 56);
+    const firstDay = new Date(calViewYear, calViewMonth, 1).getDay();
+    const daysInMonth = new Date(calViewYear, calViewMonth + 1, 0).getDate();
+    for (let i = 0; i < firstDay; i++) {
+        const empty = document.createElement('button');
+        empty.className = 'cal-day empty';
+        grid.appendChild(empty);
+    }
+    for (let d = 1; d <= daysInMonth; d++) {
+        const btn = document.createElement('button');
+        btn.className = 'cal-day';
+        btn.textContent = d;
+        btn.setAttribute('aria-label', monthNames[calViewMonth] + ' ' + d + ', ' + calViewYear);
+        const thisDate = new Date(calViewYear, calViewMonth, d);
+        thisDate.setHours(0,0,0,0);
+        if (thisDate < minDate) {
+            btn.classList.add('disabled');
+        } else if (thisDate < maxDate) {
+            btn.classList.add('disabled', 'too-soon');
+            btn.onclick = () => showTooSoonPopup();
+        } else {
+            if (thisDate.getTime() === today.getTime()) btn.classList.add('today');
+            if (calTempDate) {
+                const t = new Date(calTempDate); t.setHours(0,0,0,0);
+                if (thisDate.getTime() === t.getTime()) btn.classList.add('selected');
+            }
+            btn.onclick = () => selectCalDay(thisDate, btn);
+        }
+        grid.appendChild(btn);
+    }
+}
+
+function showTooSoonPopup() {
+    const popup = document.getElementById('too-soon-popup');
+    popup.classList.add('show');
+    clearTimeout(window._tooSoonTimer);
+    window._tooSoonTimer = setTimeout(() => popup.classList.remove('show'), 3500);
+}
+
+function selectCalDay(date, btn) {
+    calTempDate = new Date(date);
+    document.querySelectorAll('.cal-day').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+}
+
+// ─── CALCULATION & REDIRECT ──────────────────────────────────────────────────
+function calculate() {
+    document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+    const pkgKey = getRecommendedPackage();
+    const pkg = packages[pkgKey];
+    document.getElementById('transition-package-name').textContent = pkg.emoji + ' ' + pkg.name;
+    document.getElementById('transition-tagline').textContent = pkg.tagline;
+    document.getElementById('loading').style.display = 'block';
+
+    setTimeout(() => {
+        const due       = state.dueDate;
+        const isFirst   = state.firstBaby === 'yes';
+        const multiples = state.multiples === 'yes';
+        const style     = state.style || 'full';
+        const highRisk  = state.highRisk;
+        const pkgKey    = getRecommendedPackage();
+        const setting   = state.whoJoins === 'momOnly' ? 'indoor' : 'both';
+
+        const todayMs    = new Date(); todayMs.setHours(0,0,0,0);
+        const conception = new Date(due.getTime() - 280 * 86400000);
+        const daysSince  = Math.floor((todayMs - conception) / 86400000);
+        const currentWeek = Math.max(1, Math.min(42, Math.ceil(daysSince / 7)));
+
+        let startWeek, endWeek;
+        if (multiples) {
+            startWeek = 24; endWeek = 28;
+        } else if (!isFirst) {
+            startWeek = style === 'full' ? 28 : 26;
+            endWeek   = style === 'full' ? 32 : 30;
+        } else {
+            startWeek = style === 'full' ? 30 : 28;
+            endWeek   = style === 'full' ? 34 : 32;
+        }
+
+        if (!multiples) {
+            if (setting === 'outdoor')     { startWeek = Math.max(20, startWeek - 2); endWeek = Math.max(22, endWeek - 2); }
+            else if (setting === 'indoor') { startWeek = Math.min(32, startWeek + 1); endWeek = Math.min(34, endWeek + 1); }
+        }
+        if (highRisk && !multiples) { startWeek = Math.max(20, startWeek - 2); endWeek = Math.max(22, endWeek - 2); }
+
+        endWeek   = Math.min(endWeek, 32);
+        startWeek = Math.min(startWeek, 32);
+
+        const isLate     = currentWeek >= 33;
+        const isUrgent   = currentWeek === 32;
+        const isInWindow = currentWeek >= startWeek && currentWeek <= endWeek && !isUrgent && !isLate;
+
+        let context = 'early';
+        if (isLate || isUrgent)         context = 'late';
+        else if (isInWindow)            context = 'inWindow';
+        else if (currentWeek > endWeek) context = 'pastWindow';
+
+        const maternityUrl = 'https://twowildsoulsphotography.com/detroit-maternity-photographer-ads-custom';
+        const newbornUrl   = 'https://twowildsoulsphotography.com/detroit-newborn-photographer-ads';
+        const dest = isLate ? newbornUrl : maternityUrl;
+
+        let bookByStr = '';
+        if (!isLate && !isUrgent) {
+            const bookDate = new Date(conception);
+            bookDate.setDate(bookDate.getDate() + startWeek * 7 - 42);
+            bookByStr = bookDate.toLocaleDateString('en-US', {month:'long', day:'numeric', year:'numeric'});
+        } else if (isUrgent) {
+            bookByStr = 'Today';
+        }
+
+        // ── ENCODE all quiz data into one opaque blob ──────────────────────
+        // The landing page reads `d` and decodes it. Meta only sees ?d=xyz
+        const quizData = {
+            week:    currentWeek,
+            status:  context,
+            window:  isLate || isUrgent ? '' : `${startWeek}-${endWeek}`,
+            bookby:  bookByStr,
+            type:    isLate ? 'newborn' : 'maternity',
+            style:   style,
+            setting: setting,
+            package: pkgKey
+        };
+        const encoded = encodeQuizData(quizData);
+
+        // Pass fbclid/gclid through unencoded so Meta/Google can still read them
+        const urlParams = new URLSearchParams(window.location.search);
+        const fbclid = urlParams.get('fbclid');
+        const gclid  = urlParams.get('gclid');
+
+        const finalParams = new URLSearchParams({ d: encoded });
+        if (fbclid) finalParams.append('fbclid', fbclid);
+        if (gclid)  finalParams.append('gclid', gclid);
+
+        try {
+            fbq('track', 'Lead', {
+                content_name: 'Calculator Complete',
+                content_category: context,
+                value: currentWeek,
+                currency: 'USD'
+            });
+        } catch(e) {}
+
+        window.location.href = `${dest}?${finalParams.toString()}`;
+    }, 1600);
 }
 
 init();
