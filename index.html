@@ -218,6 +218,8 @@ function uiProg(){
   $dots.innerHTML=h;
 }
 
+var STEP_NAMES=['','DueDate','FirstBaby','Multiples','Style','WhoJoins'];
+
 function go(n){
   var prev=document.getElementById('s'+cur);
   if(prev) prev.classList.remove('on');
@@ -225,6 +227,7 @@ function go(n){
   var next=document.getElementById('s'+n);
   if(next) next.classList.add('on');
   cur=n; uiProg();
+  try{fbq('trackCustom','QuizStep',{step:n,step_name:STEP_NAMES[n]||''});}catch(e){}
 }
 
 function v1(){
