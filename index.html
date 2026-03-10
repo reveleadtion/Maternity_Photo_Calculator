@@ -231,7 +231,7 @@ main { padding: 0 20px 120px; max-width: 540px; margin: 0 auto; }
   font-size: 16px; font-weight: 300; padding: 16px 20px;
   appearance: none; -webkit-appearance: none; outline: none;
   transition: border-color 0.25s; border-radius: 6px;
-  cursor: pointer; pointer-events: none;
+  cursor: pointer; width: 100%;
 }
 .date-field::-webkit-calendar-picker-indicator { filter: opacity(0.4); padding: 4px; }
 
@@ -651,7 +651,7 @@ function render() {
       <div class="question-wrap">
         <h2 class="question-headline">${step.question}</h2>
         ${step.hint ? `<p class="question-hint">${step.hint}</p>` : ''}
-        <div class="date-field-wrap" onclick="document.getElementById('dateInput').showPicker?.() || document.getElementById('dateInput').click()">
+        <div class="date-field-wrap">
           <input type="date" class="date-field" id="dateInput"
             value="${state.dueDate || ''}"
             min="${todayPlus(56)}"
