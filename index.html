@@ -51,78 +51,44 @@ fbq('track','PageView');
 }
 
 html, body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: 'DM Sans', sans-serif;
-  font-weight: 300;
-  min-height: 100vh;
-  -webkit-font-smoothing: antialiased;
+  background: var(--bg); color: var(--text);
+  font-family: 'DM Sans', sans-serif; font-weight: 300;
+  min-height: 100vh; -webkit-font-smoothing: antialiased;
 }
 
 /* ── HEADER ─────────────────────────────────────────── */
 header {
-  display: flex; align-items: center;
-  justify-content: space-between;
-  padding: 18px 20px;
-  border-bottom: 1px solid var(--faint);
-  position: sticky; top: 0;
-  background: var(--bg); z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 20px; border-bottom: 1px solid var(--faint);
+  position: sticky; top: 0; background: var(--bg); z-index: 100;
 }
 .logo-wrap { display: flex; flex-direction: column; gap: 2px; }
 .logo-name {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 15px; font-weight: 400;
-  letter-spacing: 0.04em; color: var(--text);
+  font-size: 15px; font-weight: 400; letter-spacing: 0.04em; color: var(--text);
 }
 .logo-name em { font-style: italic; color: var(--gold); }
-.logo-sub {
-  font-size: 10px; letter-spacing: 0.18em;
-  text-transform: uppercase; color: var(--text2);
-}
+.logo-sub { font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text2); }
 .header-badge {
-  font-size: 10px; letter-spacing: 0.1em;
-  text-transform: uppercase; color: var(--accent);
-  background: rgba(124,138,90,0.1);
-  border: 1px solid var(--border);
-  padding: 5px 10px; border-radius: 100px;
-  white-space: nowrap;
+  font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent);
+  background: rgba(124,138,90,0.1); border: 1px solid var(--border);
+  padding: 5px 10px; border-radius: 100px; white-space: nowrap;
 }
 
 /* ── PROGRESS BAR ───────────────────────────────────── */
-.progress-shell {
-  background: var(--surface);
-  padding: 14px 20px;
-  border-bottom: 1px solid var(--faint);
-}
-.progress-row {
-  display: flex; justify-content: space-between;
-  align-items: center; margin-bottom: 10px;
-}
-.progress-step-label {
-  font-size: 11px; letter-spacing: 0.12em;
-  text-transform: uppercase; color: var(--text2);
-}
+.progress-shell { background: var(--surface); padding: 14px 20px; border-bottom: 1px solid var(--faint); }
+.progress-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.progress-step-label { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text2); }
 .progress-pct { font-size: 11px; color: var(--accent); }
-.progress-track {
-  height: 3px; background: var(--faint);
-  border-radius: 2px; overflow: hidden;
-}
+.progress-track { height: 3px; background: var(--faint); border-radius: 2px; overflow: hidden; }
 .progress-fill {
-  height: 100%;
-  background: linear-gradient(90deg, var(--accent), var(--gold));
-  border-radius: 2px;
-  transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
+  height: 100%; background: linear-gradient(90deg, var(--accent), var(--gold));
+  border-radius: 2px; transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
 }
 
 /* ── DOTS ───────────────────────────────────────────── */
-.dots {
-  display: flex; justify-content: center;
-  gap: 8px; padding: 10px 0 0;
-}
-.dot {
-  width: 6px; height: 6px; border-radius: 50%;
-  background: rgba(46,47,44,0.15); transition: all 0.3s;
-}
+.dots { display: flex; justify-content: center; gap: 8px; padding: 10px 0 0; }
+.dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(46,47,44,0.15); transition: all 0.3s; }
 .dot.active { background: var(--accent); transform: scale(1.4); }
 .dot.done   { background: var(--gold); transform: scale(1.1); }
 
@@ -131,52 +97,29 @@ main { padding: 0 20px 120px; max-width: 540px; margin: 0 auto; }
 
 /* ── INTRO ──────────────────────────────────────────── */
 .intro-block { padding: 20px 0 6px; animation: fadeUp 0.5s ease both; }
-.intro-eyebrow {
-  font-size: 10px; letter-spacing: 0.25em;
-  text-transform: uppercase; color: var(--accent); margin-bottom: 8px;
-}
+.intro-eyebrow { font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; }
 .intro-headline {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(26px, 7vw, 46px);
-  font-weight: 300; line-height: 1.1;
-  color: var(--text); margin-bottom: 10px;
+  font-family: 'Cormorant Garamond', serif; font-size: clamp(26px, 7vw, 46px);
+  font-weight: 300; line-height: 1.1; color: var(--text); margin-bottom: 10px;
 }
 .intro-headline em { font-style: italic; color: var(--accent); }
-.intro-body {
-  font-size: 13px; line-height: 1.6;
-  color: var(--text2); margin-bottom: 14px;
-}
-.intro-pills {
-  display: flex; flex-wrap: wrap;
-  gap: 6px; margin-bottom: 16px;
-}
+.intro-body { font-size: 13px; line-height: 1.6; color: var(--text2); margin-bottom: 14px; }
+.intro-pills { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
 .pill {
   font-size: 10px; letter-spacing: 0.06em; color: var(--accent2);
-  border: 1px solid rgba(111,129,145,0.3);
-  padding: 4px 10px; border-radius: 100px;
+  border: 1px solid rgba(111,129,145,0.3); padding: 4px 10px; border-radius: 100px;
 }
 
 /* ── REVIEWS BLOCK ──────────────────────────────────── */
-/* Sits BELOW the CTA so a slow widget never pushes the button off-screen */
 .reviews-wrap {
-  margin-top: 20px;
-  border-radius: 8px;
-  overflow: hidden;
-  margin-left: -4px;
-  margin-right: -4px;
-  min-height: 110px;
-  position: relative;
+  margin-top: 20px; border-radius: 8px; overflow: hidden;
+  margin-left: -4px; margin-right: -4px;
+  min-height: 110px; position: relative;
 }
-/* Skeleton shimmer while Elfsight loads — prevents layout shift */
 .reviews-wrap::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: 8px;
+  content: ''; position: absolute; inset: 0; border-radius: 8px;
   background: linear-gradient(90deg, var(--surface) 25%, var(--bg) 50%, var(--surface) 75%);
-  background-size: 200% 100%;
-  animation: shimmer 1.4s infinite;
-  z-index: 0;
+  background-size: 200% 100%; animation: shimmer 1.4s infinite; z-index: 0;
 }
 .reviews-wrap:has(iframe)::before,
 .reviews-wrap:has([class*="eapps"])::before { display: none; }
@@ -186,20 +129,16 @@ main { padding: 0 20px 120px; max-width: 540px; margin: 0 auto; }
 }
 .reviews-wrap > * { position: relative; z-index: 1; }
 
+/* ── INTRO CTA ──────────────────────────────────────── */
 .intro-cta {
-  width: 100%; background: var(--cta); color: var(--bg);
-  border: none; font-family: 'DM Sans', sans-serif;
-  font-weight: 500; font-size: 14px;
-  letter-spacing: 0.1em; text-transform: uppercase;
-  padding: 18px; cursor: pointer; transition: background 0.2s;
-  display: flex; align-items: center; justify-content: center;
-  gap: 10px; border-radius: 6px;
+  width: 100%; background: var(--cta); color: var(--bg); border: none;
+  font-family: 'DM Sans', sans-serif; font-weight: 500; font-size: 14px;
+  letter-spacing: 0.1em; text-transform: uppercase; padding: 18px; cursor: pointer;
+  transition: background 0.2s; display: flex; align-items: center;
+  justify-content: center; gap: 10px; border-radius: 6px;
 }
 .intro-cta:hover { background: #2e3128; }
-.intro-trust {
-  text-align: center; font-size: 12px;
-  color: var(--text2); margin-top: 14px;
-}
+.intro-trust { text-align: center; font-size: 12px; color: var(--text2); margin-top: 14px; }
 
 /* ── QUESTION ───────────────────────────────────────── */
 .question-wrap { padding: 36px 0 0; animation: fadeUp 0.4s ease both; }
@@ -208,60 +147,61 @@ main { padding: 0 20px 120px; max-width: 540px; margin: 0 auto; }
   to   { opacity: 1; transform: translateY(0); }
 }
 .question-headline {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(26px, 6.5vw, 36px);
-  font-weight: 300; line-height: 1.2;
-  color: var(--text); margin-bottom: 8px;
+  font-family: 'Cormorant Garamond', serif; font-size: clamp(26px, 6.5vw, 36px);
+  font-weight: 300; line-height: 1.2; color: var(--text); margin-bottom: 8px;
 }
-.question-hint {
-  font-size: 13px; color: var(--text2);
-  line-height: 1.6; margin-bottom: 28px; font-style: italic;
-}
+.question-hint { font-size: 13px; color: var(--text2); line-height: 1.6; margin-bottom: 28px; font-style: italic; }
 
 /* ── DATE INPUT ─────────────────────────────────────── */
-.date-field-wrap {
-  position: relative; cursor: pointer; margin-bottom: 8px;
-}
+.date-field-wrap { position: relative; cursor: pointer; margin-bottom: 8px; }
 .date-field-wrap:hover .date-field,
 .date-field-wrap:focus-within .date-field { border-color: var(--accent); }
 .date-field {
-  width: 100%; background: white;
-  border: 1.5px solid rgba(46,47,44,0.18);
-  color: var(--text); font-family: 'DM Sans', sans-serif;
-  font-size: 16px; font-weight: 300; padding: 16px 20px;
-  appearance: none; -webkit-appearance: none; outline: none;
-  transition: border-color 0.25s; border-radius: 6px;
-  cursor: pointer; width: 100%;
+  width: 100%; background: white; border: 1.5px solid rgba(46,47,44,0.18);
+  color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 16px;
+  font-weight: 300; padding: 16px 20px; appearance: none; -webkit-appearance: none;
+  outline: none; transition: border-color 0.25s; border-radius: 6px; cursor: pointer;
 }
 .date-field::-webkit-calendar-picker-indicator { filter: opacity(0.4); padding: 4px; }
+
+/* ── LATE WARNING (shown inline on date step) ───────── */
+.late-warning {
+  display: none;
+  background: rgba(199,178,122,0.1);
+  border: 1px solid rgba(199,178,122,0.4);
+  border-left: 3px solid var(--gold);
+  border-radius: 6px;
+  padding: 14px 16px;
+  margin-top: 10px;
+  margin-bottom: 4px;
+}
+.late-warning.show { display: block; }
+.late-warning-title {
+  font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 6px;
+}
+.late-warning-body { font-size: 12px; line-height: 1.6; color: var(--text2); }
+.late-warning-body strong { color: var(--text); }
 
 /* ── OPTIONS ────────────────────────────────────────── */
 .options-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 8px; }
 .opt-btn {
-  background: white; border: 1.5px solid rgba(46,47,44,0.18);
-  color: var(--text); font-family: 'DM Sans', sans-serif;
-  font-size: 15px; font-weight: 300; padding: 16px 20px;
-  text-align: left; cursor: pointer; transition: all 0.2s ease;
+  background: white; border: 1.5px solid rgba(46,47,44,0.18); color: var(--text);
+  font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 300;
+  padding: 16px 20px; text-align: left; cursor: pointer; transition: all 0.2s ease;
   display: flex; align-items: center; gap: 14px; border-radius: 6px;
   -webkit-tap-highlight-color: transparent;
 }
-.opt-btn:active,
-.opt-btn.selected {
-  background: rgba(124,138,90,0.07);
-  border-color: var(--accent);
+.opt-btn:active, .opt-btn.selected {
+  background: rgba(124,138,90,0.07); border-color: var(--accent);
   box-shadow: 0 0 0 2px rgba(124,138,90,0.15);
 }
 .opt-check {
-  width: 20px; height: 20px;
-  border: 1.5px solid rgba(46,47,44,0.2);
-  border-radius: 50%; flex-shrink: 0;
-  display: flex; align-items: center;
+  width: 20px; height: 20px; border: 1.5px solid rgba(46,47,44,0.2);
+  border-radius: 50%; flex-shrink: 0; display: flex; align-items: center;
   justify-content: center; transition: all 0.2s;
 }
 .opt-btn.selected .opt-check { background: var(--accent); border-color: var(--accent); }
-.opt-btn.selected .opt-check::after {
-  content: ''; width: 6px; height: 6px; background: white; border-radius: 50%;
-}
+.opt-btn.selected .opt-check::after { content: ''; width: 6px; height: 6px; background: white; border-radius: 50%; }
 .opt-text { flex: 1; }
 .opt-label { display: block; line-height: 1.3; }
 .opt-sub { display: block; font-size: 12px; color: var(--text2); margin-top: 3px; }
@@ -271,36 +211,32 @@ main { padding: 0 20px 120px; max-width: 540px; margin: 0 auto; }
 
 /* ── BOTTOM NAV ─────────────────────────────────────── */
 .bottom-nav {
-  position: fixed; bottom: 0; left: 0; right: 0;
-  background: var(--bg); border-top: 1px solid var(--faint);
+  position: fixed; bottom: 0; left: 0; right: 0; background: var(--bg);
+  border-top: 1px solid var(--faint);
   padding: 14px 20px max(14px, env(safe-area-inset-bottom));
   display: flex; gap: 10px; z-index: 200;
 }
 .btn-back {
-  background: transparent; border: 1.5px solid rgba(46,47,44,0.15);
-  color: var(--text2); font-family: 'DM Sans', sans-serif;
-  font-size: 13px; letter-spacing: 0.06em; padding: 0 20px;
-  cursor: pointer; min-height: 52px; transition: all 0.2s;
-  flex-shrink: 0; border-radius: 6px;
-  -webkit-tap-highlight-color: transparent;
+  background: transparent; border: 1.5px solid rgba(46,47,44,0.15); color: var(--text2);
+  font-family: 'DM Sans', sans-serif; font-size: 13px; letter-spacing: 0.06em;
+  padding: 0 20px; cursor: pointer; min-height: 52px; transition: all 0.2s;
+  flex-shrink: 0; border-radius: 6px; -webkit-tap-highlight-color: transparent;
 }
 .btn-back:hover { border-color: var(--text); color: var(--text); }
 .btn-next {
   flex: 1; background: var(--cta); color: var(--bg); border: none;
   font-family: 'DM Sans', sans-serif; font-weight: 500; font-size: 14px;
-  letter-spacing: 0.1em; text-transform: uppercase;
-  min-height: 52px; cursor: pointer; transition: background 0.2s;
-  border-radius: 6px; -webkit-tap-highlight-color: transparent;
+  letter-spacing: 0.1em; text-transform: uppercase; min-height: 52px;
+  cursor: pointer; transition: background 0.2s; border-radius: 6px;
+  -webkit-tap-highlight-color: transparent;
 }
 .btn-next:hover { background: #2e3128; }
 .btn-next:disabled { background: var(--surface); color: var(--text2); cursor: not-allowed; }
 
 /* ── REDIRECT SCREEN ────────────────────────────────── */
 .redirect-screen {
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  min-height: 65vh; padding: 40px 20px;
-  text-align: center; animation: fadeUp 0.5s ease both;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  min-height: 65vh; padding: 40px 20px; text-align: center; animation: fadeUp 0.5s ease both;
 }
 .redirect-spinner {
   width: 48px; height: 48px; border-radius: 50%;
@@ -309,31 +245,38 @@ main { padding: 0 20px 120px; max-width: 540px; margin: 0 auto; }
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 .redirect-package {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(22px, 5vw, 30px);
-  font-style: italic; font-weight: 300;
-  color: var(--cta); margin-bottom: 6px; line-height: 1.2;
+  font-family: 'Cormorant Garamond', serif; font-size: clamp(22px, 5vw, 30px);
+  font-style: italic; font-weight: 300; color: var(--cta); margin-bottom: 6px; line-height: 1.2;
 }
-.redirect-tagline {
-  font-size: 11px; letter-spacing: 0.15em;
-  text-transform: uppercase; color: var(--accent); margin-bottom: 20px;
-}
+.redirect-tagline { font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 20px; }
 .redirect-sub { font-size: 13px; color: var(--text2); margin-bottom: 28px; }
 .redirect-summary {
-  background: white; border: 1px solid rgba(46,47,44,0.12);
-  border-radius: 8px; padding: 20px 24px;
-  width: 100%; max-width: 340px; text-align: left;
+  background: white; border: 1px solid rgba(46,47,44,0.12); border-radius: 8px;
+  padding: 20px 24px; width: 100%; max-width: 340px; text-align: left;
 }
 .summary-row {
-  display: flex; justify-content: space-between;
-  align-items: center; padding: 8px 0;
-  border-bottom: 1px solid var(--faint);
-  font-size: 13px; gap: 12px;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 8px 0; border-bottom: 1px solid var(--faint); font-size: 13px; gap: 12px;
 }
 .summary-row:last-child { border-bottom: none; }
 .summary-label { color: var(--text2); flex-shrink: 0; }
 .summary-value { color: var(--text); text-align: right; font-weight: 400; }
 .summary-value.gold { color: var(--gold); font-weight: 500; }
+
+/* ── LATE REDIRECT NOTICE ───────────────────────────── */
+.redirect-notice {
+  background: white; border: 1px solid rgba(46,47,44,0.1);
+  border-left: 3px solid var(--gold); border-radius: 8px;
+  padding: 24px; max-width: 360px; text-align: left; margin-bottom: 32px;
+}
+.redirect-notice-icon { font-size: 24px; display: block; margin-bottom: 12px; }
+.redirect-notice-title {
+  font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 400;
+  color: var(--text); margin-bottom: 12px; line-height: 1.2;
+}
+.redirect-notice-body { font-size: 14px; line-height: 1.7; color: var(--text2); }
+.redirect-notice-body strong { color: var(--text); font-weight: 500; }
+.redirect-routing { display: flex; flex-direction: column; align-items: center; }
 
 /* ── FOOTER ─────────────────────────────────────────── */
 .footer { text-align: center; margin-top: 40px; font-size: 11px; color: var(--text2); opacity: 0.6; }
@@ -349,10 +292,8 @@ main { padding: 0 20px 120px; max-width: 540px; margin: 0 auto; }
   body { display: flex; flex-direction: column; }
   main { flex: 1; max-width: 600px; width: 100%; margin: 0 auto; padding: 0 0 140px; }
   .bottom-nav {
-    width: 600px; left: 50%; right: auto;
-    transform: translateX(-50%);
-    border-left: 1px solid var(--faint);
-    border-right: 1px solid var(--faint);
+    width: 600px; left: 50%; right: auto; transform: translateX(-50%);
+    border-left: 1px solid var(--faint); border-right: 1px solid var(--faint);
     border-radius: 0 0 8px 8px;
   }
   .btn-next { max-width: 260px; margin-left: auto; }
@@ -383,8 +324,8 @@ main { padding: 0 20px 120px; max-width: 540px; margin: 0 auto; }
 <main id="mainContent"></main>
 
 <div class="bottom-nav" id="bottomNav" style="display:none">
-  <button class="btn-back" id="btnBack" onclick="goBack()">← Back</button>
-  <button class="btn-next" id="btnNext" onclick="goNext()">Continue →</button>
+  <button class="btn-back" id="btnBack" onclick="goBack()">&#8592; Back</button>
+  <button class="btn-next" id="btnNext" onclick="goNext()">Continue &#8594;</button>
 </div>
 
 <script>
@@ -392,8 +333,8 @@ const MATERNITY_URL = 'https://twowildsoulsphotography.com/detroit-maternity-pho
 const NEWBORN_URL   = 'https://twowildsoulsphotography.com/detroit-newborn-photographer-ads';
 
 const PACKAGES = {
-  portraits:  { name: 'Portraits of Just Mom',  tagline: 'Intimate · Studio Only · All About You',           emoji: '🤍' },
-  whiteGlove: { name: 'White Glove Experience', tagline: 'Full Family · Studio & Outdoors · The Full Story', emoji: '✨' }
+  portraits:  { name: 'Portraits of Just Mom',  tagline: 'Intimate \u00b7 Studio Only \u00b7 All About You',           emoji: '\uD83E\uDD0D' },
+  whiteGlove: { name: 'White Glove Experience', tagline: 'Full Family \u00b7 Studio & Outdoors \u00b7 The Full Story', emoji: '\u2728' }
 };
 
 const STEPS = [
@@ -406,16 +347,16 @@ const STEPS = [
     id: 'firstBaby', type: 'options',
     question: 'Is this your first baby?', hint: null,
     options: [
-      { value: 'yes', label: 'Yes — first time!',          sub: 'Exciting new chapter' },
-      { value: 'no',  label: "No — I've done this before", sub: 'Adding to the family' }
+      { value: 'yes', label: 'Yes \u2014 first time!',         sub: 'Exciting new chapter' },
+      { value: 'no',  label: "No \u2014 I've done this before", sub: 'Adding to the family' }
     ]
   },
   {
     id: 'multiples', type: 'options',
     question: 'Are you expecting multiples?', hint: null,
     options: [
-      { value: 'yes', label: 'Yes — twins or more!', sub: null },
-      { value: 'no',  label: 'No — just one',        sub: null }
+      { value: 'yes', label: 'Yes \u2014 twins or more!', sub: null },
+      { value: 'no',  label: 'No \u2014 just one',        sub: null }
     ]
   },
   {
@@ -423,7 +364,7 @@ const STEPS = [
     question: 'What look are you going for?',
     hint: "We'll match your gown, lighting, and timing to this.",
     options: [
-      { value: 'full',  label: 'Full, dramatic bump',        sub: 'Classic maternity look — beautifully round' },
+      { value: 'full',  label: 'Full, dramatic bump',        sub: 'Classic maternity look \u2014 beautifully round' },
       { value: 'early', label: 'Earlier & more comfortable', sub: 'More energy, easier to move around' }
     ]
   },
@@ -432,9 +373,9 @@ const STEPS = [
     question: "Who's joining you for photos?",
     hint: 'This helps us match you to the right experience.',
     options: [
-      { value: 'momOnly', label: 'Just me 🤍',            sub: 'Intimate studio portraits — all about you and your bump' },
-      { value: 'partner', label: 'Me + my partner 💑',   sub: 'Include your husband or partner in some or all shots' },
-      { value: 'family',  label: 'The whole family 👨‍👩‍👧', sub: 'Partner, kids, fur babies — everyone welcome' }
+      { value: 'momOnly', label: 'Just me \uD83E\uDD0D',           sub: 'Intimate studio portraits \u2014 all about you and your bump' },
+      { value: 'partner', label: 'Me + my partner \uD83D\uDC91',   sub: 'Include your husband or partner in some or all shots' },
+      { value: 'family',  label: 'The whole family \uD83D\uDC68\u200D\uD83D\uDC69\u200D\uD83D\uDC67', sub: 'Partner, kids, fur babies \u2014 everyone welcome' }
     ]
   }
 ];
@@ -465,7 +406,7 @@ function calculate() {
   const isFirst   = state.firstBaby === 'yes';
   const multiples = state.multiples === 'yes';
   const style     = state.style || 'full';
-  const setting   = state.whoJoins === 'momOnly' ? 'indoor' : 'both';
+  const setting   = state.whoJoins === 'momOnly' ? 'indoor' : (state.whoJoins ? 'both' : 'both');
   const week      = currentPregnancyWeek(state.dueDate);
 
   let startWeek, endWeek;
@@ -505,12 +446,13 @@ function calculate() {
     bookByStr = 'Today';
   }
 
+  // whoJoins may be null if user was fast-tracked past questions (late booking)
   const pkgKey = state.whoJoins === 'momOnly' ? 'portraits' : 'whiteGlove';
   const dest   = isLate ? NEWBORN_URL : MATERNITY_URL;
 
   const quizData = {
     week, status: context,
-    window:  (isLate || isUrgent) ? '' : `${startWeek}-${endWeek}`,
+    window:  (isLate || isUrgent) ? '' : (startWeek + '-' + endWeek),
     bookby:  bookByStr,
     type:    isLate ? 'newborn' : 'maternity',
     style, setting, package: pkgKey,
@@ -554,7 +496,7 @@ function render() {
       <div class="intro-block">
         <p class="intro-eyebrow">Personalized Maternity Consultation</p>
         <h1 class="intro-headline">Find your <em>perfect</em><br>session window.</h1>
-        <p class="intro-body">Answer 5 quick questions and we'll build your custom recommendation — your ideal week range, booking urgency, and starting quote.</p>
+        <p class="intro-body">Answer 5 quick questions and we'll build your custom recommendation &mdash; your ideal week range, booking urgency, and starting quote.</p>
         <div class="intro-pills">
           <span class="pill">Pro Hair + Makeup</span>
           <span class="pill">Designer Gowns</span>
@@ -567,7 +509,7 @@ function render() {
             <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </button>
-        <p class="intro-trust">Takes 20 seconds &nbsp;·&nbsp; No personal information required</p>
+        <p class="intro-trust">Takes 20 seconds &nbsp;&middot;&nbsp; No commitment or personal information required</p>
         <div class="reviews-wrap">
           <div class="elfsight-app-f0f8b71d-1a73-49e1-89f2-58b5df023681" data-elfsight-app-lazy></div>
         </div>
@@ -582,45 +524,69 @@ function render() {
     nav.style.display   = 'none';
     fill.style.width    = '100%';
     stepLbl.textContent = 'Building your results';
-    pctLbl.textContent  = '✓';
+    pctLbl.textContent  = '\u2713';
     dotsEl.innerHTML    = '';
 
     const { dest, finalParams, pkgKey, quizData } = calculate();
     const pkg    = PACKAGES[pkgKey];
     const week   = quizData.week;
     const isLate = quizData.status === 'late';
+    const redirectDelay = isLate ? 4500 : 1800;
 
-    content.innerHTML = `
-      <div class="redirect-screen">
-        <div class="redirect-spinner"></div>
-        <p class="redirect-package">${pkg.emoji} ${pkg.name}</p>
-        <p class="redirect-tagline">${pkg.tagline}</p>
-        <p class="redirect-sub">Building your personalized page&hellip;</p>
-        <div class="redirect-summary">
-          <div class="summary-row">
-            <span class="summary-label">Due date</span>
-            <span class="summary-value">${formatDateStr(state.dueDate)}</span>
+    if (isLate) {
+      content.innerHTML = `
+        <div class="redirect-screen">
+          <div class="redirect-notice">
+            <span class="redirect-notice-icon">&#x1F49B;</span>
+            <h2 class="redirect-notice-title">Your maternity window has passed</h2>
+            <p class="redirect-notice-body">
+              Based on your due date, you're at <strong>week ${week}</strong>. We stop booking
+              maternity sessions after week 32 to keep both you and baby safe &mdash; and we
+              need at least a week to prepare your session.
+            </p>
+            <p class="redirect-notice-body" style="margin-top:10px">
+              But it's not too late to capture this season. We'd love to welcome your
+              little one with a <strong>newborn portrait session</strong> instead. &hearts;
+            </p>
           </div>
-          <div class="summary-row">
-            <span class="summary-label">Currently</span>
-            <span class="summary-value">Week ${week}</span>
+          <div class="redirect-routing">
+            <div class="redirect-spinner" style="width:32px;height:32px;border-width:2px;margin-bottom:14px"></div>
+            <p class="redirect-sub">Taking you to our newborn experience&hellip;</p>
           </div>
-          ${!isLate && quizData.window ? `
-          <div class="summary-row">
-            <span class="summary-label">Ideal window</span>
-            <span class="summary-value">Weeks ${quizData.window}</span>
-          </div>` : ''}
-          ${quizData.bookby ? `
-          <div class="summary-row">
-            <span class="summary-label">Book by</span>
-            <span class="summary-value gold">${quizData.bookby}</span>
-          </div>` : ''}
-        </div>
-      </div>`;
+        </div>`;
+    } else {
+      content.innerHTML = `
+        <div class="redirect-screen">
+          <div class="redirect-spinner"></div>
+          <p class="redirect-package">${pkg.emoji} ${pkg.name}</p>
+          <p class="redirect-tagline">${pkg.tagline}</p>
+          <p class="redirect-sub">Building your personalized page&hellip;</p>
+          <div class="redirect-summary">
+            <div class="summary-row">
+              <span class="summary-label">Due date</span>
+              <span class="summary-value">${formatDateStr(state.dueDate)}</span>
+            </div>
+            <div class="summary-row">
+              <span class="summary-label">Currently</span>
+              <span class="summary-value">Week ${week}</span>
+            </div>
+            ${quizData.window ? `
+            <div class="summary-row">
+              <span class="summary-label">Ideal window</span>
+              <span class="summary-value">Weeks ${quizData.window}</span>
+            </div>` : ''}
+            ${quizData.bookby ? `
+            <div class="summary-row">
+              <span class="summary-label">Book by</span>
+              <span class="summary-value gold">${quizData.bookby}</span>
+            </div>` : ''}
+          </div>
+        </div>`;
+    }
 
     setTimeout(() => {
-      window.location.href = `${dest}?${finalParams.toString()}`;
-    }, 1800);
+      window.location.href = dest + '?' + finalParams.toString();
+    }, redirectDelay);
     return;
   }
 
@@ -631,15 +597,15 @@ function render() {
   shell.style.display   = 'block';
   nav.style.display     = 'flex';
   fill.style.width      = pct + '%';
-  stepLbl.textContent   = `Step ${currentStep + 1} of ${TOTAL}`;
+  stepLbl.textContent   = 'Step ' + (currentStep + 1) + ' of ' + TOTAL;
   pctLbl.textContent    = pct + '%';
   btnBack.style.display = currentStep === 0 ? 'none' : '';
   btnNext.disabled      = step.type === 'options' && !state[step.id];
   btnNext.textContent   = currentStep === TOTAL - 1 ? 'See My Results \u2192' : 'Continue \u2192';
 
   dotsEl.innerHTML = '';
-  for (let i = 0; i < TOTAL; i++) {
-    const d = document.createElement('div');
+  for (var i = 0; i < TOTAL; i++) {
+    var d = document.createElement('div');
     d.className = 'dot' + (i === currentStep ? ' active' : i < currentStep ? ' done' : '');
     dotsEl.appendChild(d);
   }
@@ -650,13 +616,22 @@ function render() {
     content.innerHTML = `
       <div class="question-wrap">
         <h2 class="question-headline">${step.question}</h2>
-        ${step.hint ? `<p class="question-hint">${step.hint}</p>` : ''}
+        ${step.hint ? '<p class="question-hint">' + step.hint + '</p>' : ''}
         <div class="date-field-wrap">
           <input type="date" class="date-field" id="dateInput"
             value="${state.dueDate || ''}"
             min="${todayPlus(56)}"
             max="${todayPlus(300)}"
             onchange="handleDateChange()">
+        </div>
+        <div class="late-warning" id="lateWarning">
+          <p class="late-warning-title">&#x1F49B; Your maternity window has passed</p>
+          <p class="late-warning-body">
+            You're further along than our maternity sessions allow &mdash; we stop booking after
+            <strong>week 32</strong> for baby's safety and need at least a week to prepare.
+            Tap <strong>Continue</strong> and we'll set you up with a
+            <strong>newborn portrait session</strong> instead.
+          </p>
         </div>
         <p class="val-msg" id="valMsg"></p>
       </div>`;
@@ -665,17 +640,11 @@ function render() {
     content.innerHTML = `
       <div class="question-wrap">
         <h2 class="question-headline">${step.question}</h2>
-        ${step.hint ? `<p class="question-hint">${step.hint}</p>` : ''}
+        ${step.hint ? '<p class="question-hint">' + step.hint + '</p>' : ''}
         <div class="options-list">
-          ${step.options.map(o => `
-            <button class="opt-btn ${state[step.id] === o.value ? 'selected' : ''}"
-              onclick="selectOpt('${step.id}','${o.value}',this)">
-              <span class="opt-check"></span>
-              <span class="opt-text">
-                <span class="opt-label">${o.label}</span>
-                ${o.sub ? `<span class="opt-sub">${o.sub}</span>` : ''}
-              </span>
-            </button>`).join('')}
+          ${step.options.map(function(o) {
+            return '<button class="opt-btn ' + (state[step.id] === o.value ? 'selected' : '') + '" onclick="selectOpt(\'' + step.id + '\',\'' + o.value + '\',this)"><span class="opt-check"></span><span class="opt-text"><span class="opt-label">' + o.label + '</span>' + (o.sub ? '<span class="opt-sub">' + o.sub + '</span>' : '') + '</span></button>';
+          }).join('')}
         </div>
         <p class="val-msg" id="valMsg"></p>
       </div>`;
@@ -689,34 +658,54 @@ function startQuiz() {
 }
 
 function handleDateChange() {
-  const val = document.getElementById('dateInput').value;
-  const msg = document.getElementById('valMsg');
-  const btn = document.getElementById('btnNext');
+  var val = document.getElementById('dateInput').value;
+  var msg = document.getElementById('valMsg');
+  var btn = document.getElementById('btnNext');
+  var warn = document.getElementById('lateWarning');
+
   if (!val) { btn.disabled = true; return; }
-  msg.style.display = 'none';
-  state.dueDate     = val;
-  btn.disabled      = false;
+
+  var week = currentPregnancyWeek(val);
+  state.dueDate = val;
+  btn.disabled  = false;
+
+  if (week >= 33) {
+    // Show inline warning — Continue still works, routes to newborn
+    if (warn) warn.classList.add('show');
+    btn.textContent = 'Continue to Newborn \u2192';
+  } else {
+    if (warn) warn.classList.remove('show');
+    btn.textContent = currentStep === TOTAL - 1 ? 'See My Results \u2192' : 'Continue \u2192';
+  }
+  if (msg) msg.style.display = 'none';
 }
 
 function selectOpt(id, value, el) {
   state[id] = value;
-  document.querySelectorAll('.opt-btn').forEach(b => b.classList.remove('selected'));
+  document.querySelectorAll('.opt-btn').forEach(function(b) { b.classList.remove('selected'); });
   el.classList.add('selected');
   document.getElementById('btnNext').disabled = false;
-  setTimeout(() => goNext(), 280);
+  setTimeout(function() { goNext(); }, 280);
 }
 
 function goNext() {
-  const step = STEPS[currentStep];
-  const msg  = document.getElementById('valMsg');
+  var step = STEPS[currentStep];
+  var msg  = document.getElementById('valMsg');
 
   if (step && step.type === 'date') {
-    const val = document.getElementById('dateInput')?.value;
+    var val = document.getElementById('dateInput') ? document.getElementById('dateInput').value : '';
     if (!val) {
       if (msg) { msg.style.display = 'block'; msg.textContent = 'Please select your due date.'; }
       return;
     }
     state.dueDate = val;
+    // If already past the maternity window, skip remaining questions entirely
+    if (currentPregnancyWeek(val) >= 33) {
+      currentStep = TOTAL;
+      render();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
   }
 
   if (step && step.type === 'options' && !state[step.id]) {
