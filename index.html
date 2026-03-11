@@ -329,6 +329,10 @@ main { padding: 0 20px 120px; max-width: 540px; margin: 0 auto; }
 </div>
 
 <script>
+// ─── DEBUG MODE ───────────────────────────────────────────
+// Set to true to pause before redirect and show the full URL
+const DEBUG = window.location.search.includes('debug=1');
+
 const MATERNITY_URL = 'https://twowildsoulsphotography.com/detroit-maternity-photographer-ads-custom';
 const NEWBORN_URL   = 'https://twowildsoulsphotography.com/detroit-newborn-photographer-ads';
 
@@ -540,9 +544,9 @@ function render() {
             <span class="redirect-notice-icon">&#x1F49B;</span>
             <h2 class="redirect-notice-title">Your maternity window has passed</h2>
             <p class="redirect-notice-body">
-              Based on your due date, you're at <strong>week ${week}</strong>. We don't take
-              maternity sessions post 34 weeks to keep both you and baby safe &mdash; and we
-              need at least a week (ideally 2) to prepare for your session.
+              Based on your due date, you're at <strong>week ${week}</strong>. We stop booking
+              maternity sessions after week 32 to keep both you and baby safe &mdash; and we
+              need at least a week to prepare your session.
             </p>
             <p class="redirect-notice-body" style="margin-top:10px">
               But it's not too late to capture this season. We'd love to welcome your
@@ -584,9 +588,24 @@ function render() {
         </div>`;
     }
 
-    setTimeout(() => {
-      window.location.href = dest + '?' + finalParams.toString();
-    }, redirectDelay);
+    const finalURL = dest + '?' + finalParams.toString();
+
+    if (DEBUG) {
+      // Debug mode: show the full URL instead of redirecting
+      const debugBox = document.createElement('div');
+      debugBox.style.cssText = 'margin:20px auto;max-width:360px;background:white;border:2px solid #C7B27A;border-radius:8px;padding:20px;text-align:left;font-size:12px;word-break:break-all;';
+      debugBox.innerHTML = '<p style="font-weight:600;margin-bottom:8px;color:#2E2F2C">&#x1F50D; DEBUG: Redirect URL</p>'
+        + '<p style="color:#6B6E6A;margin-bottom:12px">Auto-redirect is paused. Tap the link below to test manually:</p>'
+        + '<a href="' + finalURL + '" style="color:#7C8A5A;text-decoration:underline;line-height:1.6">' + finalURL + '</a>'
+        + '<p style="margin-top:12px;color:#6B6E6A">Decoded data:<br><span style="color:#2E2F2C">' + JSON.stringify(quizData, null, 2).replace(/\n/g,'<br>').replace(/ /g,'&nbsp;') + '</span></p>';
+      document.querySelector('.redirect-screen').appendChild(debugBox);
+      console.log('[TWS Debug] Redirect URL:', finalURL);
+      console.log('[TWS Debug] Quiz data:', quizData);
+    } else {
+      setTimeout(() => {
+        window.location.href = finalURL;
+      }, redirectDelay);
+    }
     return;
   }
 
@@ -627,8 +646,8 @@ function render() {
         <div class="late-warning" id="lateWarning">
           <p class="late-warning-title">&#x1F49B; Your maternity window has passed</p>
           <p class="late-warning-body">
-            You're further along than our maternity sessions allow &mdash; we don't hold sessions past
-            <strong>week 34</strong> for baby's safety and need at least a week to prepare.
+            You're further along than our maternity sessions allow &mdash; we stop booking after
+            <strong>week 32</strong> for baby's safety and need at least a week to prepare.
             Tap <strong>Continue</strong> and we'll set you up with a
             <strong>newborn portrait session</strong> instead.
           </p>
@@ -652,6 +671,7 @@ function render() {
 }
 
 function startQuiz() {
+  try { fbq('trackCustom', 'QuizStart', {}); } catch(e) {}
   currentStep = 0;
   render();
   window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -730,6 +750,18 @@ function goBack() {
 }
 
 render();
+
+// Fire QuizAbandoned if user leaves mid-quiz
+document.addEventListener('visibilitychange', function() {
+  if (document.visibilityState === 'hidden' && currentStep > -1 && currentStep < TOTAL) {
+    try {
+      fbq('trackCustom', 'QuizAbandoned', {
+        step_reached: currentStep + 1,
+        step_name: STEPS[currentStep] ? STEPS[currentStep].id : 'unknown'
+      });
+    } catch(e) {}
+  }
+});
 </script>
 </body>
 </html>
