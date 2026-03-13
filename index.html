@@ -1206,23 +1206,20 @@ function twsOptinSubmit(){
     custom_source:'early_optin_embed',
     profile:{data:{type:'profile',attributes:{
       email:email.trim(),
-      first_name:name.trim()
+      first_name:name.trim(),
+      properties:{
+        tws_due_date:          d.duedate||'',
+        tws_week_at_signup:    d.week||'',
+        tws_quiz_status:       d.status||'early',
+        tws_quiz_package:      d.package||'',
+        tws_window_opens_date: windowOpensDate,
+        tws_source:            'early_optin_embed'
+      }
     }}}
   },relationships:{list:{data:{type:'list',id:TWS_KL_LIST_ID}}}}};
 
   // Call 2: identify with all custom tws_ properties
-  var idPayload={data:{type:'profile',attributes:{
-    email:email.trim(),
-    first_name:name.trim(),
-    properties:{
-      tws_due_date:          d.duedate||'',
-      tws_week_at_signup:    d.week||'',
-      tws_quiz_status:       d.status||'early',
-      tws_quiz_package:      d.package||'',
-      tws_window_opens_date: windowOpensDate,
-      tws_source:            'early_optin_embed'
-    }
-  }}};
+
 
   function showSuccess(){
     var f=document.getElementById('tws-optin-form');
@@ -1238,8 +1235,7 @@ function twsOptinSubmit(){
   fetch(BASE+'subscriptions/?company_id='+TWS_KL_KEY,{method:'POST',headers:HEADS,body:JSON.stringify(subPayload)})
   .then(function(r){
     if(!r.ok && r.status!==202) throw new Error('sub '+r.status);
-    // Fire identify — silent fail, subscription already succeeded
-    fetch(BASE+'profiles/?company_id='+TWS_KL_KEY,{method:'POST',headers:HEADS,body:JSON.stringify(idPayload)}).catch(function(){});
+
     showSuccess();
   })
   .catch(showError);
