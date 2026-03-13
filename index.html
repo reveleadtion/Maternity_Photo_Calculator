@@ -835,7 +835,7 @@
   }
 
   /* ── Opt-in data store (populated by render) ─────────────────── */
-  var _twsOptinData = {};
+  window._twsOptinData = {};
 
   /* ── Main render ─────────────────────────────────────────────── */
   function render(q){
@@ -920,7 +920,7 @@
 
     if(showOptin){
       // Store data for Klaviyo submit
-      _twsOptinData={week:week,status:status,duedate:q.duedate,package:pkgKey||''};
+      window._twsOptinData={week:week,status:status,duedate:q.duedate,package:pkgKey||''};
 
       // Week number in body
       var wkSpan=$id('tws-optin-week');
@@ -1163,7 +1163,6 @@
 <script>
 var TWS_KL_KEY     = 'WgMSBs';
 var TWS_KL_LIST_ID = 'V3bUGq';
-var _twsOptinData  = window._twsOptinData || {};
 
 // Calculates the calendar date when the visitor hits week 14
 // (due date minus 26 weeks = week 14 from conception)
@@ -1188,7 +1187,8 @@ function twsOptinSubmit(){
 
   if(btn){ btn.disabled=true; btn.textContent='Sending…'; }
 
-  var windowOpensDate=twsCalcWindowDate(_twsOptinData.duedate||'');
+  var d=window._twsOptinData||{};
+  var windowOpensDate=twsCalcWindowDate(d.duedate||'');
 
   var payload={
     data:{
@@ -1199,10 +1199,10 @@ function twsOptinSubmit(){
         properties:{
           '$first_name':          name.trim(),
           '$email':               email.trim(),
-          tws_due_date:           _twsOptinData.duedate  || '',
-          tws_week_at_signup:     _twsOptinData.week     || '',
-          tws_quiz_status:        _twsOptinData.status   || 'early',
-          tws_quiz_package:       _twsOptinData.package  || '',
+          tws_due_date:           d.duedate  || '',
+          tws_week_at_signup:     d.week     || '',
+          tws_quiz_status:        d.status   || 'early',
+          tws_quiz_package:       d.package  || '',
           tws_window_opens_date:  windowOpensDate,
           tws_source:             'early_optin_embed'
         }
