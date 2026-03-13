@@ -1189,45 +1189,51 @@ function twsOptinSubmit(){
 
   var d=window._twsOptinData||{};
   var windowOpensDate=twsCalcWindowDate(d.duedate||'');
+  var BASE='https://a.klaviyo.com/client/';
+  var HEADS={'Content-Type':'application/json','revision':'2023-12-15'};
 
-  var payload={
-    data:{
-      type:'subscription',
-      attributes:{
-        list_id: TWS_KL_LIST_ID,
-        email_address: email.trim(),
-        properties:{
-          '$first_name':          name.trim(),
-          '$email':               email.trim(),
-          tws_due_date:           d.duedate  || '',
-          tws_week_at_signup:     d.week     || '',
-          tws_quiz_status:        d.status   || 'early',
-          tws_quiz_package:       d.package  || '',
-          tws_window_opens_date:  windowOpensDate,
-          tws_source:             'early_optin_embed'
-        }
-      }
-    }
-  };
+  // Call 1: subscribe to list
+  var subPayload={data:{type:'subscription',attributes:{
+    list_id:TWS_KL_LIST_ID,
+    custom_source:'early_optin_embed',
+    profile:{data:{type:'profile',attributes:{
+      email:email.trim(),
+      first_name:name.trim()
+    }}}
+  }}};
 
-  fetch('https://a.klaviyo.com/client/subscriptions/?company_id='+TWS_KL_KEY,{
-    method:'POST',
-    headers:{'Content-Type':'application/json','revision':'2023-12-15'},
-    body:JSON.stringify(payload)
-  })
-  .then(function(r){
-    if(r.ok||r.status===202){
-      var formEl=document.getElementById('tws-optin-form');
-      var successEl=document.getElementById('tws-optin-success');
-      if(formEl) formEl.style.display='none';
-      if(successEl) successEl.style.display='block';
-    } else {
-      throw new Error('Status '+r.status);
+  // Call 2: identify with all custom tws_ properties
+  var idPayload={data:{type:'profile',attributes:{
+    email:email.trim(),
+    first_name:name.trim(),
+    properties:{
+      tws_due_date:          d.duedate||'',
+      tws_week_at_signup:    d.week||'',
+      tws_quiz_status:       d.status||'early',
+      tws_quiz_package:      d.package||'',
+      tws_window_opens_date: windowOpensDate,
+      tws_source:            'early_optin_embed'
     }
-  })
-  .catch(function(){
+  }}};
+
+  function showSuccess(){
+    var f=document.getElementById('tws-optin-form');
+    var s=document.getElementById('tws-optin-success');
+    if(f) f.style.display='none';
+    if(s) s.style.display='block';
+  }
+  function showError(){
     if(btn){ btn.disabled=false; btn.textContent='Send Me the Guide'; }
     if(errEl){ errEl.textContent='Something went wrong — please try again.'; errEl.style.display='block'; }
-  });
+  }
+
+  fetch(BASE+'subscriptions/?company_id='+TWS_KL_KEY,{method:'POST',headers:HEADS,body:JSON.stringify(subPayload)})
+  .then(function(r){
+    if(!r.ok && r.status!==202) throw new Error('sub '+r.status);
+    // Fire identify — silent fail, subscription already succeeded
+    fetch(BASE+'profiles/?company_id='+TWS_KL_KEY,{method:'POST',headers:HEADS,body:JSON.stringify(idPayload)}).catch(function(){});
+    showSuccess();
+  })
+  .catch(showError);
 }
 </script>
