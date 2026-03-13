@@ -538,20 +538,21 @@
       </a>
       <span class="tws-optin__eyebrow">Your Window Opens Around Week 14</span>
       <h3 class="tws-optin__title">You're Early — <em>Good Timing</em></h3>
-      <p class="tws-optin__body">We'll send one email when your booking window opens, plus a guide to help you prepare. Nothing to think about until then.</p>
+      <p class="tws-optin__body">We'll send a preparation guide now and reach out personally when your booking window opens. No inbox clutter — just one well-timed nudge.</p>
       <div id="tws-optin-form">
         <div class="tws-optin__fields">
           <input id="tws-optin-name"  class="tws-optin__field" type="text"  placeholder="First name" autocomplete="given-name" />
           <input id="tws-optin-email" class="tws-optin__field" type="email" placeholder="Email address" autocomplete="email" />
+          <input id="tws-optin-phone" class="tws-optin__field" type="tel"   placeholder="Phone number (optional)" autocomplete="tel" />
         </div>
         <button id="tws-optin-btn" class="tws-optin__submit">Send Me the Guide</button>
-        <p class="tws-optin__trust">One email when your window opens. Unsubscribe anytime.</p>
+        <p class="tws-optin__trust">By submitting, you agree to receive a preparation guide by email and, if you provide your phone number, a personal call or text from Two Wild Souls when your booking window opens. Message &amp; data rates may apply. Reply STOP to opt out of texts at any time.</p>
         <p class="tws-optin__error" id="tws-optin-error"></p>
       </div>
       <div id="tws-optin-success" class="tws-optin__success" style="display:none;">
         <span class="tws-optin__success-icon">🌿</span>
         <p class="tws-optin__success-title">You're on the list.</p>
-        <p class="tws-optin__success-body">We'll reach out right when your window opens — nothing to think about until then.</p>
+        <p class="tws-optin__success-body">We'll be in touch when your window opens — nothing to think about until then.</p>
       </div>
     </div>
   </div>
@@ -1170,8 +1171,8 @@
 
 <!-- ── Klaviyo opt-in submit ─────────────────────────────────────── -->
 <script>
-var TWS_KL_KEY     = 'WgMSBs';
-var TWS_KL_LIST_ID = 'V3bUGq';
+var TWS_KL_KEY     = 'YOUR_KLAVIYO_PUBLIC_KEY';
+var TWS_KL_LIST_ID = 'YOUR_KLAVIYO_LIST_ID';
 
 // Calculates the calendar date when the visitor hits week 14
 // (due date minus 26 weeks = week 14 from conception)
@@ -1187,6 +1188,7 @@ function twsCalcWindowDate(duedateStr){
 function twsOptinSubmit(){
   var name  = (document.getElementById('tws-optin-name') ||{}).value||'';
   var email = (document.getElementById('tws-optin-email')||{}).value||'';
+  var phone = (document.getElementById('tws-optin-phone')||{}).value||'';
   var errEl = document.getElementById('tws-optin-error');
   var btn   = document.getElementById('tws-optin-btn');
 
@@ -1201,24 +1203,25 @@ function twsOptinSubmit(){
   var BASE='https://a.klaviyo.com/client/';
   var HEADS={'Content-Type':'application/json','revision':'2023-12-15'};
 
-  // Call 1: subscribe to list
+  // Build profile attributes — add phone_number only if provided
+  var profileAttrs={
+    email:      email.trim(),
+    first_name: name.trim(),
+    properties:{
+      tws_due_date:          d.duedate||'',
+      tws_week_at_signup:    parseInt(d.week,10)||0,
+      tws_quiz_status:       d.status||'early',
+      tws_quiz_package:      d.package||'',
+      tws_window_opens_date: windowOpensDate,
+      tws_source:            'early_optin_embed'
+    }
+  };
+  if(phone.trim()) profileAttrs.phone_number = phone.trim();
+
   var subPayload={data:{type:'subscription',attributes:{
     custom_source:'early_optin_embed',
-    profile:{data:{type:'profile',attributes:{
-      email:email.trim(),
-      first_name:name.trim(),
-      properties:{
-        tws_due_date:          d.duedate||'',
-        tws_week_at_signup:    parseInt(d.week,10)||0,
-        tws_quiz_status:       d.status||'early',
-        tws_quiz_package:      d.package||'',
-        tws_window_opens_date: windowOpensDate,
-        tws_source:            'early_optin_embed'
-      }
-    }}}
+    profile:{data:{type:'profile',attributes:profileAttrs}}
   },relationships:{list:{data:{type:'list',id:TWS_KL_LIST_ID}}}}};
-
-  // Call 2: identify with all custom tws_ properties
 
 
   function showSuccess(){
