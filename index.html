@@ -1209,7 +1209,7 @@ function twsOptinSubmit(){
       first_name:name.trim(),
       properties:{
         tws_due_date:          d.duedate||'',
-        tws_week_at_signup:    d.week||'',
+        tws_week_at_signup:    parseInt(d.week,10)||0,
         tws_quiz_status:       d.status||'early',
         tws_quiz_package:      d.package||'',
         tws_window_opens_date: windowOpensDate,
