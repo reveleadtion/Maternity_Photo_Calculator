@@ -29,67 +29,18 @@
 </noscript>
 
 <!-- ── FACEBOOK PIXEL ─────────────────────────────────────────────────────────
-     Deferred until first user interaction to keep fbevents.js off the critical
-     path. The key constraint: we must NOT set window.fbq before the real pixel
-     script loads. The official snippet does `if(f.fbq)return` — so if our stub
-     is sitting on window.fbq, the real script sees it and exits immediately,
-     leaving the stub in place forever and silently dropping all events.
-
-     Safe pattern:
-       - Leave window.fbq undefined until _loadFBPixel fires.
-       - Any fbq() calls that happen before that (QuizStart, QuizStep etc.) go
-         through a thin wrapper that buffers them in _fbq_pre[].
-       - Once the real pixel initialises, we flush the buffer in order:
-         init → PageView → any pre-queued calls.
-       - After flush the wrapper is gone; all subsequent fbq() calls hit the
-         real pixel directly.
-     ──────────────────────────────────────────────────────────────────────────-->
+     Standard synchronous Meta Pixel snippet. Deferred loading proved
+     unreliable — the pixel accounts for ~100ms of TBT on slow 4G, but that
+     is far less costly than silently dropping Lead / QuizStep events.
+     Elfsight (637 KiB, lazy-loaded) is the real TBT driver; this is fine. -->
 <script>
-(function() {
-  var PIXEL_ID = '1484618222285119';
-  var _loaded  = false;
-  var _pre     = [];   // buffer for calls made before pixel loads
-
-  // Thin wrapper — queues calls until real pixel is ready.
-  // Stored under a private name so it never collides with window.fbq.
-  function _fbqProxy() { _pre.push(Array.prototype.slice.call(arguments)); }
-
-  // Expose as window.fbq so try/catch blocks in the quiz can call fbq(...)
-  window.fbq = _fbqProxy;
-
-  window._loadFBPixel = function() {
-    if (_loaded) return;
-    _loaded = true;
-
-    // Temporarily clear window.fbq so the official snippet's `if(f.fbq)return`
-    // guard does NOT fire — the snippet must be allowed to install itself.
-    window.fbq = undefined;
-
-    // Run the official Meta Pixel snippet verbatim.
-    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-    n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
-    n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
-    t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}
-    (window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
-
-    // Init + PageView must come first, before any custom events.
-    fbq('init', PIXEL_ID);
-    fbq('track', 'PageView');
-
-    // Replay anything that was queued before the pixel loaded (QuizStart etc.)
-    for (var i = 0; i < _pre.length; i++) {
-      fbq.apply(null, _pre[i]);
-    }
-    _pre = [];
-  };
-
-  // Trigger on first meaningful interaction.
-  ['pointerdown', 'keydown', 'touchstart'].forEach(function(evt) {
-    window.addEventListener(evt, window._loadFBPixel, { once: true, passive: true });
-  });
-  // Hard fallback: fire after 5 s to capture PageView for bounced visitors.
-  setTimeout(window._loadFBPixel, 5000);
-})();
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}
+(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init','1484618222285119');
+fbq('track','PageView');
 </script>
 <noscript><img height="1" width="1" style="display:none"
   src="https://www.facebook.com/tr?id=1484618222285119&ev=PageView&noscript=1"></noscript>
