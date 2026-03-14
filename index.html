@@ -8,25 +8,18 @@
 <title>Find Your Best Time for Maternity Photos | Two Wild Souls Photography</title>
 
 <!-- ── FONTS ─────────────────────────────────────────────────────────────────
-     Strategy:
-     1. preconnect to gstatic (where the .woff2 files live)
-     2. rel=preload the two heaviest Cormorant variants we actually use above
-        the fold (this fetches them in parallel with the CSS file itself)
-     3. Load the Google Fonts stylesheet with media="print" + onload swap trick
-        so it never blocks rendering. A <noscript> fallback handles JS-off.
-     Result: fonts start downloading immediately, page renders with fallback
-     first, then swaps — zero render-blocking. ──────────────────────────────-->
+     Strategy: preconnect to both Google Fonts origins, then load the
+     stylesheet asynchronously with the media="print" swap trick.
+     We do NOT preload specific .woff2 URLs — Google Fonts rotates file hashes
+     and any hardcoded URL risks a 404 that tanks Best Practices score.
+     The preconnects warm the TCP+TLS handshake so the CSS and font files
+     download as fast as possible once the async stylesheet fires.
+     font-display=swap in the URL param ensures text stays visible during load.
+     ──────────────────────────────────────────────────────────────────────────-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<!-- Preload the two woff2 variants used in the hero/header (above fold) -->
-<link rel="preload" as="font" type="font/woff2" crossorigin
-  href="https://fonts.gstatic.com/s/cormorantgaramond/v21/co3bmX5slCNuHLi8bLeY9MK7whWMhyjQAllvuQ.woff2">
-<link rel="preload" as="font" type="font/woff2" crossorigin
-  href="https://fonts.gstatic.com/s/cormorantgaramond/v21/co3ZmX5slCNuHLi8bLeY9MK7whWMhyjYrEPjuw.woff2">
-
 <!-- Non-blocking Google Fonts load -->
-<link rel="preload" as="style"
-  href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap">
 <link rel="stylesheet"
   href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap"
   media="print" onload="this.media='all'">
@@ -36,38 +29,67 @@
 </noscript>
 
 <!-- ── FACEBOOK PIXEL ─────────────────────────────────────────────────────────
-     Deferred until first user interaction (quiz start button click).
-     PageView fires on interaction instead of page load — a ~100ms savings on
-     main-thread blocking. Pixel is fully initialised before any quiz events
-     fire, so Lead / QuizStep tracking is unaffected. ──────────────────────-->
+     Deferred until first user interaction to keep fbevents.js off the critical
+     path. The key constraint: we must NOT set window.fbq before the real pixel
+     script loads. The official snippet does `if(f.fbq)return` — so if our stub
+     is sitting on window.fbq, the real script sees it and exits immediately,
+     leaving the stub in place forever and silently dropping all events.
+
+     Safe pattern:
+       - Leave window.fbq undefined until _loadFBPixel fires.
+       - Any fbq() calls that happen before that (QuizStart, QuizStep etc.) go
+         through a thin wrapper that buffers them in _fbq_pre[].
+       - Once the real pixel initialises, we flush the buffer in order:
+         init → PageView → any pre-queued calls.
+       - After flush the wrapper is gone; all subsequent fbq() calls hit the
+         real pixel directly.
+     ──────────────────────────────────────────────────────────────────────────-->
 <script>
-// Stub so fbq() calls before init are safely queued
-window.fbq = window.fbq || function(){ (window._fbq_queue = window._fbq_queue || []).push(arguments); };
-window._fbqPixelId = '1484618222285119';
-window._fbqLoaded  = false;
+(function() {
+  var PIXEL_ID = '1484618222285119';
+  var _loaded  = false;
+  var _pre     = [];   // buffer for calls made before pixel loads
 
-function _loadFBPixel() {
-  if (window._fbqLoaded) return;
-  window._fbqLoaded = true;
-  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-  n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
-  n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
-  t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}
-  (window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
-  // Replay any queued calls
-  var q = window._fbq_queue || [];
-  fbq('init', window._fbqPixelId);
-  fbq('track', 'PageView');
-  for (var i = 0; i < q.length; i++) fbq.apply(null, q[i]);
-  window._fbq_queue = [];
-}
+  // Thin wrapper — queues calls until real pixel is ready.
+  // Stored under a private name so it never collides with window.fbq.
+  function _fbqProxy() { _pre.push(Array.prototype.slice.call(arguments)); }
 
-// Load on first interaction — covers both tap and keyboard users
-['pointerdown','keydown','touchstart'].forEach(function(evt) {
-  window.addEventListener(evt, _loadFBPixel, { once: true, passive: true });
-});
-// Hard fallback: load after 5 s regardless (captures bounces for PageView)
-setTimeout(_loadFBPixel, 5000);
+  // Expose as window.fbq so try/catch blocks in the quiz can call fbq(...)
+  window.fbq = _fbqProxy;
+
+  window._loadFBPixel = function() {
+    if (_loaded) return;
+    _loaded = true;
+
+    // Temporarily clear window.fbq so the official snippet's `if(f.fbq)return`
+    // guard does NOT fire — the snippet must be allowed to install itself.
+    window.fbq = undefined;
+
+    // Run the official Meta Pixel snippet verbatim.
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+    n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}
+    (window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+
+    // Init + PageView must come first, before any custom events.
+    fbq('init', PIXEL_ID);
+    fbq('track', 'PageView');
+
+    // Replay anything that was queued before the pixel loaded (QuizStart etc.)
+    for (var i = 0; i < _pre.length; i++) {
+      fbq.apply(null, _pre[i]);
+    }
+    _pre = [];
+  };
+
+  // Trigger on first meaningful interaction.
+  ['pointerdown', 'keydown', 'touchstart'].forEach(function(evt) {
+    window.addEventListener(evt, window._loadFBPixel, { once: true, passive: true });
+  });
+  // Hard fallback: fire after 5 s to capture PageView for bounced visitors.
+  setTimeout(window._loadFBPixel, 5000);
+})();
 </script>
 <noscript><img height="1" width="1" style="display:none"
   src="https://www.facebook.com/tr?id=1484618222285119&ev=PageView&noscript=1"></noscript>
@@ -77,15 +99,6 @@ setTimeout(_loadFBPixel, 5000);
   window.va = window.va || function(){ (window.vaq = window.vaq || []).push(arguments); };
 </script>
 <script defer src="/_vercel/insights/script.js"></script>
-
-<!-- ── ELFSIGHT ──────────────────────────────────────────────────────────────
-     The reviews widget is below the fold on the intro screen and invisible
-     during all quiz steps. We preconnect only to the origins that are always
-     used (static + core service), drop the others, and load the platform
-     script lazily with IntersectionObserver so it never touches the critical
-     path. ──────────────────────────────────────────────────────────────────-->
-<link rel="preconnect" href="https://static.elfsight.com">
-<link rel="dns-prefetch" href="https://apps.elfsight.com">
 
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
