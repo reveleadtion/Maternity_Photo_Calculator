@@ -501,7 +501,7 @@ function render() {
     const pkg    = PACKAGES[pkgKey];
     const week   = quizData.week;
     const isLate = quizData.status === 'late';
-    const redirectDelay = isLate ? 4500 : 1800;
+    const redirectDelay = isLate ? 1500 : 500;
     const finalURL = dest + '?' + finalParams.toString();
 
     emitVercelFlags({
@@ -569,8 +569,8 @@ function render() {
           if (!el.parentNode) { clearInterval(interval); return; }
           el.textContent = phrases[idx];
           el.style.opacity = '1';
-        }, 450);
-      }, 1800);
+        }, 200);
+      }, 1500);
       return interval;
     }
     startPhraseRotator(isLate);
