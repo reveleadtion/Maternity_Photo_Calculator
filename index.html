@@ -1,17 +1,9 @@
 <!-- ═══════════════════════════════════════════════════════════════
-     TWO WILD SOULS — Combined Hero + Roadmap Embed  v6
-     CHANGES FROM v5:
-       • SMS consent moved inside profileAttrs.subscriptions per
-         Klaviyo Client API spec — consent blocks on top-level
-         attributes are server-side API only
-       • Debug logs retained for this test — remove after confirming
-     ─────────────────────────────────────────────────────────────
-     FULL CHANGELOG:
-       v2 · Evergreen URL — week/status derived from duedate on load
-       v3 · phone_number E.164 formatted, production base URL set
-       v4 · SMS consent attempt via top-level channels (rejected)
-       v5 · SMS consent attempt via top-level subscriptions (rejected)
-       v6 · SMS consent moved inside profile attributes (correct)
+     TWO WILD SOULS — Combined Hero + Roadmap Embed  v7
+     Reverted to last known working payload structure.
+     Retains: E.164 phone formatting, production base URL,
+     evergreen URL generation. SMS subscription status
+     left as-is — phone number is stored correctly.
      ═══════════════════════════════════════════════════════════════ -->
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap');
@@ -1334,17 +1326,12 @@ function twsOptinSubmit(){
   var resultUrl = d.resultUrl || '';
 
   var BASE  = 'https://a.klaviyo.com/client/';
-  var HEADS = {'Content-Type':'application/json','revision':'2024-10-15'};
+  var HEADS = {'Content-Type':'application/json','revision':'2023-12-15'};
 
-  // Build profile attributes — subscriptions inside profileAttrs per Client API spec
   var profileAttrs = {
     email:        email.trim(),
     first_name:   name.trim(),
     phone_number: twsFormatPhone(phone),
-    subscriptions: {
-      email: { marketing: { consent: 'SUBSCRIBED' } },
-      sms:   { marketing: { consent: 'SUBSCRIBED' } }
-    },
     properties: {
       tws_due_date:          d.duedate || '',
       tws_week_at_signup:    parseInt(d.week, 10) || 0,
