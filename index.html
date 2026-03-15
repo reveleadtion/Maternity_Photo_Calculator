@@ -1,10 +1,10 @@
 <!-- ═══════════════════════════════════════════════════════════════
-     TWO WILD SOULS — Combined Hero + Roadmap Embed  v2
-     CHANGES FROM v1:
-       • Week + status now derived from due date on every page load
-         (evergreen URL — no week/status needed in the ?d= payload)
-       • tws_result_url written to Klaviyo profile on opt-in submit
-       • Backward-compatible: still accepts week/status in URL if present
+     TWO WILD SOULS — Combined Hero + Roadmap Embed  v3
+     CHANGES FROM v2:
+       • tws_result_url base URL hardcoded to production landing page
+       • phone_number moved to top-level Klaviyo profile attributes
+       • phone_number E.164 formatted via twsFormatPhone() so Klaviyo
+         stores and can SMS the number correctly
      ═══════════════════════════════════════════════════════════════ -->
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap');
@@ -1010,9 +1010,7 @@
       };
       var evergreenUrl = (function(){
         try{
-          var base = '';
-          try{ base = window.parent.location.origin + window.parent.location.pathname; }catch(e){}
-          base = base || window.location.origin + window.location.pathname;
+          var base = 'https://twowildsoulsphotography.com/detroit-maternity-photographer-ads-custom';
           return base + '?d=' + btoa(JSON.stringify(evergreenPayload));
         }catch(e){ return ''; }
       })();
@@ -1285,6 +1283,14 @@
 var TWS_KL_KEY     = 'WgMSBs';
 var TWS_KL_LIST_ID = 'V3bUGq';
 
+// Formats a raw phone number to E.164 (+1XXXXXXXXXX) for Klaviyo
+function twsFormatPhone(raw){
+  var digits = raw.replace(/\D/g, '');
+  if(digits.length === 11 && digits.charAt(0) === '1') return '+' + digits;
+  if(digits.length === 10) return '+1' + digits;
+  return '+' + digits;
+}
+
 // Calculates the calendar date when the visitor hits week 14
 // (due date minus 26 weeks = week 14 from conception)
 function twsCalcWindowDate(duedateStr){
@@ -1325,8 +1331,9 @@ function twsOptinSubmit(){
 
   // Build profile attributes
   var profileAttrs = {
-    email:      email.trim(),
-    first_name: name.trim(),
+    email:        email.trim(),
+    first_name:   name.trim(),
+    phone_number: twsFormatPhone(phone), // ← v3: top-level, E.164 formatted
     properties: {
       tws_due_date:          d.duedate || '',
       tws_week_at_signup:    parseInt(d.week, 10) || 0,
@@ -1337,7 +1344,6 @@ function twsOptinSubmit(){
       tws_result_url:        resultUrl   // ← v2: evergreen return URL
     }
   };
-  if(phone.trim()) profileAttrs.phone_number = phone.trim();
 
   var subPayload = {data:{type:'subscription',attributes:{
     custom_source: 'early_optin_embed',
