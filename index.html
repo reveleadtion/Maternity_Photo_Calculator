@@ -1,9 +1,9 @@
 <!-- ═══════════════════════════════════════════════════════════════
-     TWO WILD SOULS — Combined Hero + Roadmap Embed  v4-debug
-     CHANGES FROM v4:
-       • consented_at format tightened to strict ISO (no milliseconds)
-       • Full console diagnostics added around Klaviyo fetch:
-         logs profileAttrs, subPayload, response status, and response body
+     TWO WILD SOULS — Combined Hero + Roadmap Embed  v5
+     CHANGES FROM v4-debug:
+       • Fixed SMS consent — Client API uses 'channels' not 'subscriptions'
+         (subscriptions block is server-side API only)
+       • Diagnostics retained for this version, remove after confirming
      ═══════════════════════════════════════════════════════════════ -->
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap');
@@ -1346,17 +1346,13 @@ function twsOptinSubmit(){
 
   var subPayload = {data:{type:'subscription',attributes:{
     custom_source: 'early_optin_embed',
-    subscriptions: {
+    channels: {
       email: {
-        marketing: {
-          consent: 'SUBSCRIBED'
-        }
+        consent:      'SUBSCRIBED'
       },
       sms: {
-        marketing: {
-          consent:      'SUBSCRIBED',
-          consented_at: new Date().toISOString().split('.')[0] + 'Z'  // ← v4: strict ISO format Klaviyo requires
-        }
+        consent:      'SUBSCRIBED',
+        consented_at: new Date().toISOString().split('.')[0] + 'Z'  // ← v5: Client API uses channels not subscriptions
       }
     },
     profile: {data:{type:'profile',attributes:profileAttrs}}
