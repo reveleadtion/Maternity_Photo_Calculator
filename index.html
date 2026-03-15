@@ -1,10 +1,9 @@
 <!-- ═══════════════════════════════════════════════════════════════
-     TWO WILD SOULS — Combined Hero + Roadmap Embed  v3
-     CHANGES FROM v2:
-       • tws_result_url base URL hardcoded to production landing page
-       • phone_number moved to top-level Klaviyo profile attributes
-       • phone_number E.164 formatted via twsFormatPhone() so Klaviyo
-         stores and can SMS the number correctly
+     TWO WILD SOULS — Combined Hero + Roadmap Embed  v4
+     CHANGES FROM v3:
+       • Explicit email + SMS consent added to Klaviyo subscription payload
+         via subscriptions.sms.marketing block with consented_at timestamp
+         — flips SMS status from "never subscribed" to "subscribed"
      ═══════════════════════════════════════════════════════════════ -->
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap');
@@ -1347,6 +1346,19 @@ function twsOptinSubmit(){
 
   var subPayload = {data:{type:'subscription',attributes:{
     custom_source: 'early_optin_embed',
+    subscriptions: {
+      email: {
+        marketing: {
+          consent: 'SUBSCRIBED'
+        }
+      },
+      sms: {
+        marketing: {
+          consent:      'SUBSCRIBED',
+          consented_at: new Date().toISOString()  // ← v4: flips SMS from "never subscribed" to "subscribed"
+        }
+      }
+    },
     profile: {data:{type:'profile',attributes:profileAttrs}}
   },relationships:{list:{data:{type:'list',id:TWS_KL_LIST_ID}}}}};
 
