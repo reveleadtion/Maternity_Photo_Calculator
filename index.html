@@ -339,14 +339,54 @@ function buildBlackoutURLs(quizData, isLateRoute) {
   const fbclid = incomingParams.get('fbclid');
   const gclid  = incomingParams.get('gclid');
   const dest = isLateRoute ? NEWBORN_URL : MATERNITY_URL;
-  function makeURL(note) {
-    const d = Object.assign({}, quizData, { blackout_note: note });
+
+  /*
+   * For each option we synthesize a due date that puts the ideal session
+   * window in the target month, so the landing page calculates correctly.
+   *
+   * Maternity: session at week 30 (midpoint of 28–32 window)
+   *   due date = target session date + (40 - 30) * 7 days = target + 70 days
+   *
+   * Newborn: birth (due date) = target newborn session date - 7 days (midpoint of 5–14)
+   *
+   * May target:    May 15, 2026
+   * August target: August 15, 2026
+   */
+  function syntheticDueDate(targetDateStr, isNewborn) {
+    const target = new Date(targetDateStr + 'T12:00:00');
+    const MS = 86400000;
+    if (isNewborn) {
+      // due date ≈ 7 days before newborn session midpoint
+      const due = new Date(target.getTime() - 7 * MS);
+      return due.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+    } else {
+      // due date = session date + 70 days (week 30 → due date)
+      const due = new Date(target.getTime() + 70 * MS);
+      return due.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+    }
+  }
+
+  function makeURL(note, targetDate) {
+    const synDue = syntheticDueDate(targetDate, isLateRoute);
+    const d = Object.assign({}, quizData, {
+      blackout_note: note,
+      duedate: synDue,
+      // Strip week/status so landing page recalculates from the synthetic due date
+      week:   undefined,
+      status: undefined
+    });
+    // Clean up undefined keys
+    Object.keys(d).forEach(function(k) { if (d[k] === undefined) delete d[k]; });
     const p = new URLSearchParams({ d: encodeQuizData(d) });
     if (fbclid) p.append('fbclid', fbclid);
     if (gclid)  p.append('gclid', gclid);
     return dest + '?' + p.toString();
   }
-  return { may: makeURL('book_may'), august: makeURL('book_august') };
+
+  return {
+    may:    makeURL('book_may',    '2026-05-15'),
+    august: makeURL('book_august', '2026-08-15')
+  };
 }
 
 function renderBlackout(quizData, isLateRoute) {
