@@ -1196,14 +1196,21 @@ function render() {
       console.log('[TWS Debug] Redirect URL:', finalURL);
       console.log('[TWS Debug] Quiz data:', quizData);
     } else {
-      try {
-        if (window.parent && window.parent !== window) {
-          window.parent.postMessage({ type: 'quiz-complete', url: finalURL }, '*');
-          setTimeout(function() { window.location.href = finalURL; }, redirectDelay + 500);
-          return;
-        }
-      } catch(e) {}
-      setTimeout(function() { window.location.href = finalURL; }, redirectDelay);
+    try {
+      if (window.parent && window.parent !== window) {
+        // We're inside the popup iframe — send the URL to the parent
+        // and DO NOT navigate the iframe itself (results page blocks framing).
+        window.parent.postMessage({ type: 'quiz-complete', url: finalURL }, '*');
+        // Show a gentle "redirecting..." state and wait.
+        // The parent window.location.href handles the actual navigation.
+        // Only fall back to self-navigation after a long delay in case postMessage
+        // never reached the parent (e.g. popup was closed before quiz finished).
+        setTimeout(function() { window.top.location.href = finalURL; }, 4000);
+        return;
+      }
+    } catch(e) {}
+    // Standalone visit (not in iframe) — navigate normally.
+    setTimeout(function() { window.location.href = finalURL; }, redirectDelay);
     }
     return;
   }
