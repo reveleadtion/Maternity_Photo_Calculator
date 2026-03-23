@@ -224,7 +224,6 @@ main { padding: 0 20px 120px; max-width: 540px; margin: 0 auto; }
   border-radius: 10px; padding: 16px 18px;
   text-align: left; transition: all 0.22s ease; text-decoration: none;
   -webkit-tap-highlight-color: transparent;
-  /* larger tap target on mobile */
   min-height: 76px;
 }
 .blackout-opt:active { transform: scale(0.985); }
@@ -307,13 +306,10 @@ const MATERNITY_URL = 'https://twowildsoulsphotography.com/personalized-maternit
 const NEWBORN_URL   = 'https://twowildsoulsphotography.com/detroit-newborn-photographer-ads';
 
 // ── BLACKOUT WINDOW ──────────────────────────────────────────────────────────
-// Lead photographer on leave June 1 – July 31, 2026.
-// Last available session: May 31, 2026. Back: August 1, 2026.
 const BLACKOUT_START = new Date('2026-06-01T00:00:00');
 const BLACKOUT_END   = new Date('2026-07-31T23:59:59');
 
 function isMaternityBlackout(dueDateStr) {
-  // Check if the maternity session window (weeks 28–32) overlaps with blackout
   const due = new Date(dueDateStr + 'T12:00:00');
   const conception = new Date(due.getTime() - 280 * 86400000);
   const week28 = new Date(conception.getTime() + 28 * 7 * 86400000);
@@ -322,7 +318,6 @@ function isMaternityBlackout(dueDateStr) {
 }
 
 function isNewbornBlackout(dueDateStr) {
-  // Check if newborn session window (birth + 5–14 days) overlaps with blackout
   const due = new Date(dueDateStr + 'T12:00:00');
   const nb5  = new Date(due.getTime() + 5  * 86400000);
   const nb14 = new Date(due.getTime() + 14 * 86400000);
@@ -340,27 +335,13 @@ function buildBlackoutURLs(quizData, isLateRoute) {
   const gclid  = incomingParams.get('gclid');
   const dest = isLateRoute ? NEWBORN_URL : MATERNITY_URL;
 
-  /*
-   * For each option we synthesize a due date that puts the ideal session
-   * window in the target month, so the landing page calculates correctly.
-   *
-   * Maternity: session at week 30 (midpoint of 28–32 window)
-   *   due date = target session date + (40 - 30) * 7 days = target + 70 days
-   *
-   * Newborn: birth (due date) = target newborn session date - 7 days (midpoint of 5–14)
-   *
-   * May target:    May 15, 2026
-   * August target: August 15, 2026
-   */
   function syntheticDueDate(targetDateStr, isNewborn) {
     const target = new Date(targetDateStr + 'T12:00:00');
     const MS = 86400000;
     if (isNewborn) {
-      // due date ≈ 7 days before newborn session midpoint
       const due = new Date(target.getTime() - 7 * MS);
       return due.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
     } else {
-      // due date = session date + 70 days (week 30 → due date)
       const due = new Date(target.getTime() + 70 * MS);
       return due.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
     }
@@ -371,11 +352,9 @@ function buildBlackoutURLs(quizData, isLateRoute) {
     const d = Object.assign({}, quizData, {
       blackout_note: note,
       duedate: synDue,
-      // Strip week/status so landing page recalculates from the synthetic due date
       week:   undefined,
       status: undefined
     });
-    // Clean up undefined keys
     Object.keys(d).forEach(function(k) { if (d[k] === undefined) delete d[k]; });
     const p = new URLSearchParams({ d: encodeQuizData(d) });
     if (fbclid) p.append('fbclid', fbclid);
@@ -404,7 +383,6 @@ function renderBlackout(quizData, isLateRoute) {
   const urls = buildBlackoutURLs(quizData, isLateRoute);
   const sessionType = isLateRoute ? 'newborn' : 'maternity';
 
-  // Headline and opening copy vary by session type
   const headline = isLateRoute
     ? `We're fully booked for <em>newborn sessions</em> this June & July.`
     : `We're fully booked for <em>maternity sessions</em> this June & July.`;
@@ -555,17 +533,15 @@ function calculate() {
   const pkgKey = state.whoJoins === 'momOnly' ? 'portraits' : 'whiteGlove';
   const dest   = isLate ? NEWBORN_URL : MATERNITY_URL;
 
-//3/17/26 - Remove status and week:
-const quizData = {
-  window:  (isLate || isUrgent) ? '' : (startWeek + '-' + endWeek),
-  bookby:  bookByStr,
-  type:    isLate ? 'newborn' : 'maternity',
-  style,
-  setting,
-  package: pkgKey,
-  duedate: formatDateStr(state.dueDate)
-  // week and status intentionally omitted — embed calculates live
-};
+  const quizData = {
+    window:  (isLate || isUrgent) ? '' : (startWeek + '-' + endWeek),
+    bookby:  bookByStr,
+    type:    isLate ? 'newborn' : 'maternity',
+    style,
+    setting,
+    package: pkgKey,
+    duedate: formatDateStr(state.dueDate)
+  };
 
   const incomingParams = new URLSearchParams(window.location.search);
   const fbclid = incomingParams.get('fbclid');
@@ -654,7 +630,7 @@ function render() {
           <div class="redirect-notice">
             <span class="redirect-notice-icon">&#x1F49B;</span>
             <h2 class="redirect-notice-title">Your maternity window has passed</h2>
-            <p class="redirect-notice-body">Based on your due date, you're at <strong>week ${week}</strong>. We stop booking maternity sessions after week 32 to keep both you and baby safe &mdash; and we need at least a week to prepare your session.</p>
+            <p class="redirect-notice-body">Based on your due date, you're at <strong>week ${week}</strong>. We stop booking maternity sessions after week 32 for baby's safety &mdash; and we need at least a week to prepare your session.</p>
             <p class="redirect-notice-body" style="margin-top:10px">But it's not too late to capture this season. We'd love to welcome your little one with a <strong>newborn portrait session</strong> instead. &hearts;</p>
           </div>
           <div class="redirect-routing">
@@ -821,7 +797,16 @@ function goBack() {
   else { currentStep = -1; render(); }
 }
 
+// ── INIT ─────────────────────────────────────────────────────────────────────
+// If ?start=1 is present (e.g. arriving from the Showit popup),
+// skip the intro and land directly on question 1.
+const _startParams = new URLSearchParams(window.location.search);
+if (_startParams.get('start') === '1') {
+  currentStep = 0;
+  try { fbq('trackCustom', 'QuizStart', { source: 'popup' }); } catch(e) {}
+}
 render();
+// ─────────────────────────────────────────────────────────────────────────────
 
 document.addEventListener('visibilitychange', function() {
   if (document.visibilityState === 'hidden' && currentStep > -1 && currentStep < TOTAL) {
