@@ -172,10 +172,22 @@ main::-webkit-scrollbar {
 .val-msg { font-size: 12px; color: var(--error); padding: 0 0 8px; display: none; }
 
 .bottom-nav {
-  position: fixed; bottom: 0; left: 0; right: 0; background: var(--bg);
-  border-top: 1px solid var(--faint); padding: 14px 20px max(14px, env(safe-area-inset-bottom));
-  display: flex; gap: 10px; z-index: 200;
+  position: sticky;               /* Key change */
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--bg);
+  border-top: 1px solid var(--faint);
+  padding: 14px 20px max(14px, env(safe-area-inset-bottom));
+  padding-bottom: max(14px, env(safe-area-inset-bottom));
+  display: flex;
+  gap: 10px;
+  z-index: 200;
+
+  /* Optional: subtle shadow to separate from content */
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.06);
 }
+  
 .btn-back {
   background: transparent; border: 1.5px solid rgba(46,47,44,0.15); color: var(--text2);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; font-size: 13px; letter-spacing: 0.06em;
