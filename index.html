@@ -467,7 +467,7 @@ main {
     <p class="hero-eyebrow">August Sessions Now Open</p>
     <div class="hero-stars" style="margin-bottom:10px">
       <div class="hero-stars-icons"><svg width="13" height="13" viewBox="0 0 20 20" fill="#FBBC04"><path d="M10 1l2.39 4.84 5.34.78-3.86 3.76.91 5.32L10 13.27l-4.78 2.51.91-5.32L2.27 6.62l5.34-.78z"/></svg><svg width="13" height="13" viewBox="0 0 20 20" fill="#FBBC04"><path d="M10 1l2.39 4.84 5.34.78-3.86 3.76.91 5.32L10 13.27l-4.78 2.51.91-5.32L2.27 6.62l5.34-.78z"/></svg><svg width="13" height="13" viewBox="0 0 20 20" fill="#FBBC04"><path d="M10 1l2.39 4.84 5.34.78-3.86 3.76.91 5.32L10 13.27l-4.78 2.51.91-5.32L2.27 6.62l5.34-.78z"/></svg><svg width="13" height="13" viewBox="0 0 20 20" fill="#FBBC04"><path d="M10 1l2.39 4.84 5.34.78-3.86 3.76.91 5.32L10 13.27l-4.78 2.51.91-5.32L2.27 6.62l5.34-.78z"/></svg><svg width="13" height="13" viewBox="0 0 20 20" fill="#FBBC04"><path d="M10 1l2.39 4.84 5.34.78-3.86 3.76.91 5.32L10 13.27l-4.78 2.51.91-5.32L2.27 6.62l5.34-.78z"/></svg></div>
-      <span class="hero-stars-label"><strong>5.0</strong> &nbsp;·&nbsp; 67+ Google reviews</span>
+      <span class="hero-stars-label"><strong>5.0</strong> &nbsp;·&nbsp; 67 Google reviews</span>
     </div>
     <h1 class="hero-headline">This moment<br>won't wait, <em>neither<br>should you.</em></h1>
     <p class="hero-body">Your ideal maternity session window closes fast. Find out exactly how much time you have left, and what it takes to claim your August spot.</p>
@@ -519,86 +519,33 @@ const DEBUG = window.location.search.includes('debug=1');
 const MATERNITY_URL = 'https://twowildsoulsphotography.com/personalized-maternity-results';
 const NEWBORN_URL   = 'https://twowildsoulsphotography.com/detroit-newborn-photographer-ads';
 
-// We are fully booked until August 15. Any session window that ends before
-// this date cannot be accommodated.
+// ══════════════════════════════════════════════════════════════════
+//  AVAILABILITY RULES — fully booked until August 15, 2026
+//
+//  Blackout fires when EITHER:
+//    A) The recommended session window ends before Aug 15  (too early)
+//    B) On Aug 15 the client would be >34 weeks pregnant   (too late)
+//
+//  On the blackout screen:
+//    • Due date July 24–31 → newborn route viable (baby born late July,
+//      newborn window days 5–14 lands in August)
+//    • Everyone else       → fully booked dead-end, no action
+// ══════════════════════════════════════════════════════════════════
+
 const BOOKING_OPEN_DATE = new Date('2026-08-15T00:00:00');
+const MS = 86400000; // one day in ms
 
-// Returns true if the maternity window falls entirely before our open date,
-// OR if it overlaps a period we cannot serve (session end < Aug 15).
-function isMaternityBlackout(dueDateStr) {
-  const due = new Date(dueDateStr + 'T12:00:00');
-  const conception = new Date(due.getTime() - 280 * 86400000);
-  // Use week 32 as the latest possible session end (our hard cutoff)
-  const week32 = new Date(conception.getTime() + 32 * 7 * 86400000);
-  // Blackout if the latest they could possibly shoot is before Aug 15
-  return week32 < BOOKING_OPEN_DATE;
-}
+// Calculate the recommended session window end date for a given due date,
+// using the same week-range logic as calculate().
+function getSessionWindowEnd(dueDateStr) {
+  const due        = new Date(dueDateStr + 'T12:00:00');
+  const conception = new Date(due.getTime() - 280 * MS);
+  const isFirst    = state.firstBaby === 'yes';
+  const multiples  = state.multiples === 'yes';
+  const style      = state.style || 'full';
+  const setting    = state.whoJoins === 'momOnly' ? 'indoor' : 'both';
 
-// Returns true if the newborn window (days 5–14 after birth) falls entirely
-// before our open date.
-function isNewbornBlackout(dueDateStr) {
-  const due  = new Date(dueDateStr + 'T12:00:00');
-  const nb14 = new Date(due.getTime() + 14 * 86400000);
-  return nb14 < BOOKING_OPEN_DATE;
-}
-
-function getBlackoutType(dueDateStr, isLateRoute) {
-  if (isLateRoute) return isNewbornBlackout(dueDateStr) ? 'newborn' : null;
-  return isMaternityBlackout(dueDateStr) ? 'maternity' : null;
-}
-
-function buildBlackoutURL(quizData, isLateRoute) {
-  const incomingParams = new URLSearchParams(window.location.search);
-  const fbclid = incomingParams.get('fbclid');
-  const gclid  = incomingParams.get('gclid');
-  const dest = isLateRoute ? NEWBORN_URL : MATERNITY_URL;
-
-  // Synthesize a due date that places the session in August
-  function syntheticDueDate(isNewborn) {
-    const target = new Date('2026-08-15T12:00:00');
-    const MS = 86400000;
-    if (isNewborn) {
-      // Due date ~7 days before Aug 15 so nb window starts around Aug 15
-      const due = new Date(target.getTime() - 7 * MS);
-      return due.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
-    } else {
-      // Due date ~70 days after Aug 15 so session window is around Aug 15
-      const due = new Date(target.getTime() + 70 * MS);
-      return due.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
-    }
-  }
-
-  const synDue = syntheticDueDate(isLateRoute);
-  const d = Object.assign({}, quizData, {
-    blackout_note: 'book_august',
-    duedate: synDue,
-    week:   undefined,
-    status: undefined
-  });
-  Object.keys(d).forEach(function(k) { if (d[k] === undefined) delete d[k]; });
-  const p = new URLSearchParams({ d: encodeQuizData(d) });
-  if (fbclid) p.append('fbclid', fbclid);
-  if (gclid)  p.append('gclid', gclid);
-  return dest + '?' + p.toString();
-}
-
-function getBlackoutWindowDescription(dueDateStr, isLateRoute) {
-  var due = new Date(dueDateStr + 'T12:00:00');
-
-  if (isLateRoute) {
-    var nb5  = new Date(due.getTime() + 5  * 86400000);
-    var nb14 = new Date(due.getTime() + 14 * 86400000);
-    return nb5.toLocaleDateString('en-US',{month:'short',day:'numeric'})
-      + ' \u2013 ' + nb14.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
-  }
-
-  var conception = new Date(due.getTime() - 280 * 86400000);
-  var isFirst    = state.firstBaby === 'yes';
-  var multiples  = state.multiples === 'yes';
-  var style      = state.style || 'full';
-  var setting    = state.whoJoins === 'momOnly' ? 'indoor' : 'both';
-
-  var startWeek, endWeek;
+  let startWeek, endWeek;
   if (multiples)       { startWeek = 24; endWeek = 28; }
   else if (!isFirst)   { startWeek = style === 'full' ? 28 : 26; endWeek = style === 'full' ? 32 : 30; }
   else                 { startWeek = style === 'full' ? 30 : 28; endWeek = style === 'full' ? 34 : 32; }
@@ -609,16 +556,69 @@ function getBlackoutWindowDescription(dueDateStr, isLateRoute) {
   endWeek   = Math.min(endWeek, 32);
   startWeek = Math.min(startWeek, 32);
 
-  var startDate = new Date(conception.getTime() + startWeek * 7 * 86400000);
-  var endDate   = new Date(conception.getTime() + endWeek   * 7 * 86400000);
-
-  return 'weeks ' + startWeek + '\u2013' + endWeek + ' ('
-    + startDate.toLocaleDateString('en-US',{month:'short',day:'numeric'})
-    + ' \u2013 '
-    + endDate.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}) + ')';
+  return {
+    startDate: new Date(conception.getTime() + startWeek * 7 * MS),
+    endDate:   new Date(conception.getTime() + endWeek   * 7 * MS),
+    startWeek, endWeek
+  };
 }
 
-function renderBlackout(quizData, isLateRoute) {
+// How many weeks pregnant will this person be on Aug 15?
+function weeksOnAug15(dueDateStr) {
+  const due        = new Date(dueDateStr + 'T12:00:00');
+  const conception = new Date(due.getTime() - 280 * MS);
+  const daysSince  = Math.floor((BOOKING_OPEN_DATE - conception) / MS);
+  return Math.floor(daysSince / 7);
+}
+
+// Returns: null (no blackout), 'newborn' (reroute to newborn), or 'fullyBooked'
+function getBlackoutType(dueDateStr, isLateRoute) {
+  if (isLateRoute) {
+    // Already on the late/newborn path — check if their newborn window is before Aug 15
+    const due  = new Date(dueDateStr + 'T12:00:00');
+    const nb14 = new Date(due.getTime() + 14 * MS);
+    return nb14 < BOOKING_OPEN_DATE ? 'fullyBooked' : null;
+  }
+
+  const windowEnd   = getSessionWindowEnd(dueDateStr).endDate;
+  const wksOnAug15  = weeksOnAug15(dueDateStr);
+
+  const tooEarly = windowEnd < BOOKING_OPEN_DATE;   // window ends before we reopen
+  const tooLate  = wksOnAug15 > 34;                 // >34 weeks on Aug 15 = past our cutoff
+
+  if (!tooEarly && !tooLate) return null; // all good, proceed normally
+
+  // Determine if they qualify for newborn reroute:
+  // Due date must be in the last week of July (July 24–31) so that
+  // the newborn window (days 5–14 after birth) lands in August.
+  const due     = new Date(dueDateStr + 'T12:00:00');
+  const month   = due.getMonth(); // 0-indexed, July = 6
+  const day     = due.getDate();
+  const isLateJuly = (month === 6 && day >= 24 && day <= 31);
+
+  return isLateJuly ? 'newborn' : 'fullyBooked';
+}
+
+// Build the newborn redirect URL for late-July due dates
+function buildNewbornBlackoutURL(quizData) {
+  const incomingParams = new URLSearchParams(window.location.search);
+  const fbclid = incomingParams.get('fbclid');
+  const gclid  = incomingParams.get('gclid');
+
+  const d = Object.assign({}, quizData, {
+    type:          'newborn',
+    blackout_note: 'book_august',
+    week:          undefined,
+    status:        undefined
+  });
+  Object.keys(d).forEach(function(k) { if (d[k] === undefined) delete d[k]; });
+  const p = new URLSearchParams({ d: encodeQuizData(d) });
+  if (fbclid) p.append('fbclid', fbclid);
+  if (gclid)  p.append('gclid', gclid);
+  return NEWBORN_URL + '?' + p.toString();
+}
+
+function renderBlackout(quizData, blackoutType) {
   const content = document.getElementById('mainContent');
   const shell   = document.getElementById('progressShell');
   const nav     = document.getElementById('bottomNav');
@@ -630,54 +630,74 @@ function renderBlackout(quizData, isLateRoute) {
   shell.style.display = 'block'; nav.style.display = 'none';
   fill.style.width = '100%'; stepLbl.textContent = 'Availability Notice'; pctLbl.textContent = ''; dotsEl.innerHTML = '';
 
-  const augustURL  = buildBlackoutURL(quizData, isLateRoute);
-  const sessionType = isLateRoute ? 'newborn' : 'maternity';
-  const windowDesc  = getBlackoutWindowDescription(state.dueDate, isLateRoute);
+  try { fbq('trackCustom', 'BlackoutShown', { blackout_type: blackoutType }); } catch(e) {}
 
-  const headline = isLateRoute
-    ? `We're fully booked for <em>newborn sessions</em> until August 15.`
-    : `We're fully booked for <em>maternity sessions</em> until August 15.`;
+  // ── NEWBORN REROUTE (due date July 24–31) ─────────────────────
+  if (blackoutType === 'newborn') {
+    const newbornURL = buildNewbornBlackoutURL(quizData);
+    const due = new Date(state.dueDate + 'T12:00:00');
+    const nb5  = new Date(due.getTime() + 5  * MS);
+    const nb14 = new Date(due.getTime() + 14 * MS);
+    const nbWindow = nb5.toLocaleDateString('en-US',{month:'long',day:'numeric'})
+      + ' \u2013 ' + nb14.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
 
-  const openingCopy = isLateRoute
-    ? `We know how much it means to have those first days with your baby captured — the tiny curled fingers, the way they sleep on your chest. That's exactly why we want to be honest with you: <strong>we're fully booked for newborn sessions until August 15</strong>, and we'd rather tell you now than have you counting on us.`
-    : `You've taken the time to find the right photographer, and that matters to us. So we want to be upfront: <strong>we're fully booked for maternity sessions until August 15</strong>. Your window deserves our full attention, and we can't give that to a session we can't take.`;
-
-  var windowLine, recCopy;
-  if (isLateRoute) {
-    windowLine = '<strong>Your ideal newborn window:</strong> ' + windowDesc;
-    recCopy = windowLine + '<br><br>That window falls before our summer break ends. <strong>We open back up on August 15</strong> — if your due date lines up, we\'d love to be your first call the moment we\'re back.';
-  } else {
-    windowLine = '<strong>Your ideal maternity window:</strong> ' + windowDesc;
-    recCopy = windowLine + '<br><br>That window falls before we\'re available again. <strong>We open back up August 15</strong> — but if your due date gives you any flexibility on timing, it\'s worth a conversation.';
+    content.innerHTML = `
+      <div class="blackout-screen">
+        <span class="blackout-icon">🤍</span>
+        <span class="blackout-badge">A Note on Availability</span>
+        <h2 class="blackout-headline">We're fully booked for <em>maternity sessions</em> until August 15.</h2>
+        <p class="blackout-body">You've taken the time to find the right photographer, and that matters to us. So we want to be upfront: <strong>we're fully booked for maternity sessions until August 15</strong>, and your session window falls before we reopen.</p>
+        <div class="blackout-reassure">
+          <strong>There's good news though.</strong> With a late-July due date, your newborn window falls right in August — ${nbWindow}. We'd love to capture those first days with your baby instead. Sleepy, curled, completely new — and everything is still included.
+        </div>
+        <span class="blackout-options-label">Here's what we can do for you</span>
+        <div class="blackout-options">
+          <a class="blackout-opt blackout-opt--recommended" href="${newbornURL}">
+            <span class="blackout-opt-label">Available in August &mdash; Newborn Sessions</span>
+            <span class="blackout-opt-title">Reserve a newborn session</span>
+            <span class="blackout-opt-sub">Book before baby arrives so we're ready the moment you call. Days 5–14 are the magic window — curly, sleepy, brand-new. Pro lighting, guided posing, designer wraps included.</span>
+            <span class="blackout-opt-arrow">&#8594;</span>
+          </a>
+        </div>
+        <p class="blackout-footer">
+          Everything included — pro hair &amp; makeup,<br>
+          designer props &amp; wraps, fully guided.
+        </p>
+      </div>`;
+    return;
   }
 
-  const augTitle = isLateRoute ? 'Reserve a newborn session in August' : 'Reserve a maternity session in August';
-  const augBody  = isLateRoute
-    ? `We open back up August 15. If your baby arrives in August or later, we'd love to be there for it — same full experience, same care. Reserve now and we'll be ready the moment you need us.`
-    : `We have spots opening August 15. Everything is included — pro hair and makeup, our full designer gown collection, fully guided from start to finish. Reserve now and lock in your date before it fills.`;
+  // ── FULLY BOOKED DEAD-END (everyone else) ─────────────────────
+  const wks = weeksOnAug15(state.dueDate);
+  const tooLate = wks > 34;
 
-  try { fbq('trackCustom', 'BlackoutShown', { session_type: sessionType, recommendation: 'august' }); } catch(e) {}
+  let reassureCopy;
+  if (tooLate) {
+    reassureCopy = `Based on your due date, you'd be <strong>${wks} weeks pregnant on August 15</strong> — past the point where we can safely do a maternity session. We stop booking after week 34, and we want to be honest with you rather than take a booking we can't serve well.`;
+  } else {
+    // tooEarly — window ends before Aug 15
+    const win = getSessionWindowEnd(state.dueDate);
+    const endFmt = win.endDate.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
+    reassureCopy = `Based on your due date, your ideal session window closes around <strong>${endFmt}</strong> — before we open back up on August 15. We don't want to book a session we can't give our full attention to.`;
+  }
 
   content.innerHTML = `
     <div class="blackout-screen">
       <span class="blackout-icon">🤍</span>
       <span class="blackout-badge">A Note on Availability</span>
-      <h2 class="blackout-headline">${headline}</h2>
-      <p class="blackout-body">${openingCopy}</p>
-      <div class="blackout-reassure">${recCopy}</div>
-      <span class="blackout-options-label">Here's where we can take you</span>
+      <h2 class="blackout-headline">We're not able to <em>accommodate</em> your timeline.</h2>
+      <p class="blackout-body">We're fully booked through August 15, and we'd rather be honest with you upfront than give you anything less than our full attention.</p>
+      <div class="blackout-reassure">${reassureCopy}</div>
+      <p class="blackout-body" style="margin-top:0">We're sorry we can't make this work. If your timeline ever shifts, we'd love to hear from you — and we hope you find someone who captures this season exactly the way it deserves.</p>
+      <span class="blackout-options-label" style="margin-top:28px">In the meantime</span>
       <div class="blackout-options">
-        <a class="blackout-opt blackout-opt--recommended" href="${augustURL}">
-          <span class="blackout-opt-label">Now Booking &mdash; August 15 onward</span>
-          <span class="blackout-opt-title">${augTitle}</span>
-          <span class="blackout-opt-sub">${augBody}</span>
+        <a class="blackout-opt" href="https://twowildsoulsphotography.com/metro-detroit-family-photography">
+          <span class="blackout-opt-label">Two Wild Souls Photography</span>
+          <span class="blackout-opt-title">Explore family sessions</span>
+          <span class="blackout-opt-sub">See our family portrait work — candid, heartfelt, and fully guided from start to finish.</span>
           <span class="blackout-opt-arrow">&#8594;</span>
         </a>
       </div>
-      <p class="blackout-footer">
-        Everything included — pro hair &amp; makeup,<br>
-        designer gowns, fully guided. We'll work with your timeline.
-      </p>
     </div>`;
 }
 
@@ -826,7 +846,7 @@ function render() {
     const { dest, finalParams, pkgKey, quizData, isLate } = calculate();
 
     const blackoutType = getBlackoutType(state.dueDate, isLate);
-    if (blackoutType) { renderBlackout(quizData, isLate); return; }
+    if (blackoutType) { renderBlackout(quizData, blackoutType); return; }
 
     const pkg      = PACKAGES[pkgKey];
     const week     = quizData.week;
